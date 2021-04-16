@@ -6,13 +6,30 @@
   <meta http-equiv="cache-control" content="no-cache">
   <meta http-equiv="expires" content="0">
   
-  <title>Zoukba&#39;s gun</title>
+  <title>内网穿透 | Zoukba&#39;s gun</title>
   <meta name="author" content="zoukba">
+  
+  <meta name="description" content="内网穿透内网穿透实则就是在主机之间建立隧道，隧道就是一种绕过端口屏蔽的通信方式。防火墙两端的数据包通过防火墙所允许的数据包类型或者端口进行封装，然后穿过防火墙，与对方进行通信。当被封装的数据包到达目的地时，将数据包还原，并将还原后的数据包发送到相应的服务器上。隧道的路线，就是端口映射连接再映射再连接如此反复过程
+EW穿透参数详解123456789ssocksd									#正向代理rcsocks,rssocks					#反向代理的客户端和服务端lcx_slave  							#该管道一侧通过反弹方式连接代理请求方，另一侧连接代理提供主机。lcx_tran   							#该管道，通过监听本地端口接收代理请求，并转交给代理提供主机。lcx_listen 							#该管道，通过监听本地端口接收数据，并将其转交给目标网络回连的代理提供主机。-l											#监听-s											#选择对应服务-d,-f										#指定对应ip-e,-g										#指定对应端口
+案例详解一级网络环境
+
+正向道理（有公网IP）（1）
+1ew -s ssocksd -l 888						#架设端口为888的socks代理
+反向代理（无公网IP）（2）
+1234vpsew -s rcsocks -l 1008 -e 888		#VPS转接隧道,将1008端口收到的代理请求转发至888webew -s rssocks -d 139.*.*113 -e 888			#在10.48.128.25服务器上启动socks5服务，然后反弹到139.*.*.113的VPS上的888端口
+二级网络环境（A）
+12345B主机ew -s ssocksd -l 888						#利用ssocksd方式启动888端口的socks代理A主机ew -s lcx_tran -l 1080 -f 10.48.128.49 -g 888				#将1080端口收到的请求转发给B主机的888端口#访问A主机外网的1080端口使用B主机的socks代理
+二级网络环境（B）
+123456VPSew -s lcx_listen -l 10800 -e 888					#添加转接通道，将10800端口收到的代理请求转发给888B主机ew -s ssocksd -l 999											#启动本机999的端口socks代理服务A主机ew -s lcx_slave -d 139.*.*.113 -e 888 -f 10.48.128.49 -g 999			#在A主机利用lcx_slave方式，将公用VPS的888端口和B主机999端口相互连接起来
+通过访问公网VPS（139...113）的10800端口使用在主机B上架设的socks5代理
+三级网络环境
+本地Proxy配置proxychain1234vim &amp;#x2F;usr&amp;#x2F;local&amp;#x2F;etc&amp;#x2F;proxychains.conf#解除dynamic_chain的注释#[ProxyList]下面增加socks代理proxychain4 curl xxxxxx 		#测试能否工作
+命令行输入123export https_proxy&amp;#x3D;http:&amp;#x2F;&amp;#x2F;127.0.0.1:7890 export http_proxy&amp;#x3D;http:&amp;#x2F;&amp;#x2F;127.0.0.1:7890 export all_proxy&amp;#x3D;socks5:&amp;#x2F;&amp;#x2F;127.0.0.1:7890"> 
   
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  
+  <meta property="og:title" content="内网穿透"/>
   <meta property="og:site_name" content="Zoukba&#39;s gun"/>
 
   
@@ -104,52 +121,29 @@
 
   <div class="container">
   	<div class="content">
-    	 <div class="page-header logo">
-  <h1>Zoukba&#39;s gun<span class="blink-fast">|</span></h1>
-</div>
+    	 
 
-<div class="row page">
 
 	
+		<div class="page-header">
+			<h1> 内网穿透</h1>
+		</div>
+	
+
+
+
+<div class="row post">
+	<!-- cols -->
+	
+	<div id="top_meta"></div>
 	<div class="col-md-9">
 	
 
-		<div class="slogan">
+	<!-- content -->
+	<div class="mypage">		
+	  		
 
-
-		<i class="fa fa-heart blink-slow"></i>
-
-		god love each one
-
-</div>    
-
-		<div id="top_search"></div>
-		<div class="mypage">
-		
-		<!-- title and entry -->
-		
-			
-	
-	<!-- display as entry -->
-<div class="row">
-	<div class="col-md-8">
-		<h3 class="title">
-			<a href="/2021/04/16/内网穿透/" >内网穿透</a>
-		</h3>
-		</div>
-	<div class="col-md-4">
-		<div class="date">post @ 2021-04-16  </div>
-		</div>
-	</div>
-	
-
-
-			<!--
-<div class="entry">
-  <div class="row">
-	
-	
-		<h2 id="内网穿透"><a href="#内网穿透" class="headerlink" title="内网穿透"></a>内网穿透</h2><p>内网穿透实则就是在主机之间建立隧道，隧道就是一种绕过端口屏蔽的通信方式。防火墙两端的数据包通过防火墙所允许的数据包类型或者端口进行封装，然后穿过防火墙，与对方进行通信。当被封装的数据包到达目的地时，将数据包还原，并将还原后的数据包发送到相应的服务器上。<br>隧道的路线，就是端口映射连接再映射再连接如此反复过程</p>
+	  <h2 id="内网穿透"><a href="#内网穿透" class="headerlink" title="内网穿透"></a>内网穿透</h2><p>内网穿透实则就是在主机之间建立隧道，隧道就是一种绕过端口屏蔽的通信方式。防火墙两端的数据包通过防火墙所允许的数据包类型或者端口进行封装，然后穿过防火墙，与对方进行通信。当被封装的数据包到达目的地时，将数据包还原，并将还原后的数据包发送到相应的服务器上。<br>隧道的路线，就是端口映射连接再映射再连接如此反复过程</p>
 <h3 id="EW穿透"><a href="#EW穿透" class="headerlink" title="EW穿透"></a>EW穿透</h3><h4 id="参数详解"><a href="#参数详解" class="headerlink" title="参数详解"></a>参数详解</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">ssocksd									#正向代理</span><br><span class="line">rcsocks,rssocks					#反向代理的客户端和服务端</span><br><span class="line">lcx_slave  							#该管道一侧通过反弹方式连接代理请求方，另一侧连接代理提供主机。</span><br><span class="line">lcx_tran   							#该管道，通过监听本地端口接收代理请求，并转交给代理提供主机。</span><br><span class="line">lcx_listen 							#该管道，通过监听本地端口接收数据，并将其转交给目标网络回连的代理提供主机。</span><br><span class="line">-l											#监听</span><br><span class="line">-s											#选择对应服务</span><br><span class="line">-d,-f										#指定对应ip</span><br><span class="line">-e,-g										#指定对应端口</span><br></pre></td></tr></table></figure>
 <h4 id="案例详解"><a href="#案例详解" class="headerlink" title="案例详解"></a>案例详解</h4><h5 id="一级网络环境"><a href="#一级网络环境" class="headerlink" title="一级网络环境"></a>一级网络环境</h5><p><img src="https://cdn.jsdelivr.net/gh/zoukba0014/imagehost/img/20210416162335.png"></p>
 <ul>
@@ -167,128 +161,127 @@
 <h4 id="命令行输入"><a href="#命令行输入" class="headerlink" title="命令行输入"></a>命令行输入</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export https_proxy&#x3D;http:&#x2F;&#x2F;127.0.0.1:7890 </span><br><span class="line">export http_proxy&#x3D;http:&#x2F;&#x2F;127.0.0.1:7890 </span><br><span class="line">export all_proxy&#x3D;socks5:&#x2F;&#x2F;127.0.0.1:7890</span><br></pre></td></tr></table></figure></li>
 </ul>
 
-	
+	  <div class="article-footer-copyright">
+
+    本博客采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议(CC BY-NC-SA 4.0) 发布.</a>
+</div>
 
 	</div>
-  <a type="button" href="/2021/04/16/内网穿透/#more" class="btn btn-default more">Read More</a>
+
+	
+	<span id="/2021/04/16/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/" class="leancloud-visitors view" data-flag-title="内网穿透">
+		<em class="post-meta-item-text"> Page View </em> <i class="leancloud-visitors-count"></i>
+	</span>
+	
+	<div>
+  	<center>
+
+	<div class="pagination">
+
+    
 </div>
+
+
+    </center>
+	</div>
+	
+	<!-- comment -->
+	<!--
+<section id="comment">
+    <h2 class="title">Comments</h2>
+
+    
+</section>
 
 -->
-<div class="entry">
-  <div class="row">
 	
+		<section id="comments" class="comments">
+			<style>
+			.comments{margin:30px;padding:10px;background:rgb(0, 0, 0)}
+			@media screen and (max-width:800px){.comments{margin:auto;padding:10px;background:#000}}
+			</style>
+			<div id="vcomment" class="comment"></div>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<script src="https://cdnjs.loli.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+var valineConfig = {"enable":true,"appId":"xxx","appKey":"xxx","placeholder":"提交评论时留下邮箱收到回复后将自动通知","visitor":true,"avatar":"monsterid","requiredFields":["nick","mail"]}
+valineConfig.el='#vcomment';
+new Valine(valineConfig);
+    // new Valine({
+    //     el: '#vcomment',
+    //     appId: "",
+    //     appKey: "",
+    //     placeholder: "提交评论时留下邮箱收到回复后将自动通知",
+    //     avatar:"monsterid",
+    //     visitor: "true",
+    //     requiredFields: "nick,mail".split(','),
+    // });
+</script>
+
+		</section>
 	
-		<h2 id="内网穿透"><a href="#内网穿透" class="headerlink" title="内网穿透"></a>内网穿透</h2><p>内网穿透实则就是在主机之间建立隧道，隧道就是一种绕过端口屏蔽的通信方式。防火墙两端的数据包通过防火墙所允许的数据包类型或者端口进行封装，然后穿过防火墙，与对方进行通信。当被封装的数据包到达目的地时，将数据包还原，并将还原后的数据包发送到相应的服务器上。<br>隧道的路线，就是端口映射连接再映射再连接如此反复过程</p>
-<h3 id="EW穿透"><a href="#EW穿透" class="headerlink" title="EW穿透"></a>EW穿透</h3><h4 id="参数详解"><a href="#参数详解" class="headerlink" title="参数详解"></a>参数详解</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">ssocksd									#正向代理</span><br><span class="line">rcsocks,rssocks					#反向代理的客户端和服务端</span><br><span class="line">lcx_slave  							#该管道一侧通过反弹方式连接代理请求方，另一侧连接代理提供主机。</span><br><span class="line">lcx_tran   							#该管道，通过监听本地端口接收代理请求，并转交给代理提供主机。</span><br><span class="line">lcx_listen 							#该管道，通过监听本地端口接收数据，并将其转交给目标网络回连的代理提供主机。</span><br><span class="line">-l											#监听</span><br><span class="line">-s											#选择对应服务</span><br><span class="line">-d,-f										#指定对应ip</span><br><span class="line">-e,-g										#指定对应端口</span><br></pre></td></tr></table></figure>
-<h4 id="案例详解"><a href="#案例详解" class="headerlink" title="案例详解"></a>案例详解</h4><h5 id="一级网络环境"><a href="#一级网络环境" class="headerlink" title="一级网络环境"></a>一级网络环境</h5><p><img src="https://cdn.jsdelivr.net/gh/zoukba0014/imagehost/img/20210416162335.png"></p>
-<ul>
-<li><p>正向道理（有公网IP）（1）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ew -s ssocksd -l 888						#架设端口为888的socks代理</span><br></pre></td></tr></table></figure></li>
-<li><p>反向代理（无公网IP）（2）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vps</span><br><span class="line">ew -s rcsocks -l 1008 -e 888		#VPS转接隧道,将1008端口收到的代理请求转发至888</span><br><span class="line">web</span><br><span class="line">ew -s rssocks -d 139.*.*113 -e 888			#在10.48.128.25服务器上启动socks5服务，然后反弹到139.*.*.113的VPS上的888端口</span><br></pre></td></tr></table></figure>
-<h5 id="二级网络环境（A）"><a href="#二级网络环境（A）" class="headerlink" title="二级网络环境（A）"></a>二级网络环境（A）</h5><p><img src="https://cdn.jsdelivr.net/gh/zoukba0014/imagehost/img/20210416162514.png"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">B主机</span><br><span class="line">ew -s ssocksd -l 888						#利用ssocksd方式启动888端口的socks代理</span><br><span class="line">A主机</span><br><span class="line">ew -s lcx_tran -l 1080 -f 10.48.128.49 -g 888				#将1080端口收到的请求转发给B主机的888端口</span><br><span class="line">#访问A主机外网的1080端口使用B主机的socks代理</span><br></pre></td></tr></table></figure>
-<h5 id="二级网络环境（B）"><a href="#二级网络环境（B）" class="headerlink" title="二级网络环境（B）"></a>二级网络环境（B）</h5><p><img src="https://cdn.jsdelivr.net/gh/zoukba0014/imagehost/img/20210416162619.png"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">VPS</span><br><span class="line">ew -s lcx_listen -l 10800 -e 888					#添加转接通道，将10800端口收到的代理请求转发给888</span><br><span class="line">B主机</span><br><span class="line">ew -s ssocksd -l 999											#启动本机999的端口socks代理服务</span><br><span class="line">A主机</span><br><span class="line">ew -s lcx_slave -d 139.*.*.113 -e 888 -f 10.48.128.49 -g 999			#在A主机利用lcx_slave方式，将公用VPS的888端口和B主机999端口相互连接起来</span><br></pre></td></tr></table></figure>
-<p>通过访问公网VPS（139.<em>.</em>.113）的10800端口使用在主机B上架设的socks5代理</p>
-<h5 id="三级网络环境"><a href="#三级网络环境" class="headerlink" title="三级网络环境"></a>三级网络环境</h5><p><img src="https://cdn.jsdelivr.net/gh/zoukba0014/imagehost/img/20210416162728.png"></p>
-<h3 id="本地Proxy配置"><a href="#本地Proxy配置" class="headerlink" title="本地Proxy配置"></a>本地Proxy配置</h3><h4 id="proxychain"><a href="#proxychain" class="headerlink" title="proxychain"></a>proxychain</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim &#x2F;usr&#x2F;local&#x2F;etc&#x2F;proxychains.conf</span><br><span class="line">#解除dynamic_chain的注释</span><br><span class="line">#[ProxyList]下面增加socks代理</span><br><span class="line">proxychain4 curl xxxxxx 		#测试能否工作</span><br></pre></td></tr></table></figure>
-<h4 id="命令行输入"><a href="#命令行输入" class="headerlink" title="命令行输入"></a>命令行输入</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export https_proxy&#x3D;http:&#x2F;&#x2F;127.0.0.1:7890 </span><br><span class="line">export http_proxy&#x3D;http:&#x2F;&#x2F;127.0.0.1:7890 </span><br><span class="line">export all_proxy&#x3D;socks5:&#x2F;&#x2F;127.0.0.1:7890</span><br></pre></td></tr></table></figure></li>
-</ul>
+	</div> <!-- col-md-9/col-md-12 -->
+
 
 	
+	<div id="side_meta">
+		<div class="col-md-3" id="post_meta"> 
+
+	<!-- date -->
+	
+	<div class="meta-widget">
+	<i class="fa fa-clock-o"></i>
+	2021-04-16 
 	</div>
-  <a type="button" href="/2021/04/16/内网穿透/#more" class="btn btn-default more">Read More</a>
-</div>
-
-		
-
-		</div>
-
-		<!-- pagination -->
-		<div>
-  		<center>
-		<div class="pagination">
-
-   
-</div>
-
-  		</center>
-		</div>
-
-		
-		
-	</div> <!-- col-md-9 -->
-
 	
-		<div class="col-md-3">
-	<div id="sidebar">
-	
-			
-  <div id="site_search">
-   <div class="form-group">
-    <input type="text" id="local-search-input" name="q" results="0" placeholder="Search" class="st-search-input st-default-search-input form-control"/>
-   </div>  
-  <div id="local-search-result"></div>
-  </div>
 
-
-		
-			
-	<div class="widget">
-		<h4>Categories</h4>
-		<ul class="tag_box inline list-unstyled">
-		
-			<li><a href="/categories/内网杂七杂八/">内网杂七杂八<span>1</span></a></li>
-		
-		</ul>
-	</div>
-
-		
-			
-	<div class="widget">
-		<h4>Tag Cloud</h4>
-		<ul class="tag_box inline list-unstyled">		
-		
-			<li><a href="/tags/内网穿透/">内网穿透<span>1</span></a></li>
-		
-		 
-		</ul>
-	</div>
-
-
-		
-			
-<div class="widget">
-  <h4>Recent Posts</h4>
-  <ul class="entry list-unstyled">
+	<!-- categories -->
     
-      <li>
-        <a href="/2021/04/16/内网穿透/" ><i class="fa fa-file-o"></i>内网穿透</a>
-      </li>
-    
-  </ul>
-</div>
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#categorys"><i class="fa fa-folder"></i></a>	
+    <ul id="categorys" class="tag_box list-unstyled collapse in">
+          
+  <li>
+    <li><a href="/categories/内网杂七杂八/">内网杂七杂八<span>1</span></a></li>
+  </li>
+
+    </ul>
+	</div>
+	
+
+	<!-- tags -->
+	
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#tags"><i class="fa fa-tags"></i></a>		  
+    <ul id="tags" class="tag_box list-unstyled collapse in">	  
+	    
+  <li><a href="/tags/内网穿透/">内网穿透<span>1</span></a></li>
+    </ul>
+	</div>
+		
+
+	<!-- toc -->
+	<div class="meta-widget">
+	
+	</div>
+	
+    <hr>
+	
+</div><!-- col-md-3 -->
 
 		
-			
-<div class="widget">
-	<h4>Links</h4>
-	<ul class="blogroll list-unstyled">
-	
-		<li><i class="false"></i><a href="https://github.com/zoukba0014" title="haha it's nothing" target="_blank"]);">My Github</a></li>
-	
-	</ul>
-</div>
 
-
+	</div>
+	
 		
-	</div> <!-- sidebar -->
-</div> <!-- col-md-3 -->
 
-	
-	
-</div> <!-- row-fluid -->
+</div><!-- row -->
+
+<!--
+ -->
+
+
+
 	</div>
   </div>
   <div class="container-narrow">
