@@ -134,6 +134,56 @@
 <div class="row">
 	<div class="col-md-8">
 		<h3 class="title">
+			<a href="/2021/04/20/JS的那些事/" >JS那些事</a>
+		</h3>
+		</div>
+	<div class="col-md-4">
+		<div class="date">post @ 2021-04-20  </div>
+		</div>
+	</div>
+	
+
+
+			<!--
+<div class="entry">
+  <div class="row">
+	
+	
+		<h1 id="JS的那些事"><a href="#JS的那些事" class="headerlink" title="JS的那些事"></a>JS的那些事</h1><h2 id="这两天看了IppSec大哥打靶机，看大哥使用了CORS-CSRF"><a href="#这两天看了IppSec大哥打靶机，看大哥使用了CORS-CSRF" class="headerlink" title="这两天看了IppSec大哥打靶机，看大哥使用了CORS+CSRF"></a>这两天看了IppSec大哥打靶机，看大哥使用了CORS+CSRF</h2><h3 id="什么是CORS"><a href="#什么是CORS" class="headerlink" title="什么是CORS"></a>什么是CORS</h3><p>CORS跨域资源共享，是一种基于HTTP头的机制，该机制通过允许服务器标示除了它自己以外的其它origin（域，协议和端口），这样浏览器可以访问加载这些资源。跨源资源共享还通过一种机制来检查服务器是否会允许要发送的真实请求，该机制通过浏览器发起一个到服务器托管的跨源资源的”预检”请求。在预检中，浏览器发送的头中标示有HTTP方法和真实请求中会用到的头</p>
+<p>CORS允许浏览器向跨源服务器，发出XMLHttpRequest请求，从而克服了AJAX只能同源使用的限制</p>
+<h3 id="相关参数"><a href="#相关参数" class="headerlink" title="相关参数"></a>相关参数</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Access-Control-Allow-Origin				<span class="comment">#表示可以接受跨域的域名</span></span><br><span class="line">Access-Control-Allow-Credentials	<span class="comment">#表示是否允许发送Cookie或其他凭据</span></span><br></pre></td></tr></table></figure>
+
+<p>同时<code>Access-Control-Allow-Origin</code>，是造成跨域问题的主要参数。</p>
+<h3 id="判断"><a href="#判断" class="headerlink" title="判断"></a>判断</h3><p>我们可以通过fuzz头文件的<code>Origin</code>参数，去观察返回包<code>Access-Control-Allow-Origin</code>来判断可以跨域访问的地址</p>
+	
+
+	</div>
+  <a type="button" href="/2021/04/20/JS的那些事/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+-->
+<div class="entry">
+  <div class="row">
+	
+	
+		<h1 id="JS的那些事"><a href="#JS的那些事" class="headerlink" title="JS的那些事"></a>JS的那些事</h1><h2 id="这两天看了IppSec大哥打靶机，看大哥使用了CORS-CSRF"><a href="#这两天看了IppSec大哥打靶机，看大哥使用了CORS-CSRF" class="headerlink" title="这两天看了IppSec大哥打靶机，看大哥使用了CORS+CSRF"></a>这两天看了IppSec大哥打靶机，看大哥使用了CORS+CSRF</h2><h3 id="什么是CORS"><a href="#什么是CORS" class="headerlink" title="什么是CORS"></a>什么是CORS</h3><p>CORS跨域资源共享，是一种基于HTTP头的机制，该机制通过允许服务器标示除了它自己以外的其它origin（域，协议和端口），这样浏览器可以访问加载这些资源。跨源资源共享还通过一种机制来检查服务器是否会允许要发送的真实请求，该机制通过浏览器发起一个到服务器托管的跨源资源的”预检”请求。在预检中，浏览器发送的头中标示有HTTP方法和真实请求中会用到的头</p>
+<p>CORS允许浏览器向跨源服务器，发出XMLHttpRequest请求，从而克服了AJAX只能同源使用的限制</p>
+<h3 id="相关参数"><a href="#相关参数" class="headerlink" title="相关参数"></a>相关参数</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Access-Control-Allow-Origin				<span class="comment">#表示可以接受跨域的域名</span></span><br><span class="line">Access-Control-Allow-Credentials	<span class="comment">#表示是否允许发送Cookie或其他凭据</span></span><br></pre></td></tr></table></figure>
+
+<p>同时<code>Access-Control-Allow-Origin</code>，是造成跨域问题的主要参数。</p>
+<h3 id="判断"><a href="#判断" class="headerlink" title="判断"></a>判断</h3><p>我们可以通过fuzz头文件的<code>Origin</code>参数，去观察返回包<code>Access-Control-Allow-Origin</code>来判断可以跨域访问的地址</p>
+	
+	</div>
+  <a type="button" href="/2021/04/20/JS的那些事/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->
+<div class="row">
+	<div class="col-md-8">
+		<h3 class="title">
 			<a href="/2021/04/19/无密码SSH登录/" >无密码SSH登录</a>
 		</h3>
 		</div>
@@ -597,6 +647,8 @@
 		<h4>分类</h4>
 		<ul class="tag_box inline list-unstyled">
 		
+			<li><a href="/categories/WEB大杂烩/">WEB大杂烩<span>1</span></a></li>
+		
 			<li><a href="/categories/内网杂七杂八/">内网杂七杂八<span>5</span></a></li>
 		
 			<li><a href="/categories/靶机/">靶机<span>1</span></a></li>
@@ -614,13 +666,19 @@
 		
 			<li><a href="/tags/MSF与CS/">MSF与CS<span>1</span></a></li>
 		
-			<li><a href="/tags/内网穿透/">内网穿透<span>1</span></a></li>
-		
 			<li><a href="/tags/域内横向/">域内横向<span>1</span></a></li>
 		
 			<li><a href="/tags/Windows内网提权/">Windows内网提权<span>1</span></a></li>
 		
+			<li><a href="/tags/内网穿透/">内网穿透<span>1</span></a></li>
+		
+			<li><a href="/tags/CORS/">CORS<span>1</span></a></li>
+		
 			<li><a href="/tags/Linux内网权限维持/">Linux内网权限维持<span>1</span></a></li>
+		
+			<li><a href="/tags/CSRF/">CSRF<span>1</span></a></li>
+		
+			<li><a href="/tags/JS/">JS<span>1</span></a></li>
 		
 		 
 		</ul>
@@ -632,6 +690,10 @@
 <div class="widget">
   <h4>最新文章</h4>
   <ul class="entry list-unstyled">
+    
+      <li>
+        <a href="/2021/04/20/JS的那些事/" ><i class="fa fa-file-o"></i>JS那些事</a>
+      </li>
     
       <li>
         <a href="/2021/04/19/无密码SSH登录/" ><i class="fa fa-file-o"></i>无密码SSH登录</a>
@@ -647,10 +709,6 @@
     
       <li>
         <a href="/2021/04/16/内网提权方法/" ><i class="fa fa-file-o"></i>Windows内网提权</a>
-      </li>
-    
-      <li>
-        <a href="/2021/04/16/MSF与CS相互派生/" ><i class="fa fa-file-o"></i>MSF与CS相互派生</a>
       </li>
     
   </ul>

